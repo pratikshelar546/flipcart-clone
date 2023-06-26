@@ -10,6 +10,7 @@ import passport from "passport";
 import User from "./api/users";
 import Product from "./api/products"
 import Cart from "./api/carts"
+import Review from "./api/review"
 import bodyParser from "body-parser";
 dotenv.config();
 const flipcart = express();
@@ -34,6 +35,7 @@ flipcart.use("/upload", express.static("upload"));
 flipcart.use("/user",User);
 flipcart.use("/product" , Product);
 flipcart.use("/cart", Cart);
+flipcart.use("/review",Review);
 const port = 8080;
 flipcart.listen(port, () => {
   ConnectDB()
