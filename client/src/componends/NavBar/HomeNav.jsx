@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify"
 import { useState } from 'react'
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiSolidUserCircle } from "react-icons/bi";
 import { MdNotifications, MdKeyboardArrowDown } from "react-icons/md"
 import { BsFillQuestionSquareFill } from "react-icons/bs"
 import { TfiStatsUp } from "react-icons/tfi"
@@ -10,24 +10,24 @@ import { CgCardHearts, CgGift, CgHeart, CgLogOut, CgProfile, CgShoppingCart, CgS
 import Login from "../Auth/Login";
 import SignUp from "../Auth/SignUp";
 
-const Lgnav = ({ Login, user,SignUp }) => {
+const Lgnav = ({ Login, user, SignUp }) => {
     const login = () => {
         Login();
     }
-    const Signup = ()=>{
+    const Signup = () => {
         SignUp();
     }
-    const LogOut= ()=>{
-        localStorage.removeItem("newUser" )
+    const LogOut = () => {
+        localStorage.removeItem("newUser")
         localStorage.removeItem("user")
         toast.success("Logout successfully", {
             position: toast.POSITION.TOP_RIGHT
-          })
+        })
     }
     //    console.log(user?.fullName);
     return (
         <>
-            <div className="w-full hidden  lg:flex">
+            <div className="w-full hidden justify-center sticky top-0 z-30  lg:flex">
                 <section className="w-full bg-blue-600 justify-center flex items-center">
                     <header className="text-white  py-3 flex flex-row gap-4">
                         <Link to="/" className="text-2xl ">
@@ -84,23 +84,23 @@ const Lgnav = ({ Login, user,SignUp }) => {
         </>
     );
 };
-const Mdnav = ({ Login, user,SignUp }) => {
+const Mdnav = ({ Login, user, SignUp }) => {
     const login = () => {
         Login();
     }
-    const Signup = ()=>{
+    const Signup = () => {
         SignUp();
     }
-    const LogOut= ()=>{
-        localStorage.removeItem("newUser" )
+    const LogOut = () => {
+        localStorage.removeItem("newUser")
         localStorage.removeItem("user")
         toast.success("Logout successfully", {
             position: toast.POSITION.TOP_RIGHT
-          })
+        })
     }
     return (
         <>
-            <div className="h-full max-sm:hidden sm:hidden md:flex lg:hidden">
+            <div className="h-full max-sm:hidden sticky top-0 z-30 sm:hidden md:flex lg:hidden">
                 <section className="w-full bg-blue-600 justify-center flex items-center">
                     <header className="text-white  py-3 flex flex-row gap-4">
                         <Link to="/" className="text-2xl ">
@@ -120,12 +120,12 @@ const Mdnav = ({ Login, user,SignUp }) => {
                         <div className="ml-6">
                             <ul className="flex flex-row gap-5 outline-none ">
                                 <li className="group relative  px-5 cursor-pointer outline-none font-normal text-lg">
-                                {user?.fullName ? <p className=" flex bg-blue-600 text-white">ShopKart <MdKeyboardArrowDown size={"1em"} className="mt-2 group-hover:rotate-180 duration-150" color="white" /> </p> : <button onClick={login} className="pl-4 pr-2 bg-white text-blue-500 flex">Login <MdKeyboardArrowDown size={"1em"} className="mt-2 group-hover:rotate-180 duration-150" color="blue" /></button>}
+                                    {user?.fullName ? <p className=" flex bg-blue-600 text-white">ShopKart <MdKeyboardArrowDown size={"1em"} className="mt-2 group-hover:rotate-180 duration-150" color="white" /> </p> : <button onClick={login} className="pl-4 pr-2 bg-white text-blue-500 flex">Login <MdKeyboardArrowDown size={"1em"} className="mt-2 group-hover:rotate-180 duration-150" color="blue" /></button>}
                                     <div className="-ml-24 group-hover:block drop-shadow-lg shadow-md absolute hidden h-auto left-10">
                                         <div className="mb-4"> </div>
                                         <div>
                                             <ul className="top-0 w-56 bg-white shadow font-medium text-sm">
-                                            {user?.fullName ? null : <li className=" hover:bg-gray-100  gap-5 border-b border-gray-300 p-4 flex flex-row"><a className="block text-gray-700 cursor-pointer" href="/">New customer?</a><button className="text-blue-600" onClick={Signup}>Sign up</button></li>}
+                                                {user?.fullName ? null : <li className=" hover:bg-gray-100  gap-5 border-b border-gray-300 p-4 flex flex-row"><a className="block text-gray-700 cursor-pointer" href="/">New customer?</a><button className="text-blue-600" onClick={Signup}>Sign up</button></li>}
                                                 <li className=" hover:bg-gray-100 py-4 border-b border-gray-300"><a className="flex flex-row text-black   cursor-pointer" href="/"> <CgProfile size={"1.1rem"} className="mx-4 mt-1" /> My Profile </a></li>
                                                 <li className=" hover:bg-gray-100 py-4 border-b border-gray-300"><a className=" flex flex-row text-black   cursor-pointer" href="/"> <CgShoppingCart size={"1.1rem"} className="mx-4 mt-1" />orders</a></li>
                                                 <li className=" hover:bg-gray-100 py-4 border-b border-gray-300"><a className=" flex flex-row text-black   cursor-pointer" href="/"> <CgHeart size={"1.1rem"} className="mx-4 mt-1" />Wishlist</a></li>
@@ -157,77 +157,50 @@ const Mdnav = ({ Login, user,SignUp }) => {
         </>
     )
 }
-const Smnav = ({ Login, user,SignUp }) => {
+const Smnav = ({ Login, user, SignUp }) => {
     const login = () => {
         Login();
     }
-    const Signup = ()=>{
-        SignUp();
-    }
-    const LogOut= ()=>{
-        localStorage.removeItem("newUser" )
+    // const Signup = ()=>{
+    //     SignUp();
+    // }
+    const LogOut = () => {
+        localStorage.removeItem("newUser")
         localStorage.removeItem("user")
         toast.success("Logout successfully", {
             position: toast.POSITION.TOP_RIGHT
-          })
+        })
     }
     return (
         <>
-            <div className="h-full md:hidden flex">
-                <section className="w-full bg-blue-600 justify-center flex items-center">
-                    <header className="text-white  py-3 flex flex-row gap-4">
-                        <Link to="/" className="text-2xl ">
-                            ShopKart
-                        </Link>
-                        <div className="bg-white flex flex-row px-0 ">
+            <div className="h-full md:hidden w-screen flex">
+                <section className=" bg-blue-600 w-screen flex ">
+                    <header className="text-white w-full px-4 py-3 flex flex-col gap-3">
+                        <div className="flex flex-row justify-between">
+                            <Link to="/" className="text-md ml-6 "> ShopKart </Link>
+
+
+                            <div className="">
+                                <ul className="flex flex-row gap-2 outline-none ">
+                                    <li className="group relative  px-2 cursor-pointer outline-none font-normal text-sm">
+                                        {user?.fullName ? <button className=" flex bg-blue-600 text-white" onClick={LogOut}>
+                                            <BiSolidUserCircle size={"1.5em"} className="mt-1 mr-2" /></button> : <><button onClick={login} className=" ">Login</button></>}
+
+                                    </li>
+                                    <li className="cursor-pointer outline-none font-normal mr-0 text-lmd flex"><CgShoppingCart className="mt-1 mr-3" size={"1.5em"} /></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="bg-white flex flex-row px-3 h-8 w-full">
                             <input
                                 type="text"
                                 name="search"
                                 id="search"
                                 placeholder="Search for product, brands and more"
-                                className="w-full outline-none ml-2 text-black "
+                                className=" outline-none w-full  text-black text-sm"
                             />
-                            <BiSearch size={"1.5rem"} color="blue" className="mt-1" />
-                        </div>
-
-                        <div className="">
-                            <ul className="flex flex-row gap-2 outline-none ">
-                                <li className="group relative  px-5 cursor-pointer outline-none font-normal text-lg"> 
-                                {user?.fullName ? <button className=" flex bg-blue-600 text-white" onClick={LogOut}>Log out </button> : <><button onClick={login} className="px-7 bg-white mr-2  text-blue-500">Login</button>
-                                <button onClick={Signup} className="px-7 bg-white mt-2  text-blue-500">SignUp</button> </>}
-                                    {/* <div className="-ml-24 group-hover:block drop-shadow-lg shadow-md absolute hidden h-auto left-10">
-                                        <div className="mb-4"> </div>
-                                        <div>
-                                            <ul className="top-0 w-56 bg-white shadow font-medium text-sm">
-                                                <li className=" hover:bg-gray-100  gap-5 border-b border-gray-300 p-4 flex flex-row"><a className="block text-gray-700 cursor-pointer" href="/">New customer?</a><Link to="/">Sign up</Link></li>
-                                                <li className=" hover:bg-gray-100 py-4 border-b border-gray-300"><a className="flex flex-row text-black   cursor-pointer" href="/"> <CgProfile size={"1.1rem"} className="mx-4 mt-1" /> My Profile </a></li>
-                                                <li className=" hover:bg-gray-100 py-4 border-b border-gray-300"><a className=" flex flex-row text-black   cursor-pointer" href="/"> <CgShoppingCart size={"1.1rem"} className="mx-4 mt-1" />orders</a></li>
-                                                <li className=" hover:bg-gray-100 py-4 border-b border-gray-300"><a className=" flex flex-row text-black   cursor-pointer" href="/"> <CgHeart size={"1.1rem"} className="mx-4 mt-1" />Wishlist</a></li>
-                                                <li className=" hover:bg-gray-100 py-4 border-b border-gray-300"><a className=" flex flex-row text-black   cursor-pointer" href="/"> <CgCardHearts size={"1.1rem"} className="mx-4 mt-1" />Rewards</a></li>
-                                                <li className=" hover:bg-gray-100 py-4 border-b border-gray-300"><a className=" flex flex-row text-black   cursor-pointer" href="/"> <CgGift size={"1.1rem"} className="mx-4 mt-1" />Gift cards</a></li>
-                                            </ul>
-                                        </div>
-                                    </div> */}
-                                </li>
-                                <li className="cursor-pointer outline-none font-normal mr-3 text-lg flex"><CgShoppingCart className="mt-1 mr-2" />Cart</li>
-                                <div className="hidden">
-
-
-                                    <li className="cursor-pointer outline-none font-normal text-lg">Become a seller</li>
-                                    <li className="group relative  cursor-pointer outline-none font-normal text-lg"><Link className="flex">More <MdKeyboardArrowDown size={"1em"} className="mt-2 group-hover:rotate-180 duration-150" /></Link>
-                                        <div className="-ml-24 group-hover:block drop-shadow-lg shadow-md absolute hidden h-auto left-10">
-                                            <div className="mb-4"></div>
-                                            <ul className="top-0 w-56 bg-white shadow">
-                                                <li className=" hover:bg-gray-100 py-4 border-b text-sm border-gray-300"><a className=" flex flex-row text-black cursor-pointer" href="/"> <MdNotifications size={"1.1rem"} className="mx-4 mt-1" />Notification Preferance</a></li>
-                                                <li className=" hover:bg-gray-100 py-4 border-b text-sm border-gray-300"><a className=" flex flex-row text-black cursor-pointer" href="/"> <BsFillQuestionSquareFill size={"1.1rem"} className="mx-4 mt-1" />24x7 Customer care</a></li>
-                                                <li className=" hover:bg-gray-100 py-4 border-b text-sm border-gray-300"><a className=" flex flex-row text-black cursor-pointer" href="/"> <TfiStatsUp size={"1.1rem"} className="mx-4 mt-1" />Adverties</a></li>
-                                                <li className=" hover:bg-gray-100 py-4 border-b text-sm border-gray-300"><a className=" flex flex-row text-black cursor-pointer" href="/"> <CgSoftwareDownload size={"1.1rem"} className="mx-4 mt-1" />Download App</a></li>
-                                            </ul>
-                                        </div>
-                                    </li>
-
-                                </div>
-                            </ul>
+                            <BiSearch size={"1.5em"} color="blue" className="mt-1" />
                         </div>
                     </header>
                 </section>
@@ -237,9 +210,9 @@ const Smnav = ({ Login, user,SignUp }) => {
 }
 const HomeNav = () => {
     const [openLogin, setOpenLogin] = useState(false);
-    const [openSignup , setOpenSignup] = useState(false);
+    const [openSignup, setOpenSignup] = useState(false);
     const openLoginModel = () => setOpenLogin(true);
-    const openSignupModel = ()=>setOpenSignup(true);
+    const openSignupModel = () => setOpenSignup(true);
     // const user = useSelector((globalState) => globalState.user);
     //     const dispatch = useDispatch();
     //     useEffect(() => {
@@ -253,7 +226,7 @@ const HomeNav = () => {
             <Login isOpen={openLogin} setIsOpen={setOpenLogin} />
             <SignUp isOpen={openSignup} setIsOpen={setOpenSignup} />
             <Lgnav user={user} Login={openLoginModel} SignUp={openSignupModel} />
-            <Mdnav user={user} Login={openLoginModel} SignUp={openSignupModel}  />
+            <Mdnav user={user} Login={openLoginModel} SignUp={openSignupModel} />
             <Smnav user={user} Login={openLoginModel} SignUp={openSignupModel} />
         </>
     );

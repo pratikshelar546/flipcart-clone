@@ -4,7 +4,7 @@ export function NextArrow(props) {
    
     return (
         <>
-            <GrNext className={` !right-2 !bg-white !h-28 !w-10 !rounded-l overflow-auto z-30 ${props.className} ${props.className ==='slick-arrow slick-next slick-disabled'? '!hidden':'block'}`} onClick={props.onClick} />
+            <GrNext className={` !right-2 !bg-white !h-10 !w-6 lg:!h-20 lg:!w-10 !rounded-l !overflow-hidden  ${props.className} ${props.className ==='slick-arrow slick-next slick-disabled'? '!hidden':'!block'}`} onClick={props.onClick} size={"2rem"} />
             {/* <div
                 className={props.className}
                 style={{ ...props.style,color:"black", backgroundColor: "gray", overflow:"auto",zIndex:"3",marginRight:"33px" ,height:"100px",justifyContent:"center",width:"53px" }}
@@ -16,7 +16,7 @@ export function NextArrow(props) {
 export function PrevArrow(props) {
     return (
         <>
-            <GrPrevious className={` !left-2 !bg-white !h-28 !w-10 !rounded-r overflow-auto z-30 ${props.className}  ${props.className ==='slick-arrow slick-prev slick-disabled'? '!hidden':'block'}`} onClick={props.onClick} />
+            <GrPrevious className={` !left-2 !bg-white !h-10 !w-6 lg:!h-20 lg:!w-10   !rounded-r !overflow-auto z-10 ${props.className}  ${props.className ==='slick-arrow slick-prev slick-disabled'? '!hidden':'!block'}`} onClick={props.onClick} />
         </>
     );
 }

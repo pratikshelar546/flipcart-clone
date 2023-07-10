@@ -3,6 +3,9 @@ const multer = require("multer");
 import path from "path";
 import express from "express";
 const Router = express.Router();
+const fs = require("fs");
+import { v2 as cloudinary } from "cloudinary";
+import { AsyncLocalStorage } from "async_hooks";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -23,36 +26,88 @@ const upload = multer({
   limits: {
     fileSize: 1024 * 1024 * 5,
   },
-  // fileFilter: fileFilter,
-});
-Router.post("/addProduct",upload.fields([{ name: "image", maxCount: 10 },]), async (req, res, next) => {
-  try {
-    const reqFiles = [];
-    const url = req.protocol + '://' + req.get('host')
-    for (var i = 0; i < req.files.image?.length; i++) {
-        reqFiles.push(url + '/public/' + req.files.image[i].filename);
-    }
-console.log(req.files);
-    const newProduct = await productModel.create({
-      title: req.body.title,
-      price: req.body.price,
-      description: req.body.description,
-      category: req.body.category,
-      quantity:req.body.quantity,
-      image: reqFiles,
-      rating: req.body.rating,
-    });
 
-    return res.status(201).json({ status: "product added", newProduct });
-  } catch (error) {
+});
+Router.post("/addProduct", upload.fields([{ name: "image", maxCount: 10 }, { name: "logo", maxCount: 2 }]), async (req, res, next) => {
+  try {
+
+    const imageUrl = [];
+
+    const uploadPromises = [];
+    //  console.log(req.files.image);
+    for (var i = 0; i < req.files.image?.length; i++) {
+      const filePath = req.files.image[i].path;
+      const uploadPromise = new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(filePath, { folder: 'products' }, (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result.secure_url);
+          }
+        });
+      });
+
+      uploadPromises.push(uploadPromise);
+    }
+    let specs = [];
+    req.body.specification.forEach((s) => {
+      specs.push(s)
+    });
+    req.body.specification = specs;
+    // console.log(req.files.logo.path)
+    const filepath = req.files.logo[0].path;
+    // console.log(filepath);
+    const brandlogo = await cloudinary.uploader.upload(filepath, {
+      folder: "brands"
+    });
+    // console.log(req.body.brandName);
+
+    req.body.brand = {
+      Name: req.body.brandName,
+      logo: brandlogo.secure_url
+    }
+   
+    console.log(req.body.brand);
+    (async () => {
+      try {
+        const results = await Promise.all(uploadPromises);
+        imageUrl.push(...results);
+        req.body.image = imageUrl;
+        // console.log(req.body);
+        // const newProduct = await productModel.create({
+        //   title: req.body.title,
+        //   price: req.body.price,
+        //   isOffer: req.body.isOffer,
+        //   offerPrice: req.body.offerPrice,
+        //   description: req.body.description,
+        //   category: req.body.category,
+        //   quantity: req.body.quantity,
+        //   image: imageUrl,
+        //   key:req.body.key,
+        //   Highlights:req.body.Highlights,
+        //   specification:req.body.specification
+        // });
+        const newProduct = await productModel.create(req.body)
+
+        return res.status(201).json({ status: "product added", newProduct });
+        // Handle the newProduct as needed
+
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+
+
+  }
+  catch (error) {
     return res.status(500).json({ message: error.message, status: "failed" });
   }
 });
 
-// update product
 
 
 // get all products
+
 Router.get("/getProduct", async (req, res) => {
   try {
     const products = await productModel.find();
@@ -68,8 +123,8 @@ Router.get("/getProduct/:category", async (req, res) => {
     const { category } = req.params;
     console.log(category);
     const product = await productModel.find({ category });
-    if(product.length === 0){
-      return res.json({error : "category not found"});
+    if (product.length === 0) {
+      return res.json({ error: "category not found" });
     }
     return res.status(200).json({ status: "success", product });
   } catch (error) {

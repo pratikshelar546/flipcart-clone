@@ -2,40 +2,88 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
     {
-        title:{
-            type:String,
-            required:true
+        title: {
+            type: String,
+            required: true
         },
-        price:{
-            type:Number,
-            required:true
+        price: {
+            type: Number,
+            required: true
         },
-        description:{
-            type:String,
-            required:true
+        isOffer: {
+            type: Boolean
         },
-        category:{
-            type:String,
-            required:true
+        offerPrice: {
+            type: Number
         },
-        quantity:{
-            type:Number,
-            required:true
+        description: {
+            type: String,
+            // required: true
         },
-        image:{
-            type:Array
+        category: {
+            type: String,
+            required: true
         },
-        
-        rating:[
+        quantity: {
+            type: Number,
+            required: true
+        },
+        specification: [
             {
-            rate:{
-                type:Number
+            title: {
+                type: String,
+                // required: true
             },
-            count:{
-                type:Number
+            description: {
+                type: String,
+                // required: true
             }
         }
-        ]
+    ],
+        key:{
+            type:String,
+            required:true
+        },
+        Highlights:{
+                type:Array,
+                // required:true
+            },
+            service:{
+                type:Array
+            },
+        image: {
+            type: Array
+        },
+        brand: {
+            Name: {
+                type: String,
+                required: true
+            },
+            logo: {
+                type: String
+            }
+        },
+        reviews: [
+            {
+                user: {
+                    type: mongoose.Schema.ObjectId,
+                    ref: "User",
+                    required: true
+                },
+                name: {
+                    type: String,
+                    required: true
+                },
+                rating: {
+                    type: Number,
+                    required: true
+                },
+                comment: {
+                    type: String,
+                    required: true
+                }
+            }
+        ],
     }
 )
-export const productModel =  mongoose.model("Product" , productSchema);
+export const productModel = mongoose.model("Product", productSchema);
