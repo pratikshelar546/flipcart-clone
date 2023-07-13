@@ -2,6 +2,7 @@
 
 var _dotenv = _interopRequireDefault(require("dotenv"));
 var _connection = _interopRequireDefault(require("./database/connection.js"));
+var _cloudinary = require("cloudinary");
 var _express = _interopRequireDefault(require("express"));
 var _routeConfig = _interopRequireDefault(require("./config/routeConfig.js"));
 var _expressSession = _interopRequireDefault(require("express-session"));
@@ -15,6 +16,7 @@ var _bodyParser = _interopRequireDefault(require("body-parser"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // import react from "react";
 
+// import fileUpload from "express-fileupload";
 _dotenv.default.config();
 const flipcart = (0, _express.default)();
 (0, _routeConfig.default)(_passport.default);
@@ -31,6 +33,9 @@ const corsOptions = {
   credentials: true,
   optionSuccessStatus: 200
 };
+// flipcart.use(fileUpload({
+//   useTempFiles:true 
+// }))
 flipcart.use((0, _cors.default)(corsOptions));
 flipcart.use(_bodyParser.default.json());
 flipcart.use("/upload", _express.default.static("upload"));
@@ -38,6 +43,20 @@ flipcart.use("/user", _users.default);
 flipcart.use("/product", _products.default);
 flipcart.use("/cart", _carts.default);
 flipcart.use("/review", _review.default);
+
+// cloudinary
+flipcart.use(_bodyParser.default.json({
+  limit: '10mb'
+}));
+flipcart.use(_bodyParser.default.urlencoded({
+  extended: true,
+  limit: '10mb'
+}));
+_cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 const port = 8080;
 flipcart.listen(port, () => {
   (0, _connection.default)().then(() => {

@@ -11,8 +11,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const Router = _express.default.Router();
 Router.post("/signup", async (req, res) => {
   try {
-    await _userModel.UserModel.findByEmail(req.body);
-    const newUser = await _userModel.UserModel.create(req.body);
+    await _userModel.UserModel.findByEmail(req.body.credentials);
+    const newUser = await _userModel.UserModel.create(req.body.credentials);
     const token = newUser.genrateJwtToken();
     return res.status(200).json({
       status: "success",
@@ -46,12 +46,15 @@ Router.get("/getUser", _passport.default.authenticate("jwt", {
 }), async (req, res) => {
   try {
     const {
-      user
-    } = req;
+      fullName,
+      email
+    } = req.user;
     // console.log(user);
     return res.status(201).json({
-      status: "success",
-      user
+      user: {
+        fullName,
+        email
+      }
     });
   } catch (error) {
     return res.status(500).json({

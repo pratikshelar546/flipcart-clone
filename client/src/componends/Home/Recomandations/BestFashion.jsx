@@ -1,6 +1,7 @@
 import React from "react";
 // import fasionProducts from "../../../utlis/constrants"
 import Slider from "react-slick";
+import {Link} from "react-router-dom"
 import { NextArrow, PrevArrow } from "../PosterSlider/arrows";
 import { FasionProducts } from "../../../utlis/constrants";
 const settings = {
@@ -90,7 +91,7 @@ const newList = FasionProducts.sort(() => 0.5 - Math.random()).slice(0, 10);
 const bestFasion = () => {
   return (
     <>
-      <main className=" m-3 relative mt-3 h-80 shadow-inner">
+      <main className=" m-3 relative mt-3 h-80 shadow-inner bg-white">
         <div className="flex flex-col">
           {/* <section className=" relative h-72 w-56  bg-[url(https://rukminim1.flixcart.com/fk-p-flap/278/278/image/7593e7b6640822c1.jpg?q=90)] lg:flex hidden bg-no-repeat  hover:shadow-xl cursor-pointer bg-bottom justify-center text-center items-center">
             <div className="pb-16 gap-5 flex flex-col justify-center items-center ">
@@ -106,14 +107,14 @@ const bestFasion = () => {
               VIEW ALL
             </button>
           </section>
-          <section className=" overflow-auto relative w-full ">
+          <section className=" overflow-auto relative w-full bg-white">
             <div className="relative w-auto">
               <Slider {...settings} className="  flex w-full">
                 {newList.map((data, index) => {
                   return (
                     <>
-                      <div className="w-full p-2 " key={index}>
-                        <div className=" w-full cursor-pointer  lg:h-72 md:h-56 h-48 overflow-hidden rounded-xl border  transition duration-500 ease-in-out sm:shadow-md md:shadow-none hover:shadow-xl">
+                      <Link className="w-full p-2 " to="/product"  state="Fashion" key={index}>
+                        <div className=" w-full cursor-pointer  lg:h-72 md:h-56 h-48 overflow-hidden rounded-md   transition duration-500 ease-in-out sm:shadow-md md:shadow-none hover:shadow-xl">
                           <div className="w-full h-full flex ">
                             <div className="flex flex-col gap-1 items-start w-72">
                               <div className="relative  bottom-2 w-full h-48">
@@ -121,7 +122,7 @@ const bestFasion = () => {
                                   <img
                                     src={data.image}
                                     alt={data.name}
-                                    className="w-full lg:h-48 md:h-32 h-32 rounded-2xl object-cover"
+                                    className="w-full lg:h-48 md:h-32 h-32 rounded-md object-cover"
                                   />
                                 </div>
                               </div>
@@ -134,7 +135,7 @@ const bestFasion = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     </>
                   );
                 })}

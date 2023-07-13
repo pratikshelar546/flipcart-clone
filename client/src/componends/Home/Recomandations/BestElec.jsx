@@ -1,10 +1,12 @@
 import React from "react";
+import {Link} from "react-router-dom"
 // import { productByCategory } from "../../../redux/reducers/Products/productAction";
 import Slider from "react-slick";
 import { offerProducts } from "../../../utlis/constrants";
 // import { useDispatch } from "react-redux";
 import { NextArrow, PrevArrow } from "../PosterSlider/arrows";
 const BestElec = () => {
+  // console.log(categorys);
   // const [product, setProduct] = useState([]);
   // const dispatch = useDispatch();
   // useEffect(() => {
@@ -51,8 +53,8 @@ const BestElec = () => {
   // const [newImage, setNewImage] = useState();
   return (
     <>
-      <main className=" m-3 relative shadow-md drop-shadow-sm rounded mb-3 h-full lg:h-80">
-        <div className="flex flex-row">
+      <main className=" m-3 relative shadow-md bg-white drop-shadow-sm rounded mb-3 h-full lg:h-80">
+        <div className="flex flex-row ">
           <section className=" relative h-72 w-56  bg-[url(https://rukminim1.flixcart.com/fk-p-flap/278/278/image/7593e7b6640822c1.jpg?q=90)] lg:flex hidden bg-no-repeat  hover:shadow-xl cursor-pointer bg-bottom justify-center text-center items-center">
             <div className="pb-16 gap-5 flex flex-col justify-center items-center ">
               <h1 className="text-3xl h-fit  break-words">
@@ -66,11 +68,13 @@ const BestElec = () => {
           <section className=" overflow-auto relative w-full ">
             <div className="relative w-auto">
               <Slider {...settings} className="  flex w-full">
-                {newList.map((data, index) => {
+                {newList.map((data,i) => {
+
                   return (
                     <>
-                      <div className="w-full p-2 ">
-                        <div className="bg-white w-full cursor-pointer p-2 lg:h-72 md:h-56 h-48 overflow-hidden rounded-xl border  transition duration-500 ease-in-out sm:shadow-md md:shadow-none hover:shadow-lg hover:scale-100 scale-95">
+                    <div key={i}>                   
+                      <Link className="w-full p-2 "  to="/product" state="electronics"  >
+                        <div className="bg-white w-full cursor-pointer p-2 lg:h-72 md:h-56 h-48 overflow-hidden rounded-xl transition duration-500 ease-in-out sm:shadow-md md:shadow-none hover:shadow-lg hover:scale-100 scale-95">
                           <div className="w-full h-full flex ">
                             <div className="flex flex-col gap-1 items-start w-72">
                               <div className="relative  bottom-2 w-full h-48">
@@ -93,6 +97,7 @@ const BestElec = () => {
                             </div>
                           </div>
                         </div>
+                      </Link>
                       </div>
                     </>
                   );

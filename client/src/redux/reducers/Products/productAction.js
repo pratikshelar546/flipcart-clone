@@ -12,7 +12,7 @@ export const productByCategory = (category)=> async(dispatch)=>{
         // console.log(products.data.product);
         return dispatch({type:GET_PRODUCT_BY_CATEGORY,payload:products.data.product})
     } catch (error) {
-        toast.error("Signup Failed", {
+        toast.error("Error occurs", {
             position: toast.POSITION.TOP_RIGHT
         });
         return dispatch({type:"ERROR",payload:error})
