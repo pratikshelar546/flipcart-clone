@@ -1,20 +1,12 @@
 import React from "react";
 import {Link} from "react-router-dom"
-// import { productByCategory } from "../../../redux/reducers/Products/productAction";
 import Slider from "react-slick";
 import { offerProducts } from "../../../utlis/constrants";
 // import { useDispatch } from "react-redux";
 import { NextArrow, PrevArrow } from "../PosterSlider/arrows";
+// import { categories } from "../../../utlis/constrants";
 const BestElec = () => {
-  // console.log(categorys);
-  // const [product, setProduct] = useState([]);
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(productByCategory("electronics")).then((data) => {
-  //     setProduct(Object.values(data.payload));
-  //   });
-  // }, [dispatch]);
-  // console.log(product.image);
+
 
   const settings = {
     infinite: false,
@@ -50,7 +42,7 @@ const BestElec = () => {
     ],
   };
   const newList = offerProducts.sort(() => 0.5 - Math.random()).slice(0, 10);
-  // const [newImage, setNewImage] = useState();
+
   return (
     <>
       <main className=" m-3 relative shadow-md bg-white drop-shadow-sm rounded mb-3 h-full lg:h-80">
@@ -73,7 +65,7 @@ const BestElec = () => {
                   return (
                     <>
                     <div key={i}>                   
-                      <Link className="w-full p-2 "  to="/product" state="electronics"  >
+                      <Link className="w-full p-2 "  to="/product" state={{categorys:"electronics" , key:data.key }} >
                         <div className="bg-white w-full cursor-pointer p-2 lg:h-72 md:h-56 h-48 overflow-hidden rounded-xl transition duration-500 ease-in-out sm:shadow-md md:shadow-none hover:shadow-lg hover:scale-100 scale-95">
                           <div className="w-full h-full flex ">
                             <div className="flex flex-col gap-1 items-start w-72">

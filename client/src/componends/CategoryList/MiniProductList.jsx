@@ -4,7 +4,7 @@ import React from 'react'
 const MiniProductList = () => {
   return (
     <>
-     <main className='relative mr-10 bg-white  w-full '>
+     <main className='relative mr-10 bg-white lg:flex hidden w-full top-1'>
         <section className=' lg:w-full lg:overflow-auto  text-black h-gull border-b flex justify-center space-x-0 align-middle items-center shadow-md overflow-x-scroll pr-1 w-screen'>
           <div className='flex  items-center justify-center' >
             {Product.map((data, key) => {

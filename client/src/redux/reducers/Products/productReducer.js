@@ -1,4 +1,4 @@
-import { GET_PRODUCT,GET_PRODUCT_BY_CATEGORY } from "./productType";
+import { GET_PRODUCT,GET_PRODUCT_BY_CATEGORY , GET_PRODUCT_SEARCH} from "./productType";
 
 const initialState ={
 products:[],
@@ -17,7 +17,12 @@ const productReducer = (state = initialState,action)=>{
             return{
                 ...state,
                 categoryProduct:[...action.payload]
-            }
+            };
+            case GET_PRODUCT_SEARCH:
+                return{
+                    ...state,
+                    products:[...action.payload]
+                }
           
     
         default:

@@ -113,7 +113,7 @@ const bestFasion = () => {
                 {newList.map((data, index) => {
                   return (
                     <>
-                      <Link className="w-full p-2 " to="/product"  state="Fashion" key={index}>
+                      <Link className="w-full p-2 " to="/product" state={{categorys:"Fashion" , key:data.key }}   key={index}>
                         <div className=" w-full cursor-pointer  lg:h-72 md:h-56 h-48 overflow-hidden rounded-md   transition duration-500 ease-in-out sm:shadow-md md:shadow-none hover:shadow-xl">
                           <div className="w-full h-full flex ">
                             <div className="flex flex-col gap-1 items-start w-72">

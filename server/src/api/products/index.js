@@ -137,6 +137,7 @@ Router.get("/getProduct/search/:searchString", async (req, res) => {
     const { searchString } = req.params;
     const product = await productModel.find({
       title: new RegExp(searchString, "i"),
+      description:new RegExp(searchString,"i")
     });
 
     if (product.length === 0) {
