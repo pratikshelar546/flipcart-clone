@@ -9,6 +9,7 @@ export const logIn = (userData) => async (dispatch) => {
             url: `${process.env.REACT_APP_SERVER_URL}user/signin`,
             data: { credentials: userData },
         });
+        // console.log(User?.data);
         localStorage.setItem("user", JSON.stringify({ token: User.data }));
         axios.defaults.headers.common[
             "Authorization"

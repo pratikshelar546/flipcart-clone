@@ -19,8 +19,9 @@ import Login from "../Auth/Login";
 import SignUp from "../Auth/SignUp";
 import { useDispatch } from "react-redux";
 import { getproductBySearch } from "../../redux/reducers/Products/productAction";
+import { GetCart } from "../../redux/reducers/cart/cartAction";
 
-const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading }) => {
+const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, cart }) => {
   const login = () => {
     Login();
   };
@@ -34,14 +35,9 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading })
       position: toast.POSITION.TOP_RIGHT,
     });
   };
-  //   const search = (text)=>{
-  //     dispatch(getproductBySearch(text)).then((data) => {
-  //         setProduct(data?.payload);
-  //   })
-  // }
-  //    console.log(user?.fullName);
+  // console.log(cart);
   const [text, setText] = useState("")
-  // const [loading, setLoading] = useState(false);
+
   const handlesData = (e) => {
     setLoading(true);
     handleData(e.target.value);
@@ -68,11 +64,11 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading })
                 />
                 <BiSearch size={"1.5rem"} color="blue" className="mt-1" />
               </div>
-              <div className={text ? "bg-white text-black w-full top-10 absolute " : 'hidden'}>
+              <div className={text ? "bg-white text-black w-full top-10 absolute parent" : 'hidden'}>
                 {loading ? '' : produt.length > 0 ?
                   produt?.map((product) => (
 
-                    <h1 className="p-3 border-b hover:text-blue-600" key={product._id}>{product.title}</h1>
+                    <Link className=" flex border-b m-0 p-3 hover:text-blue-600 cursor-pointer" to={`/product/${product._id}/overview`} key={product._id} >{product.title}</Link>
                   )) : <h1 className=" place-content-center p-3 ">No product found</h1>
 
                 }
@@ -84,7 +80,7 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading })
                 <li className="group relative  text-blue-500  rounded  cursor-pointer outline-none font-normal text-lg">
                   {user?.fullName ? (
                     <p className=" flex bg-blue-600 text-white">
-                      ShopKart{" "}
+                      ShopKart
                       <MdKeyboardArrowDown
                         size={"1em"}
                         className="mt-2 group-hover:rotate-180 duration-150"
@@ -92,7 +88,7 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading })
                       />{" "}
                     </p>
                   ) : (
-                    <button onClick={login} className="px-7 ">
+                    <button onClick={login} className="px-7 bg-white">
                       Login
                     </button>
                   )}
@@ -252,10 +248,13 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading })
                     </ul>
                   </div>
                 </li>
-                <li className="cursor-pointer outline-none font-normal text-lg flex">
-                  <CgShoppingCart className="mt-1 mr-2" />
+                <Link className="cursor-pointer outline-none font-normal text-lg flex" to={`/Cart/${user?._id}`}>
+                  <CgShoppingCart className="mt-1" />
+                  <div className={cart?.productDetails?.length === undefined || 0 ? "hidden bg-white" : "bg-red-600  w-4 text-center -ml-2 -mt-1 h-4  rounded-full text-xs "}>
+                    <span>{cart?.productDetails?.length}</span>
+                  </div>
                   Cart
-                </li>
+                </Link>
               </ul>
             </div>
           </header>
@@ -264,7 +263,7 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading })
     </>
   );
 };
-const Mdnav = ({ Login, user, SignUp, handleData, produt,loading,setLoading }) => {
+const Mdnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, cart }) => {
   const login = () => {
     Login();
   };
@@ -317,10 +316,10 @@ const Mdnav = ({ Login, user, SignUp, handleData, produt,loading,setLoading }) =
                 <BiSearch size={"1.5rem"} color="blue" className="mt-1" />
               </div>
               <div className={text ? "bg-white text-black w-full top-10 absolute" : 'hidden'}>
-              {loading ? '' : produt.length > 0 ?
+                {loading ? '' : produt.length > 0 ?
                   produt?.map((product) => (
 
-                    <h1 className="p-3 borber-b" key={product._id}>{product.title}</h1>
+                    <Link className="p-3 borber-b flex" key={product._id} to={`/product/${product._id}/overview`} >{product.title}</Link>
                   )) : <h1 className=" place-content-center p-3 ">No product found</h1>
 
                 }
@@ -509,10 +508,14 @@ const Mdnav = ({ Login, user, SignUp, handleData, produt,loading,setLoading }) =
                     </ul>
                   </div>
                 </li>
-                <li className="cursor-pointer outline-none font-normal text-lg flex">
-                  <CgShoppingCart className="mt-1 mr-2" />
+                <li className="cursor-pointer outline-none font-normal text-lg flex ">
+                  <CgShoppingCart className="mt-1" />
+                  <div className={cart?.productDetails?.length === undefined || 0 ? "hidden bg-white" : "bg-red-600  w-4 text-center -ml-2 -mt-1 h-4  rounded-full text-xs "}>
+                    <span>{cart?.productDetails?.length}</span>
+                  </div>
                   Cart
                 </li>
+
               </ul>
             </div>
           </header>
@@ -521,7 +524,7 @@ const Mdnav = ({ Login, user, SignUp, handleData, produt,loading,setLoading }) =
     </>
   );
 };
-const Smnav = ({ Login, user, SignUp, handleData, produt,loading,setLoading }) => {
+const Smnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, cart }) => {
   const login = () => {
     Login();
   };
@@ -573,9 +576,14 @@ const Smnav = ({ Login, user, SignUp, handleData, produt,loading,setLoading }) =
                       </>
                     )}
                   </li>
-                  <li className="cursor-pointer outline-none font-normal mr-0 text-lmd flex">
-                    <CgShoppingCart className="mt-1 mr-3" size={"1.5em"} />
+                  <li className="cursor-pointer outline-none font-normal mr-0 text-md flex ">
+                    <CgShoppingCart className="mt-1" />
+                    <div className={cart?.productDetails?.length === undefined || 0 ? "hidden bg-white" : "bg-red-600  w-4 text-center -ml-2 -mt-1 h-4  rounded-full text-xs "}>
+                      <span>{cart?.productDetails?.length}</span>
+                    </div>
+                    Cart
                   </li>
+
                 </ul>
               </div>
             </div>
@@ -602,10 +610,10 @@ const Smnav = ({ Login, user, SignUp, handleData, produt,loading,setLoading }) =
                 <BiSearch size={"1.5rem"} color="blue" className="mt-1" />
               </div>
               <div className={text ? "bg-white text-black w-full top-10 absolute " : 'hidden'}>
-              {loading ? '' : produt.length > 0 ?
+                {loading ? '' : produt.length > 0 ?
                   produt?.map((product) => (
 
-                    <h1 className="p-3 borber-b" key={product._id}>{product.title}</h1>
+                    <Link className="p-3 borber-b flex hover:text-blue-600" key={product._id} to={`/product/${product._id}/overview`} >{product.title}</Link>
                   )) : <h1 className=" place-content-center p-3 ">No product found</h1>
 
                 }
@@ -624,7 +632,8 @@ const HomeNav = () => {
   const openSignupModel = () => setOpenSignup(true);
   const [textSearch, setTextSearch] = useState("");
   const [produt, setProduct] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [carts, setCarts] = useState([])
   //   console.log(textSearch);
   const dispatch = useDispatch();
 
@@ -637,10 +646,8 @@ const HomeNav = () => {
     if (textSearch) {
       const debounce = setTimeout(() => {
         dispatch(getproductBySearch(textSearch)).then((data) => {
-          // console.log(produt);
           setLoading(false)
           setProduct(data?.payload);
-          // console.log(produt);
         });
       }, 500);
       return () => {
@@ -648,31 +655,31 @@ const HomeNav = () => {
       }
     }
   }, [textSearch, dispatch]);
-
-  // useEffect(() => {
-  //   if (textSearch) {
-  //     const debounce = setTimeout(() => {
-  //       dispatch(getproductBySearch(textSearch)).then((data) => {
-  //         // console.log(produt);
-  //         setLoading(false)
-  //         setProduct(data?.payload);
-  //       });
-  //     }, 500);
-  //     return () => {
-  //       clearTimeout(debounce);
-  //     }
-  //   }
-  // }, [textSearch, dispatch]);
-  // console.log(produt);
   const user = JSON.parse(localStorage.getItem("newUser"));
+  const id = user?._id;
+  useEffect(() => {
+    if (id) {
+      try {
+        dispatch(GetCart(id)).then((data) => {
+          setCarts(data?.payload);
+        })
+      } catch (error) {
+          console.log(error);
+      }
+    }
+
+
+  }, [dispatch, id])
+
+  // console.log(carts?.productDetails?.length);
 
   return (
     <>
       <Login isOpen={openLogin} setIsOpen={setOpenLogin} />
       <SignUp isOpen={openSignup} setIsOpen={setOpenSignup} />
-      <Lgnav user={user} Login={openLoginModel} produt={produt} loading={loading} setLoading={setLoading} handleData={handleData} SignUp={openSignupModel} />
-      <Mdnav user={user} Login={openLoginModel} produt={produt} loading={loading} setLoading={setLoading} handleData={handleData} SignUp={openSignupModel} />
-      <Smnav user={user} Login={openLoginModel} produt={produt} loading={loading} setLoading={setLoading} handleData={handleData} SignUp={openSignupModel} />
+      <Lgnav user={user} Login={openLoginModel} cart={carts} produt={produt} loading={loading} setLoading={setLoading} handleData={handleData} SignUp={openSignupModel} />
+      <Mdnav user={user} Login={openLoginModel} cart={carts} produt={produt} loading={loading} setLoading={setLoading} handleData={handleData} SignUp={openSignupModel} />
+      <Smnav user={user} Login={openLoginModel} cart={carts} produt={produt} loading={loading} setLoading={setLoading} handleData={handleData} SignUp={openSignupModel} />
     </>
   );
 };

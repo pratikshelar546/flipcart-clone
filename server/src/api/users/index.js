@@ -28,9 +28,9 @@ Router.post("/signin" , async (req,res)=>{
 
 Router.get("/getUser", passport.authenticate("jwt", { session: false }), async(req,res)=>{
 try {
-  const {fullName , email} = req.user;
-// console.log(user);
-return res.status(201).json({user:{ fullName,email}})
+  const {fullName , email,_id} = req.user;
+// console.log(req.user._id);
+return res.status(201).json({user:{ fullName,email,_id}})
 } catch (error) {
   return res.status(500).json({status:"failed",message:error.message})
 }

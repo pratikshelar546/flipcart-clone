@@ -9,7 +9,7 @@ export const getUser = ()=> async(dispatch)=>{
             method:"GET",
             url:`${process.env.REACT_APP_SERVER_URL}user/getUser`,
         });
-        // console.log(  User);
+        // console.log(User);
         localStorage.setItem('newUser', JSON.stringify(User?.data?.user));
         return dispatch({ type: GET_USER, payload: { ...User.data.user } });
     } catch (error) {

@@ -72,7 +72,7 @@ const ProductCard = (props) => {
           </div>
         </Link>
       ) : (
-        <div className="h-96 max-w-5xl cursor-pointer mb-3 hover:scale-105 duration-100">
+        <Link className="h-96 max-w-5xl cursor-pointer mb-3 hover:scale-105 duration-100"  to={`/product/${props._id}/overview`}>
           <div className="flex  flex-col ">
             <div className="lg:h-60 md:h-52 h-48">
               <img
@@ -118,7 +118,7 @@ const ProductCard = (props) => {
               )}
             </div>
           </div>
-        </div>
+        </Link>
       )}
     </>
   );

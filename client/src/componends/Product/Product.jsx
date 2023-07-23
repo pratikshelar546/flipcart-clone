@@ -96,7 +96,7 @@ const Product = (props) => {
   // console.log(selectedBrand);
   return (
     <>
-      <main className="w-full relative ">
+      <main className="">
         <div className="flex gap-2">
           <section className="m-2 lg:block hidden w-64 h-full bg-white">
             <div className="p-1 border-b">
@@ -235,7 +235,9 @@ const Product = (props) => {
                   : " m-2 h-full gap-4 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2"
               }
             >
-              { laoding?<h1 className="text-3xl top-1/2 left-1/2">Loading...</h1> : key.length === 0 ? (
+              { laoding? <>
+              <div className="w-screen h-screen ">
+              <iframe src="https://lottie.host/?file=adbf2be0-5e20-479c-ac8b-63afb952b7a7/KmWdrrTqCZ.json" title="loading"></iframe></div></>: key.length === 0 ? (
                 product.length === 0 ? (
                   <NotFound title={"This category not found"} />
                 ) : (
