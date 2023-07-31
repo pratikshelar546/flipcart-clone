@@ -38,7 +38,7 @@ const ProductOverview = () => {
     const details = id;
     const quantity = Number(1);
     try {
-      dispatch(addCart(details,quantity)).then((data) =>
+      dispatch(addCart(details, quantity)).then((data) =>
         toast.success("Product added succesfully", {
           position: toast.POSITION.BOTTOM_CENTER,
         })
@@ -64,11 +64,11 @@ const ProductOverview = () => {
         <h1>loading</h1>
       ) : (
         <>
-          <main className="w-full h-full p-4 flex place-content-center">
-            <div className=" max-w-7xl w-full flex flex-row bg-white p-4">
-              <section className=" w-2/5 p-2 h-max sticky top-14">
+          <main className="lg:w-full w-screen  h-full p-4 flex place-content-center">
+            <div className="lg:max-w-7xl w-full flex lg:flex-row flex-col  bg-white p-4">
+              <section className=" lg:w-2/5 w-full p-2 h-max lg:sticky relative lg:top-14 top-0">
                 <div className="flex flex-row w-full">
-                  <div className="flex flex-col border-l-2 border-y-2 w-20">
+                  <div className="lg:flex hidden flex-col border-l-2 border-y-2 w-20">
                     {productData.image.map((images, i) => (
                       <img
                         key={i}
@@ -78,7 +78,7 @@ const ProductOverview = () => {
                       />
                     ))}
                   </div>
-                  <div className=" border-2 w-full">
+                  <div className=" border-2 w-full ">
                     <img
                       src={productData.image[0]}
                       alt={productData.title}
@@ -86,12 +86,12 @@ const ProductOverview = () => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-row w-full mt-3 ml-16 gap-3 text-white ">
+                <div className="hidden lg:flex  flex-row  w-full mt-3 ml-16 gap-3 text-white ">
                   <button
                     className=" w-2/5 py-3 bg-orange-400 flex items-center justify-center gap-2"
                     onClick={AddToCart}
                   >
-                    {" "}
+                    
                     <FaShoppingCart size={"1em"} /> ADD TO CART
                   </button>
                   <button className=" w-2/5 py-3 bg-orange-600 flex items-center justify-center gap-2">
@@ -100,7 +100,7 @@ const ProductOverview = () => {
                   </button>
                 </div>
               </section>
-              <section className="w-3/5 p-2 ml-4">
+              <section className="lg:w-3/5 w-full p-2 ml-4">
                 <div className="gap-2 flex flex-col">
                   <h1 className="text-lg">{productData.title}</h1>
 
@@ -158,9 +158,9 @@ const ProductOverview = () => {
                           <span className="text-primary-lightGreen"> </span>
                           <span className="font-medium ml-2">
                             Bank Offer
-                          </span>{" "}
+                          </span>
                           15% Instant discount on first Flipkart Pay Later order
-                          of 500 and above{" "}
+                          of 500 and above
                           <span className="text-primary-blue font-medium">
                             T&C
                           </span>
@@ -264,6 +264,16 @@ const ProductOverview = () => {
                   </div>
                 </div>
               </section>
+              <div className="flex flex-row overflow-auto lg:hidden sticky bottom-2 w-full mt-3 bg-white justify-center gap-3 text-white ">
+                <button className=" w-1/2 py-3 bg-orange-400 flex items-center justify-center gap-2"
+                  onClick={AddToCart}>
+                  <FaShoppingCart size={"1em"} /> ADD TO CART
+                </button>
+                <button className=" w-1/2 py-3 bg-orange-600 flex items-center justify-center gap-2">
+                  <AiTwotoneThunderbolt size={"1em"} />
+                  BUY NOW
+                </button>
+              </div>
             </div>
           </main>
         </>

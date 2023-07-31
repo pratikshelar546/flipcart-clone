@@ -2,38 +2,44 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getProductById } from "../../redux/reducers/Products/productAction";
 import { NumericFormat } from "react-number-format";
-import { addCart } from "../../redux/reducers/cart/cartAction";
-
+import { addCart, deleteProduct } from "../../redux/reducers/cart/cartAction";
+import { useParams } from "react-router";
 const CartProduct = ({ product }) => {
   const [products, setProducts] = useState();
   // console.log(product);
   const dispatch = useDispatch();
+  const params = useParams();
+  const { id } = params;
   //    console.log(product.details);
-  const id = product.details;
+  const productId = product.details;
+
   useEffect(() => {
-    dispatch(getProductById(id)).then((data) => {
+    dispatch(getProductById(productId)).then((data) => {
       setProducts(data?.payload);
     });
-  }, [dispatch, id]);
+  }, [dispatch, productId]);
   //   console.log(products);
 
   let [quantity, setQuantity] = useState(product.quantity);
-  const details = id;
+  const details = productId;
   const increment = () => {
-    
     setQuantity(Number(quantity) + 1);
-  
   };
 
   const decrement = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
-    
     }
   };
   useEffect(() => {
     dispatch(addCart(details, quantity));
   }, [details, dispatch, quantity]);
+  // const user =JSON.parse(localStorage.getItem('newUser'));
+  const deleteProducts = () => {
+    dispatch(deleteProduct(id, productId));
+    //  console.log(data);
+    window.location.reload()
+  }
   return (
     <>
       <main className="w-full h-full">
@@ -108,12 +114,10 @@ const CartProduct = ({ product }) => {
               +
             </button>
           </div>
-          <h1 className=" cursor-pointer font-semibold hover:text-blue-600">
-            Save for later
-          </h1>
-          <h1 className=" cursor-pointer font-semibold hover:text-blue-600">
+
+          <button onClick={deleteProducts} className=" active:text-red-700 cursor-pointer font-semibold hover:text-blue-600">
             Remove
-          </h1>
+          </button>
         </div>
       </main>
     </>

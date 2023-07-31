@@ -236,7 +236,7 @@ const Product = (props) => {
               }
             >
               { laoding? <>
-              <div className="w-screen h-screen ">
+              <div className="w-full h-full flex justify-center ">
               <iframe src="https://lottie.host/?file=adbf2be0-5e20-479c-ac8b-63afb952b7a7/KmWdrrTqCZ.json" title="loading"></iframe></div></>: key.length === 0 ? (
                 product.length === 0 ? (
                   <NotFound title={"This category not found"} />

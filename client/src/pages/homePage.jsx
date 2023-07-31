@@ -16,9 +16,6 @@ const homePage = () => {
         <BestElec categorys={"electronis"} />
         <BestFashion />
       </main>
-
-
-      <div>am from home page</div>
     </>
 
   )

@@ -9,7 +9,7 @@ const initialState = {
   categoryProduct: [],
   searchProduct: [],
 };
-console.log(initialState.products);
+// console.log(initialState.products);
 const productReducer = (state = initialState, action) => {
   // console.log(action.payload)
 

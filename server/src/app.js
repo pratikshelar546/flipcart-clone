@@ -1,7 +1,7 @@
 // import react from "react";
 import dotenv from "dotenv";
 import ConnectDB from "./database/connection.js"
-import {v2 as cloudinary} from "cloudinary"
+import { v2 as cloudinary } from "cloudinary"
 import express from "express";
 import privateRouteConfig from "./config/routeConfig.js"
 import session from "express-session";
@@ -9,6 +9,7 @@ import cors from "cors";
 import passport from "passport";
 import User from "./api/users";
 import Product from "./api/products"
+import Order from "./api/oder"
 import Cart from "./api/carts"
 import Review from "./api/review"
 import bodyParser from "body-parser";
@@ -35,18 +36,18 @@ flipcart.use(cors(corsOptions));
 
 flipcart.use(bodyParser.json());
 flipcart.use("/upload", express.static("upload"));
-flipcart.use("/user",User);
-flipcart.use("/product" , Product);
+flipcart.use("/user", User);
+flipcart.use("/product", Product);
 flipcart.use("/cart", Cart);
-flipcart.use("/review",Review);
-
+flipcart.use("/review", Review);
+flipcart.use("/order", Order);
 // cloudinary
-flipcart.use(bodyParser.json({limit :'10mb'}));
-flipcart.use(bodyParser.urlencoded({extended:true,limit:'10mb'}));
-cloudinary.config({ 
+flipcart.use(bodyParser.json({ limit: '10mb' }));
+flipcart.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 

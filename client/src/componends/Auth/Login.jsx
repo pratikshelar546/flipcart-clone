@@ -16,9 +16,7 @@ const Login = ({isOpen , setIsOpen}) => {
     // const openModal = ()=>{
     //     setIsOpen(true);
     // }
-    const [userData , setUserData] = useState({
-     
-    })
+    const [userData , setUserData] = useState({ })
     const closeModal = ()=>{
       setIsOpen(false);
     }
@@ -114,7 +112,7 @@ const Login = ({isOpen , setIsOpen}) => {
                         className="w-full text-center bg-blue-500 text-white px-2 rounded-lg py-2 cursor-pointer"
                         onClick={submit}
                       >
-                        Sign In
+                       Login
                       </div>
                     </form>
                     <Link className="relative text-blue-700 text-xs font-normal -bottom-16 align-bottom text-center" to="/">New to ShopKart? Create an account</Link>

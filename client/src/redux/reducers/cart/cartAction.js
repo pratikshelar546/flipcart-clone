@@ -24,7 +24,7 @@ export const addCart = (details,quantity)=> async(dispatch)=>{
     }
 }
 
-
+// get cart by id
 export const GetCart = (id)=> async(dispatch)=>{
     try {
         const cart =await axios({
@@ -35,7 +35,30 @@ export const GetCart = (id)=> async(dispatch)=>{
                 // console.log(cart?.data?.GetCart);
         return dispatch({type:GET_CART , payload:{...cart?.data.getCart}})
     } catch (error) {
-        console.log(error);
+        // console.log(error);
+        toast.error("Something went wrong", {
+            position: toast.POSITION.TOP_RIGHT
+        });
+        return dispatch({ type: "ERROR", payload: error })
+    }
+}
+
+// delete product from cart 
+
+export const deleteProduct = (id,productId) => async(dispatch)=>{
+    // console.log("produtc " + productId ,"user" +id);
+    try {
+        const deleteProduct = await axios({
+            method:"DELETE",
+            url:`${process.env.REACT_APP_SERVER_URL}cart/delete/${id}`,
+            data:{productId}
+        })
+        // console.log(deleteProduct?.data);
+        toast.error("Product deleted successfully", {
+            position: toast.POSITION.BOTTOM_CENTER
+        });
+        return dispatch({type:GET_CART, payload:{...deleteProduct?.data?.cart}})
+    } catch (error) {
         toast.error("Something went wrong", {
             position: toast.POSITION.TOP_RIGHT
         });

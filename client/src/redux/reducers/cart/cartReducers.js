@@ -3,7 +3,7 @@ const initialState = {
   cart: [],
   newCart: {}
 };
-
+console.log(initialState?.cart);
 const cartReducers = (state = initialState, action) => {
   switch (action.type) {
     case GET_CART:
