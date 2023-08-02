@@ -10,6 +10,7 @@ var _cors = _interopRequireDefault(require("cors"));
 var _passport = _interopRequireDefault(require("passport"));
 var _users = _interopRequireDefault(require("./api/users"));
 var _products = _interopRequireDefault(require("./api/products"));
+var _oder = _interopRequireDefault(require("./api/oder"));
 var _carts = _interopRequireDefault(require("./api/carts"));
 var _review = _interopRequireDefault(require("./api/review"));
 var _bodyParser = _interopRequireDefault(require("body-parser"));
@@ -43,7 +44,7 @@ flipcart.use("/user", _users.default);
 flipcart.use("/product", _products.default);
 flipcart.use("/cart", _carts.default);
 flipcart.use("/review", _review.default);
-
+flipcart.use("/order", _oder.default);
 // cloudinary
 flipcart.use(_bodyParser.default.json({
   limit: '10mb'

@@ -15,33 +15,31 @@ const Router = _express.default.Router();
 
 //add to cart
 
-Router.put("/Add", _passport.default.authenticate("jwt", {
-  session: false
-}), async (req, res) => {
+Router.put("/Add/:id", async (req, res) => {
   try {
     const {
-      user
-    } = req;
+      id
+    } = req.params;
     const Details = req.body.productDetails;
-    console.log(Details);
     let cart = await _cartModel.CartModel.findOne({
-      user: user._id
+      user: id
     });
     if (!cart) {
       cart = new _cartModel.CartModel({
-        user: user._id
+        user: id
       });
     }
+    // console.log("am cart " + cart);
     for (const item of Details) {
       const {
         details,
         quantity
       } = item;
+
       // check the product is exist or not
       const existingProduct = cart.productDetails.find(product => product.details.equals(details));
-      console.log(existingProduct);
       if (existingProduct) {
-        existingProduct.quantity += quantity;
+        existingProduct.quantity = quantity;
       } else {
         cart.productDetails.push({
           details: new _mongoose.default.Types.ObjectId(details),
@@ -50,12 +48,6 @@ Router.put("/Add", _passport.default.authenticate("jwt", {
       }
     }
     await cart.save();
-    // const updatedProductDetails = Details.map((item) => ({
-    //   details:new mongoose.Types.ObjectId(item.details),
-    //   quantity: item.quantity
-    // }));
-
-    // await cart.updateOne();
     return res.status(200).json({
       status: "success",
       cart: cart
@@ -67,6 +59,7 @@ Router.put("/Add", _passport.default.authenticate("jwt", {
     });
   }
 });
+// getCart by auth
 Router.get("/getCart", _passport.default.authenticate("jwt", {
   session: false
 }), async (req, res) => {
@@ -74,7 +67,7 @@ Router.get("/getCart", _passport.default.authenticate("jwt", {
     const {
       user
     } = req;
-    console.log(user._id);
+    // console.log(user._id);
     const getCart = await _cartModel.CartModel.findOne({
       user: user._id
     });
@@ -85,6 +78,70 @@ Router.get("/getCart", _passport.default.authenticate("jwt", {
   } catch (error) {
     res.status(500).json({
       status: "failed",
+      error: error.message
+    });
+  }
+});
+
+// getCart by id
+Router.get("/getCart/:id", async (req, res) => {
+  try {
+    const {
+      id
+    } = req.params;
+    // console.log(user._id);
+    const getCart = await _cartModel.CartModel.findOne({
+      user: id
+    });
+    return res.status(200).json({
+      status: "success",
+      getCart
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "failed",
+      error: error.message
+    });
+  }
+});
+
+// delete product from cart
+Router.delete("/delete/:id", async (req, res) => {
+  try {
+    const {
+      id
+    } = req.params;
+    const {
+      productId
+    } = req.body;
+    // console.log( "product "+productId);
+    const cart = await _cartModel.CartModel.findOneAndUpdate({
+      user: id
+    }, {
+      $pull: {
+        productDetails: {
+          details: productId
+        }
+      }
+    }, {
+      returnOriginal: false
+    });
+    // console.log(cart);
+    if (!cart) {
+      return res.status(404).json({
+        status: "Not found",
+        error: error.message
+      });
+    }
+    res.status(200).json({
+      status: "success",
+      cart
+    });
+    // await cart.findOne()
+    // await CartModel.findOneAndDelete({})
+  } catch (error) {
+    return res.status(500).json({
+      status: "Failed",
       error: error.message
     });
   }

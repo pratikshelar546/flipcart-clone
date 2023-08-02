@@ -40,6 +40,14 @@ const CartProduct = ({ product }) => {
     //  console.log(data);
     window.location.reload()
   }
+
+  // useEffect(()=>{
+  //   if(products !== null){
+
+  //     console.log("fetching");
+  //     onProductUpdate(products)
+  //   }
+  // },[products,onProductUpdate])
   return (
     <>
       <main className="w-full h-full">

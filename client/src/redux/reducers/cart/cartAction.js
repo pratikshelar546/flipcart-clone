@@ -65,3 +65,17 @@ export const deleteProduct = (id,productId) => async(dispatch)=>{
         return dispatch({ type: "ERROR", payload: error })
     }
 }
+export const deleteCart = (id)=> async(dispatch)=>{
+    try {
+       await axios({
+            method:"DELETE",
+            url:`${process.env.REACT_APP_SERVER_URL}cart/deleteCart/${id}`
+        });
+
+    } catch (error) {
+        toast.error("Something went wrong", {
+            position: toast.POSITION.TOP_RIGHT
+        });
+        return dispatch({ type: "ERROR", payload: error })
+    }
+}

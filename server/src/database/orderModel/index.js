@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
     shippingInfo: {
+        name:{
+            type: String,
+            required: true
+        },
         address: {
             type: String,
             required: true
@@ -18,11 +22,8 @@ const orderSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        country: {
-            type: String,
-            required: true
-        },
-        phoneNo: {
+       
+        number: {
             type: String,
             required: true
         }
@@ -33,7 +34,15 @@ const orderSchema = new mongoose.Schema({
                 type: String,
                 required: true
             },
+            image:{
+                type:String,
+                required:true
+            },
             price: {
+                type: Number,
+                required: true
+            },
+            offerPrice: {
                 type: Number,
                 required: true
             },
@@ -53,14 +62,23 @@ const orderSchema = new mongoose.Schema({
         },
     ],
     user: {
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-        required: true
+        _id:{
+            type:String,
+            required:true
+        },
+        fullName:{
+            type:String,
+            required:true
+        },
+        email:{
+            type:String,
+            required:true
+        }
     },
     paymentInfo: {
         id: {
             type: String,
-            required: true
+            // required: true
         },
         status: {
             type: String,
@@ -71,7 +89,7 @@ const orderSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    totalPrice: {
+    totalCartPrice: {
         type: Number,
         required: true,
         default: 0

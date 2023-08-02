@@ -5,17 +5,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { TiTick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 // import { Link } from "react-router-dom";
-
+import { Player } from '@lottiefiles/react-lottie-player';
 import HomeNav from "../NavBar/HomeNav";
 import { getProductById } from "../../redux/reducers/Products/productAction";
+import { addDetails } from "../../redux/reducers/order/orderActions";
 import { NumericFormat } from "react-number-format";
 import CartProduct from "../cart/CartProduct";
+import { useNavigate } from "react-router-dom";
+import { deleteCart } from "../../redux/reducers/cart/cartAction";
+
 // import nodemailer from 'nodemailer';
 const Shipping = ({ isOpen, setIsOpen }) => {
+  const Navigate = useNavigate();
   const [newCart, setNewCart] = useState([]);
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("newUser"));
   const priceWalaCart = useSelector((state) => state.cart?.newCart?.data?.cart);
+
   useEffect(() => {
     // Fetch the product details for each item in the cart
     const fetchProductDetails = async () => {
@@ -26,14 +32,18 @@ const Shipping = ({ isOpen, setIsOpen }) => {
         priceWalaCart.productDetails.map(async (product) => {
           const response = await dispatch(getProductById(product.details));
           const data = await response.payload;
+          // console.log(data);
           return {
             ...product,
             prices: data.price,
             offerPrices: data.offerPrice,
+            title: data.title,
+            image: data.image,
           };
         })
       );
       setNewCart(updatedCart);
+
     };
 
     fetchProductDetails();
@@ -41,7 +51,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
   const [totalCartPrice, setTotalCartPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [totalOfferPrice, setTotalOfferPrice] = useState(0);
-  console.log(newCart);
+  // console.log(newCart);
   useEffect(() => {
     const totalPrice = newCart?.reduce(
       (total, product) => total + product.prices * product.quantity,
@@ -60,52 +70,81 @@ const Shipping = ({ isOpen, setIsOpen }) => {
     setTotalOfferPrice(totalCartPrice - discount);
   }, [newCart, totalCartPrice, discount]);
   // console.log(totalOfferPrice);
-  const [shippingDetails, setShippingDetails] = useState({});
+  const [shippingInfo, setShippingInfo] = useState({});
+  const [orderItems, setOrderItems] = useState([]);
+
+  const orderHandle = () => {
+    setShowSummary(false);
+    setShowPayment(true);
+    const extractData = newCart?.map((newProduct) => {
+      return {
+        product: newProduct._id,
+        name: newProduct.title,
+        price: newProduct.prices,
+        offerPrice: newProduct.offerPrices,
+        quantity: newProduct.quantity,
+        image: newProduct.image[0],
+      };
+    });
+    setOrderItems(extractData);
+    console.log(extractData);
+  };
+
   const [showform, setShowForm] = useState(true);
   const [showSummary, setShowSummary] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [paymentInfo, setPaymentInfo] = useState();
 
   const handleChange = (e) => {
-    setShippingDetails((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    setShippingInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
-  // console.log(shippingDetails);
+  // console.log(shippingInfo);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(shippingDetails);
-    localStorage.setItem("addressDetails", JSON.stringify(shippingDetails));
+    // console.log(shippingInfo);
+    localStorage.setItem("addressDetails", JSON.stringify(shippingInfo));
     setShowForm(false);
     setShowSummary(true);
   };
-
-  // const confirmOrder = async () => {
+  // const user = JSON.parse(localStorage.getItem("newUser"));
+  const handlePayment = (e) => {
+    // console.log(e.target.value);
+    setPaymentInfo({ [e.target.id]: e.target.value });
+  };
+  // console.log(paymentInfo);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const cartId = priceWalaCart._id;
+  const confirmOrder = () => {
+    // console.log({ shippingInfo, orderItems, paymentInfo });
+    dispatch(
+      addDetails({
+        shippingInfo,
+        orderItems,
+        paymentInfo,
+        totalCartPrice,
+        totalOfferPrice,
+        user,
+      })
+    );
+    setShowConfirm(true);
     
-  //   const transporter = nodemailer.createTransport({
-  //     host: 'smtp.ethereal.email',
-  //     port: 587,
-  //     auth: {
-  //         user: 'geovany.rutherford91@ethereal.email',
-  //         pass: '6xEfDwbRyjxTkE1HUB'
-  //     }
-  // });
+    setTimeout(() => {
+      
+      Navigate("/")
+      dispatch(deleteCart(cartId));
+    }, 5500);
    
-
-  //   var mailOptions = {
-  //     from: "pratikshelar2503@gmail.com",
-  //     to: "pratikshelar987@gmailcom",
-  //     subject: "Sending Email using Node.js",
-  //     text: "That was easy!",
-  //   };
-
-  //   await transporter.sendMail(mailOptions)
-  // };
-  // console.log(localStorage.getItem("newUser"));
+  };
   return (
     <>
       <HomeNav />
       <main className=" ">
         <div className="lg:w-full w-screen relative flex justify-center items-center">
           <div className=" flex justify-center items-center w-full  lg:max-w-6xl  ">
-            <div className=" relative w-full  flex lg:flex-row flex-col top-4 gap-3">
+            <div
+              className={`relative w-full lg:flex-row flex-col  top-4 gap-3 ${
+                showConfirm ? "hidden" : "flex h-full"
+              }`}>
               <section className=" lg:w-[70%] lg:p-0 p-3 w-full flex-col flex gap-4  h-full border ">
                 <div className="w-full bg-white p-4 justify-between">
                   <div className="flex flex-col">
@@ -131,8 +170,8 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           type="text"
                           name=""
                           onChange={handleChange}
-                          value={shippingDetails.name}
-                          id="Name"
+                          value={shippingInfo.name}
+                          id="name"
                           required
                           className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
                         />
@@ -148,7 +187,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           type="text"
                           name=""
                           onChange={handleChange}
-                          value={shippingDetails.mobileNo}
+                          value={shippingInfo.mobileNo}
                           id="number"
                           required
                           className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
@@ -166,7 +205,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           name=""
                           id="pincode"
                           onChange={handleChange}
-                          value={shippingDetails.pincode}
+                          value={shippingInfo.pincode}
                           required
                           className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
                         />
@@ -182,7 +221,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           type="text"
                           name=""
                           onChange={handleChange}
-                          value={shippingDetails.locality}
+                          value={shippingInfo.locality}
                           id="locality"
                           required
                           className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
@@ -200,7 +239,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                         type="text"
                         name=""
                         onChange={handleChange}
-                        value={shippingDetails.address}
+                        value={shippingInfo.address}
                         id="address"
                         required
                         className="peer outline-none border h-24 !resize-none border-gray-200 focus:border-blue-500  w-full  px-3 pt-5  bg-gray-50"
@@ -219,7 +258,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           name=""
                           id="city"
                           onChange={handleChange}
-                          value={shippingDetails.city}
+                          value={shippingInfo.city}
                           className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
                           required
                         />
@@ -236,7 +275,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           name=""
                           id="state"
                           onChange={handleChange}
-                          value={shippingDetails.state}
+                          value={shippingInfo.state}
                           className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
                           required
                         />
@@ -253,7 +292,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           name=""
                           id="landmark"
                           onChange={handleChange}
-                          value={shippingDetails.landMark}
+                          value={shippingInfo.landMark}
                           className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
                         />
                         <label
@@ -269,7 +308,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           name=""
                           id="phoneNo"
                           onChange={handleChange}
-                          value={shippingDetails.phoneNo2}
+                          value={shippingInfo.phoneNo2}
                           className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
                         />
                         <label
@@ -290,19 +329,18 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                             id="home"
                             value="Home (all day Delivery)"
                             onChange={handleChange}
-                          />{" "}
-                          Home (all day Delivery){" "}
+                          />
+                          Home (all day Delivery)
                         </label>
                         <label for="work">
-                          {" "}
                           <input
                             type="radio"
                             onChange={handleChange}
                             name="address"
                             id="work"
                             value="Work (Delivery between 10AM - 5PM)"
-                          />{" "}
-                          Work (Delivery between 10AM - 5PM){" "}
+                          />
+                          Work (Delivery between 10AM - 5PM)
                         </label>
                       </div>
                     </div>
@@ -343,10 +381,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                   </h1>
                   <button
                     className="px-6 py-2 bg-orange-600 mr-3 text-white"
-                    onClick={() => {
-                      setShowSummary(false);
-                      setShowPayment(true);
-                    }}
+                    onClick={orderHandle}
                   >
                     CONTINUE
                   </button>
@@ -360,14 +395,14 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                       showPayment ? "" : "hidden"
                     }`}
                   >
-                    <label for="cash">
+                    <label for="status">
                       <input
                         type="radio"
                         name="payment"
-                        id="cash"
+                        id="status"
                         className="mr-3"
                         value="CASH ON DELIVERY"
-                        // onChange={handleChange}
+                        onChange={handlePayment}
                       />
                       CASH ON DELIVERY
                     </label>
@@ -386,7 +421,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                     <div>
                       <button
                         className="bg-orange-500 px-9 py-3 rounded outline-none text-white"
-                        // onClick={confirmOrder}
+                        onClick={confirmOrder}
                       >
                         CONFIRM ORDER
                       </button>
@@ -442,6 +477,12 @@ const Shipping = ({ isOpen, setIsOpen }) => {
               </section>
               {/* this is place order button for the mobile screen */}
             </div>
+            <div
+              className={` '' ${showConfirm ? "flex w-full top-5 justify-center items-center h-full " : "hidden"
+              }`}
+            >
+            <iframe title="data" src="https://lottie.host/?file=7e73c3d8-3481-4a5b-997a-f87d52ff8868/uV3gqqowCA.json" className="w-96 h-96"></iframe>
+            </div>
           </div>
         </div>
       </main>
@@ -450,3 +491,4 @@ const Shipping = ({ isOpen, setIsOpen }) => {
 };
 
 export default Shipping;
+// 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

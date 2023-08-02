@@ -25,10 +25,10 @@ const Product = (props) => {
   const [category, setCategory] = useState(
     location.state.categorys ? location.state.categorys : ""
   );
-  const [selectedBrand, setSelectedBrand] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState("");
 
   const [price, setPrice] = useState([0, 60000]);
-  const [laoding , setLoading] = useState(false);
+  const [laoding, setLoading] = useState(false);
   // console.log(laoding);
   const priceHandler = (e, newPrice) => {
     setPrice(newPrice);
@@ -63,7 +63,7 @@ const Product = (props) => {
         return (
           productss.key === key &&
           productPrice >= price[0] &&
-          productPrice <= price[1] 
+          productPrice <= price[1]
         );
       });
       // console.log();
@@ -72,14 +72,14 @@ const Product = (props) => {
       // console.log("not found");
       setFilterProduct([]);
     }
-  }, [product, key,selectedBrand, price]);
+  }, [product, key, selectedBrand, price]);
   const [filterByPrice, setFilterByPrice] = useState([]);
   useEffect(() => {
     if (Array.isArray(product)) {
       const FilterPrice = product.filter((productss) => {
         // const newPeoduct =
         const productPrice = productss.offerPrice || productss.price;
-        return productPrice >= price[0] && productPrice <= price[1] ;
+        return productPrice >= price[0] && productPrice <= price[1];
       });
       // console.log();
       setFilterByPrice(FilterPrice);
@@ -87,7 +87,7 @@ const Product = (props) => {
       // console.log("not found");
       setFilterByPrice([]);
     }
-  }, [product,selectedBrand, price]);
+  }, [product, selectedBrand, price]);
   // console.log(filterProduct);
   const clearHandler = () => {
     setCategory(location.state.categorys);
@@ -173,41 +173,41 @@ const Product = (props) => {
                   <IoIosArrowUp size={"1.2em"} onClick={HandleDisplay} />
                 </p>
                 <FormGroup className={hidden ? " !hidden" : ""}>
-                {
-  key.length === 0 ? (
-    filterByPrice
-      .reduce((uniqueBrands, product) => {
-        if (!uniqueBrands.includes(product.brand.Name)) {
-          uniqueBrands.push(product.brand.Name);
-        }
-        return uniqueBrands;
-      }, [])
-      .map((brandName) => (
-        <FormControlLabel
-          key={brandName}
-          control={<Checkbox checked={selectedBrand === brandName} />}
-          label={brandName}
-          onChange={() => setSelectedBrand(brandName)}
-        />
-      ))
-  ) : (
-    filterProduct
-      .reduce((uniqueBrands, product) => {
-        if (!uniqueBrands.includes(product.brand.Name)) {
-          uniqueBrands.push(product.brand.Name);
-        }
-        return uniqueBrands;
-      }, [])
-      .map((brandName) => (
-        <FormControlLabel
-          key={brandName}
-          control={<Checkbox checked={selectedBrand === brandName} />}
-          label={brandName}
-          onChange={() => setSelectedBrand(brandName)}
-        />
-      ))
-  )
-}
+                  {key.length === 0
+                    ? filterByPrice
+                        .reduce((uniqueBrands, product) => {
+                          if (!uniqueBrands.includes(product.brand.Name)) {
+                            uniqueBrands.push(product.brand.Name);
+                          }
+                          return uniqueBrands;
+                        }, [])
+                        .map((brandName) => (
+                          <FormControlLabel
+                            key={brandName}
+                            control={
+                              <Checkbox checked={selectedBrand === brandName} />
+                            }
+                            label={brandName}
+                            onChange={() => setSelectedBrand(brandName)}
+                          />
+                        ))
+                    : filterProduct
+                        .reduce((uniqueBrands, product) => {
+                          if (!uniqueBrands.includes(product.brand.Name)) {
+                            uniqueBrands.push(product.brand.Name);
+                          }
+                          return uniqueBrands;
+                        }, [])
+                        .map((brandName) => (
+                          <FormControlLabel
+                            key={brandName}
+                            control={
+                              <Checkbox checked={selectedBrand === brandName} />
+                            }
+                            label={brandName}
+                            onChange={() => setSelectedBrand(brandName)}
+                          />
+                        ))}
                 </FormGroup>
               </div>
             </div>
@@ -235,9 +235,16 @@ const Product = (props) => {
                   : " m-2 h-full gap-4 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2"
               }
             >
-              { laoding? <>
-              <div className="w-full h-full flex justify-center ">
-              <iframe src="https://lottie.host/?file=adbf2be0-5e20-479c-ac8b-63afb952b7a7/KmWdrrTqCZ.json" title="loading"></iframe></div></>: key.length === 0 ? (
+              {laoding ? (
+                <>
+                  <div className="w-full h-full flex justify-center ">
+                    <iframe
+                      src="https://lottie.host/?file=adbf2be0-5e20-479c-ac8b-63afb952b7a7/KmWdrrTqCZ.json"
+                      title="loading"
+                    ></iframe>
+                  </div>
+                </>
+              ) : key.length === 0 ? (
                 product.length === 0 ? (
                   <NotFound title={"This category not found"} />
                 ) : (

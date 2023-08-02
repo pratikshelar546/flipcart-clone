@@ -62,8 +62,10 @@ const CartOverview = () => {
     setTotalOfferPrice(totalCartPrice - discount);
   }, [newCart, totalCartPrice, discount, cart]);
   // console.log(loading);
-
-  console.log(cart?.productDetails);
+const productss=()=>{
+  
+}
+  // console.log(cart?.productDetails);
   return (
     <>
       <HomeNav />
@@ -86,7 +88,7 @@ const CartOverview = () => {
                   <div className="bg-white flex flex-col gap-6 ">
                     {cart
                       ? cart?.productDetails?.map((product) => (
-                          <CartProduct product={product} key={product._id} />
+                          <CartProduct product={product} key={product._id} onProductUpdate={productss}/>
                         ))
                       : "Cart is empty"}
                     <div className="lg:flex hidden justify-end px-8 pb-5 pt-3 top-11  bg-white bottom-0 overflow-hidden sticky  shadow-[0_-2px_10px_0_rgba(0,0,0,.1)]">

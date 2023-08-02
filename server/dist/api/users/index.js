@@ -47,13 +47,15 @@ Router.get("/getUser", _passport.default.authenticate("jwt", {
   try {
     const {
       fullName,
-      email
+      email,
+      _id
     } = req.user;
-    // console.log(user);
+    // console.log(req.user._id);
     return res.status(201).json({
       user: {
         fullName,
-        email
+        email,
+        _id
       }
     });
   } catch (error) {

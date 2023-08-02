@@ -137,7 +137,7 @@ Router.get("/getProduct/:category", async (req, res) => {
     const {
       category
     } = req.params;
-    console.log(category);
+    // console.log(category);
     const product = await _productModel.productModel.find({
       category
     });
@@ -163,7 +163,8 @@ Router.get("/getProduct/search/:searchString", async (req, res) => {
       searchString
     } = req.params;
     const product = await _productModel.productModel.find({
-      title: new RegExp(searchString, "i")
+      title: new RegExp(searchString, "i"),
+      description: new RegExp(searchString, "i")
     });
     if (product.length === 0) {
       return res.json({
@@ -181,18 +182,19 @@ Router.get("/getProduct/search/:searchString", async (req, res) => {
 });
 
 // get product by id
-Router.get("/getProduct/:_id", async (req, res) => {
+Router.get("/getProductById/:_id", async (req, res) => {
   try {
     const {
       _id
     } = req.params;
-    console.log(_id);
+    // console.log(_id);
     const product = await _productModel.productModel.findById(_id);
     if (!product) {
       res.json({
         error: "product not found"
       });
     }
+    // console.log(product);
     return res.status(200).json({
       status: "success",
       product
