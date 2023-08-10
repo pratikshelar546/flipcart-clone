@@ -54,7 +54,7 @@ export const Product = [
 export const offerProducts = [
 
   {
-    image: "https://rukminim1.flixcart.com/image/150/150/ksoz53k0/data-cable/micro-usb-cable/o/w/a/d4-lava-original-imag67jpby4fehga.jpeg",
+    image: "https://rukminim1.flixcart.com/fk-p-flap/80/80/image/ab4eb7c9d2f6c4df.png?q=100",
     name: "Mobiles & Accessories",
     offer: "In Focus Now",
     tag: "Buy Now!",

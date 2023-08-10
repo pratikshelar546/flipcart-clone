@@ -8,6 +8,10 @@ import ProductOverview from './componends/Product/ProductOverview';
 import CartOverview from './componends/cart/CartOverview';
 
 import Shipping from './componends/Shipping/Shipping';
+import MyOrder from './componends/orders/MyOrder';
+import OrderOverview from './componends/orders/OrderOverview';
+import MyAccount from './componends/MyAccount/MyAccount';
+
 
 
 function App() {
@@ -20,6 +24,9 @@ function App() {
         <Route path='/product/:id/overview' element={<ProductOverview />} />
         <Route path='/Cart/:id' element={<CartOverview />} />
         <Route path='/shipping' element={<Shipping />} />
+        <Route path='/Myorders' element={<MyOrder/>}/>
+        <Route path='/MyOrders/:id' element={<OrderOverview/>}/>
+        <Route path='/My-account' element={<MyAccount/>}/>
       </Routes>
       <ToastContainer autoClose={1500} />
     </>

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
     shippingInfo: {
-        name:{
+        name: {
             type: String,
             required: true
         },
@@ -22,9 +22,9 @@ const orderSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-       
-        number: {
-            type: String,
+
+        phoneNo: {
+            type: Number,
             required: true
         }
     },
@@ -34,9 +34,9 @@ const orderSchema = new mongoose.Schema({
                 type: String,
                 required: true
             },
-            image:{
-                type:String,
-                required:true
+            image: {
+                type: String,
+                required: true
             },
             price: {
                 type: Number,
@@ -62,17 +62,17 @@ const orderSchema = new mongoose.Schema({
         },
     ],
     user: {
-        _id:{
-            type:String,
-            required:true
+        _id: {
+            type: String,
+            required: true
         },
-        fullName:{
-            type:String,
-            required:true
+        fullName: {
+            type: String,
+            required: true
         },
-        email:{
-            type:String,
-            required:true
+        email: {
+            type: String,
+            required: true
         }
     },
     paymentInfo: {
@@ -96,7 +96,7 @@ const orderSchema = new mongoose.Schema({
     },
     orderStatus: {
         type: String,
-        default: "Processing",
+        default: "Order Confirmed",
     },
     deliveredAt: Date,
     shippedAt: Date,

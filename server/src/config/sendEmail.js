@@ -5,7 +5,7 @@ dotenv.config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // console.log(process.env.SENDGRID_MAILID);
 const sendEmail = async (optioans) => {
-  console.log(optioans.data);
+  // console.log(optioans.data);
   const message = {
     to: optioans.email,
     from: process.env.SENDGRID_MAILID,

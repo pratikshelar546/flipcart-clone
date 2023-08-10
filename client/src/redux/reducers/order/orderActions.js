@@ -1,4 +1,4 @@
-import { ADD_ORDER_DETAILS } from "./orderTypes";
+import { ADD_ORDER_DETAILS, GET_ORDERdETAILS_USERID } from "./orderTypes";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -30,3 +30,22 @@ export const addDetails =
         return dispatch({ type: "ERROR", payload: error.message });
       }
     };
+
+    // get order details by user id
+    export const getDetailsByUserId = (id)=> async(dispatch)=>{
+      // console.log(id);
+      try {
+        const getDetails = await axios({
+          method:"GET",
+          url:`${process.env.REACT_APP_SERVER_URL}order/getOrderDetails/${id}`,
+        });
+        // console.log(getDetails.data.orderDetails);
+        return dispatch({type:GET_ORDERdETAILS_USERID , payload:getDetails?.data.orderDetails})
+      } catch (error) {
+        console.log(error);
+        toast.error("Something went wrong", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        return dispatch({ type: "ERROR", payload: error.message });
+      }
+    }

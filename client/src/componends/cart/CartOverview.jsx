@@ -62,9 +62,7 @@ const CartOverview = () => {
     setTotalOfferPrice(totalCartPrice - discount);
   }, [newCart, totalCartPrice, discount, cart]);
   // console.log(loading);
-const productss=()=>{
-  
-}
+
   // console.log(cart?.productDetails);
   return (
     <>
@@ -88,7 +86,7 @@ const productss=()=>{
                   <div className="bg-white flex flex-col gap-6 ">
                     {cart
                       ? cart?.productDetails?.map((product) => (
-                          <CartProduct product={product} key={product._id} onProductUpdate={productss}/>
+                          <CartProduct product={product} key={product._id} />
                         ))
                       : "Cart is empty"}
                     <div className="lg:flex hidden justify-end px-8 pb-5 pt-3 top-11  bg-white bottom-0 overflow-hidden sticky  shadow-[0_-2px_10px_0_rgba(0,0,0,.1)]">
@@ -166,9 +164,9 @@ const productss=()=>{
                     prefix={"₹"}
                   />
                 </div>
-                <h1 className="bg-orange-500 font-medium cursor-pointer  lg:px-14 lg:py-4 md:px-10 md:py-3 px-7 py-2  text-white text-lg">
+                <Link  to="/shipping" className="bg-orange-500 font-medium cursor-pointer  lg:px-14 lg:py-4 md:px-10 md:py-3 px-7 py-2  text-white text-lg">
                   Place order
-                </h1>
+                </Link>
               </div>
             </div>
           </div>

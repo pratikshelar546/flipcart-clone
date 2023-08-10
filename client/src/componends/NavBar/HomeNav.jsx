@@ -21,7 +21,16 @@ import { useDispatch } from "react-redux";
 import { getproductBySearch } from "../../redux/reducers/Products/productAction";
 import { GetCart } from "../../redux/reducers/cart/cartAction";
 
-const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, cart }) => {
+const Lgnav = ({
+  Login,
+  user,
+  SignUp,
+  handleData,
+  produt,
+  loading,
+  setLoading,
+  cart,
+}) => {
   const login = () => {
     Login();
   };
@@ -36,13 +45,13 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
     });
   };
   // console.log(cart);
-  const [text, setText] = useState("")
+  const [text, setText] = useState("");
 
   const handlesData = (e) => {
     setLoading(true);
     handleData(e.target.value);
     setText(e.target.value);
-  }
+  };
   // console.log(produt);
   return (
     <>
@@ -64,15 +73,30 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
                 />
                 <BiSearch size={"1.5rem"} color="blue" className="mt-1" />
               </div>
-              <div className={text ? "bg-white text-black w-full top-10 absolute parent" : 'hidden'}>
-                {loading ? '' : produt.length > 0 ?
-                  produt?.map((product) => (
-
-                    <Link className=" flex border-b m-0 p-3 hover:text-blue-600 cursor-pointer" to={`/product/${product._id}/overview`} key={product._id} >{product.title}</Link>
-                  )) : <h1 className=" place-content-center p-3 ">No product found</h1>
-
+              <div
+                className={
+                  text
+                    ? "bg-white text-black w-full top-10 absolute parent"
+                    : "hidden"
                 }
-
+              >
+                {loading ? (
+                  ""
+                ) : produt.length > 0 ? (
+                  produt?.map((product) => (
+                    <Link
+                      className=" flex border-b m-0 p-3 hover:text-blue-600 cursor-pointer"
+                      to={`/product/${product._id}/overview`}
+                      key={product._id}
+                    >
+                      {product.title}
+                    </Link>
+                  ))
+                ) : (
+                  <h1 className=" place-content-center p-3 ">
+                    No product found
+                  </h1>
+                )}
               </div>
             </div>
             <div className="ml-10">
@@ -121,9 +145,9 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
                           </a>
                         </li>
                         <li className=" hover:bg-gray-100 py-4 border-b border-gray-300">
-                          <a
+                          <Link
                             className=" flex flex-row text-black   cursor-pointer"
-                            href="/"
+                            to="/Myorders"
                           >
                             {" "}
                             <CgShoppingCart
@@ -131,7 +155,7 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
                               className="mx-4 mt-1"
                             />
                             orders
-                          </a>
+                          </Link>
                         </li>
                         <li className=" hover:bg-gray-100 py-4 border-b border-gray-300">
                           <a
@@ -248,9 +272,18 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
                     </ul>
                   </div>
                 </li>
-                <Link className="cursor-pointer outline-none font-normal text-lg flex" to={`/Cart/${user?._id}`}>
+                <Link
+                  className="cursor-pointer outline-none font-normal text-lg flex"
+                  to={`/Cart/${user?._id}`}
+                >
                   <CgShoppingCart className="mt-1" />
-                  <div className={cart?.productDetails?.length === undefined || 0 ? "hidden bg-white" : "bg-red-600  w-4 text-center -ml-2 -mt-1 h-4  rounded-full text-xs "}>
+                  <div
+                    className={
+                      cart?.productDetails?.length === undefined || 0
+                        ? "hidden bg-white"
+                        : "bg-red-600  w-4 text-center -ml-2 -mt-1 h-4  rounded-full text-xs "
+                    }
+                  >
                     <span>{cart?.productDetails?.length}</span>
                   </div>
                   Cart
@@ -263,7 +296,16 @@ const Lgnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
     </>
   );
 };
-const Mdnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, cart }) => {
+const Mdnav = ({
+  Login,
+  user,
+  SignUp,
+  handleData,
+  produt,
+  loading,
+  setLoading,
+  cart,
+}) => {
   const login = () => {
     Login();
   };
@@ -284,7 +326,7 @@ const Mdnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
     setLoading(true);
     handleData(e.target.value);
     setText(e.target.value);
-  }
+  };
   return (
     <>
       <div className="h-full max-sm:hidden sticky top-0 z-30 sm:hidden md:flex lg:hidden">
@@ -315,14 +357,28 @@ const Mdnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
                 />
                 <BiSearch size={"1.5rem"} color="blue" className="mt-1" />
               </div>
-              <div className={text ? "bg-white text-black w-full top-10 absolute" : 'hidden'}>
-                {loading ? '' : produt.length > 0 ?
-                  produt?.map((product) => (
-
-                    <Link className="p-3 borber-b flex" key={product._id} to={`/product/${product._id}/overview`} >{product.title}</Link>
-                  )) : <h1 className=" place-content-center p-3 ">No product found</h1>
-
+              <div
+                className={
+                  text ? "bg-white text-black w-full top-10 absolute" : "hidden"
                 }
+              >
+                {loading ? (
+                  ""
+                ) : produt.length > 0 ? (
+                  produt?.map((product) => (
+                    <Link
+                      className="p-3 borber-b flex"
+                      key={product._id}
+                      to={`/product/${product._id}/overview`}
+                    >
+                      {product.title}
+                    </Link>
+                  ))
+                ) : (
+                  <h1 className=" place-content-center p-3 ">
+                    No product found
+                  </h1>
+                )}
               </div>
             </div>
             <div className="ml-6">
@@ -381,17 +437,16 @@ const Mdnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
                           </a>
                         </li>
                         <li className=" hover:bg-gray-100 py-4 border-b border-gray-300">
-                          <a
+                          <Link
+                            to="/Myorders"
                             className=" flex flex-row text-black   cursor-pointer"
-                            href="/"
                           >
-                            {" "}
                             <CgShoppingCart
                               size={"1.1rem"}
                               className="mx-4 mt-1"
                             />
                             orders
-                          </a>
+                          </Link>
                         </li>
                         <li className=" hover:bg-gray-100 py-4 border-b border-gray-300">
                           <a
@@ -508,14 +563,22 @@ const Mdnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
                     </ul>
                   </div>
                 </li>
-                <li className="cursor-pointer outline-none font-normal text-lg flex ">
+                <Link
+                  to={`/Cart/${user?._id}`}
+                  className="cursor-pointer outline-none font-normal text-lg flex "
+                >
                   <CgShoppingCart className="mt-1" />
-                  <div className={cart?.productDetails?.length === undefined || 0 ? "hidden bg-white" : "bg-red-600  w-4 text-center -ml-2 -mt-1 h-4  rounded-full text-xs "}>
+                  <div
+                    className={
+                      cart?.productDetails?.length === undefined || 0
+                        ? "hidden bg-white"
+                        : "bg-red-600  w-4 text-center -ml-2 -mt-1 h-4  rounded-full text-xs "
+                    }
+                  >
                     <span>{cart?.productDetails?.length}</span>
                   </div>
                   Cart
-                </li>
-
+                </Link>
               </ul>
             </div>
           </header>
@@ -524,26 +587,35 @@ const Mdnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
     </>
   );
 };
-const Smnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, cart }) => {
+const Smnav = ({
+  Login,
+  user,
+  SignUp,
+  handleData,
+  produt,
+  loading,
+  setLoading,
+  cart,
+}) => {
   const login = () => {
     Login();
   };
   // const Signup = ()=>{
   //     SignUp();
   // }
-  const LogOut = () => {
-    localStorage.removeItem("newUser");
-    localStorage.removeItem("user");
-    toast.success("Logout successfully", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  };
+  // const LogOut = () => {
+  //   localStorage.removeItem("newUser");
+  //   localStorage.removeItem("user");
+  //   toast.success("Logout successfully", {
+  //     position: toast.POSITION.TOP_RIGHT,
+  //   });
+  // };
   const [text, setText] = useState("");
   const handlesData = (e) => {
     setLoading(true);
     handleData(e.target.value);
     setText(e.target.value);
-  }
+  };
   return (
     <>
       <div className="h-full md:hidden w-screen flex">
@@ -551,7 +623,6 @@ const Smnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
           <header className="text-white w-full px-4 py-3 flex flex-col gap-3">
             <div className="flex flex-row justify-between">
               <Link to="/" className="text-md ml-6 ">
-
                 ShopKart
               </Link>
 
@@ -559,15 +630,15 @@ const Smnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
                 <ul className="flex flex-row gap-2 outline-none ">
                   <li className="group relative  px-2 cursor-pointer outline-none font-normal text-sm">
                     {user?.fullName ? (
-                      <button
+                      <Link
                         className=" flex bg-blue-600 text-white"
-                        onClick={LogOut}
+                        to="/My-account"
                       >
                         <BiSolidUserCircle
                           size={"1.5em"}
                           className="mt-1 mr-2"
                         />
-                      </button>
+                      </Link>
                     ) : (
                       <>
                         <button onClick={login} className=" ">
@@ -576,27 +647,26 @@ const Smnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
                       </>
                     )}
                   </li>
-                  <li className="cursor-pointer outline-none font-normal mr-0 text-md flex ">
+                  <Link
+                    to={`/Cart/${user?._id}`}
+                    className="cursor-pointer outline-none font-normal mr-0 text-md flex "
+                  >
                     <CgShoppingCart className="mt-1" />
-                    <div className={cart?.productDetails?.length === undefined || 0 ? "hidden bg-white" : "bg-red-600  w-4 text-center -ml-2 -mt-1 h-4  rounded-full text-xs "}>
+                    <div
+                      className={
+                        cart?.productDetails?.length === undefined || 0
+                          ? "hidden bg-white"
+                          : "bg-red-600  w-4 text-center -ml-2 -mt-1 h-4  rounded-full text-xs "
+                      }
+                    >
                       <span>{cart?.productDetails?.length}</span>
                     </div>
                     Cart
-                  </li>
-
+                  </Link>
                 </ul>
               </div>
             </div>
-            {/* <div className="bg-white flex flex-row px-3 h-8 w-full">
-              <input
-                type="text"
-                name="search"
-                id="search"
-                placeholder="Search for product, brands and more"
-                className=" outline-none w-full  text-black text-sm"
-              />
-              <BiSearch size={"1.5em"} color="blue" className="mt-1" />
-            </div> */}
+
             <div className="  flex-col drop-shadow-lg shadow-md overflow-visible z-30 relative px-0 flex w-full ">
               <div className="bg-white flex  flex-row px-1 rounded ">
                 <input
@@ -609,14 +679,30 @@ const Smnav = ({ Login, user, SignUp, handleData, produt, loading, setLoading, c
                 />
                 <BiSearch size={"1.5rem"} color="blue" className="mt-1" />
               </div>
-              <div className={text ? "bg-white text-black w-full top-10 absolute " : 'hidden'}>
-                {loading ? '' : produt.length > 0 ?
-                  produt?.map((product) => (
-
-                    <Link className="p-3 borber-b flex hover:text-blue-600" key={product._id} to={`/product/${product._id}/overview`} >{product.title}</Link>
-                  )) : <h1 className=" place-content-center p-3 ">No product found</h1>
-
+              <div
+                className={
+                  text
+                    ? "bg-white text-black w-full top-10 absolute "
+                    : "hidden"
                 }
+              >
+                {loading ? (
+                  ""
+                ) : produt.length > 0 ? (
+                  produt?.map((product) => (
+                    <Link
+                      className="p-3 borber-b flex hover:text-blue-600"
+                      key={product._id}
+                      to={`/product/${product._id}/overview`}
+                    >
+                      {product.title}
+                    </Link>
+                  ))
+                ) : (
+                  <h1 className=" place-content-center p-3 ">
+                    No product found
+                  </h1>
+                )}
               </div>
             </div>
           </header>
@@ -633,7 +719,7 @@ const HomeNav = () => {
   const [textSearch, setTextSearch] = useState("");
   const [produt, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [carts, setCarts] = useState([])
+  const [carts, setCarts] = useState([]);
   //   console.log(textSearch);
   const dispatch = useDispatch();
 
@@ -641,18 +727,18 @@ const HomeNav = () => {
     // setLoading(true)
     setTextSearch(text);
     // console.log(text);
-  }
+  };
   useEffect(() => {
     if (textSearch) {
       const debounce = setTimeout(() => {
         dispatch(getproductBySearch(textSearch)).then((data) => {
-          setLoading(false)
+          setLoading(false);
           setProduct(data?.payload);
         });
       }, 500);
       return () => {
         clearTimeout(debounce);
-      }
+      };
     }
   }, [textSearch, dispatch]);
   const user = JSON.parse(localStorage.getItem("newUser"));
@@ -662,14 +748,12 @@ const HomeNav = () => {
       try {
         dispatch(GetCart(id)).then((data) => {
           setCarts(data?.payload);
-        })
+        });
       } catch (error) {
-          console.log(error);
+        console.log(error);
       }
     }
-
-
-  }, [dispatch, id])
+  }, [dispatch, id]);
 
   // console.log(carts?.productDetails?.length);
 
@@ -677,9 +761,36 @@ const HomeNav = () => {
     <>
       <Login isOpen={openLogin} setIsOpen={setOpenLogin} />
       <SignUp isOpen={openSignup} setIsOpen={setOpenSignup} />
-      <Lgnav user={user} Login={openLoginModel} cart={carts} produt={produt} loading={loading} setLoading={setLoading} handleData={handleData} SignUp={openSignupModel} />
-      <Mdnav user={user} Login={openLoginModel} cart={carts} produt={produt} loading={loading} setLoading={setLoading} handleData={handleData} SignUp={openSignupModel} />
-      <Smnav user={user} Login={openLoginModel} cart={carts} produt={produt} loading={loading} setLoading={setLoading} handleData={handleData} SignUp={openSignupModel} />
+      <Lgnav
+        user={user}
+        Login={openLoginModel}
+        cart={carts}
+        produt={produt}
+        loading={loading}
+        setLoading={setLoading}
+        handleData={handleData}
+        SignUp={openSignupModel}
+      />
+      <Mdnav
+        user={user}
+        Login={openLoginModel}
+        cart={carts}
+        produt={produt}
+        loading={loading}
+        setLoading={setLoading}
+        handleData={handleData}
+        SignUp={openSignupModel}
+      />
+      <Smnav
+        user={user}
+        Login={openLoginModel}
+        cart={carts}
+        produt={produt}
+        loading={loading}
+        setLoading={setLoading}
+        handleData={handleData}
+        SignUp={openSignupModel}
+      />
     </>
   );
 };

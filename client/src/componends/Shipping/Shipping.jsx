@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { TiTick } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 // import { Link } from "react-router-dom";
-import { Player } from '@lottiefiles/react-lottie-player';
 import HomeNav from "../NavBar/HomeNav";
 import { getProductById } from "../../redux/reducers/Products/productAction";
 import { addDetails } from "../../redux/reducers/order/orderActions";
@@ -43,7 +42,6 @@ const Shipping = ({ isOpen, setIsOpen }) => {
         })
       );
       setNewCart(updatedCart);
-
     };
 
     fetchProductDetails();
@@ -77,8 +75,11 @@ const Shipping = ({ isOpen, setIsOpen }) => {
     setShowSummary(false);
     setShowPayment(true);
     const extractData = newCart?.map((newProduct) => {
+      console.log(newProduct.details);
+      // console.log(newProduct._id);
+
       return {
-        product: newProduct._id,
+        product: newProduct.details,
         name: newProduct.title,
         price: newProduct.prices,
         offerPrice: newProduct.offerPrices,
@@ -87,7 +88,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
       };
     });
     setOrderItems(extractData);
-    console.log(extractData);
+    // console.log(extractData);
   };
 
   const [showform, setShowForm] = useState(true);
@@ -98,7 +99,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
   const handleChange = (e) => {
     setShippingInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
-  // console.log(shippingInfo);
+  // console.log(shippingInfo?.mobileNo);
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(shippingInfo);
@@ -127,24 +128,23 @@ const Shipping = ({ isOpen, setIsOpen }) => {
       })
     );
     setShowConfirm(true);
-    
+
     setTimeout(() => {
-      
-      Navigate("/")
+      Navigate("/");
       dispatch(deleteCart(cartId));
     }, 5500);
-   
   };
   return (
     <>
       <HomeNav />
       <main className=" ">
-        <div className="lg:w-full w-screen relative flex justify-center items-center">
+        <div className="lg:w-full w-screen relative  flex justify-center items-center">
           <div className=" flex justify-center items-center w-full  lg:max-w-6xl  ">
             <div
-              className={`relative w-full lg:flex-row flex-col  top-4 gap-3 ${
+              className={`relative w-full lg:flex-row flex-col  top-4 md:gap-3  ${
                 showConfirm ? "hidden" : "flex h-full"
-              }`}>
+              }`}
+            >
               <section className=" lg:w-[70%] lg:p-0 p-3 w-full flex-col flex gap-4  h-full border ">
                 <div className="w-full bg-white p-4 justify-between">
                   <div className="flex flex-col">
@@ -173,11 +173,15 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           value={shippingInfo.name}
                           id="name"
                           required
-                          className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
+                          className="peer outline-none border border-gray-200 focus:border-blue-500  lg:w-80 w-full h-12 px-3 pt-1 bg-gray-50"
                         />
                         <label
                           for="Name"
-                          className=" absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75"
+                          className={`absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
+                            shippingInfo.name
+                              ? " -translate-y-4 left-1  absolute scale-75 "
+                              : ""
+                          }`}
                         >
                           Name
                         </label>
@@ -187,16 +191,20 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           type="text"
                           name=""
                           onChange={handleChange}
-                          value={shippingInfo.mobileNo}
-                          id="number"
+                          value={shippingInfo.phoneNo}
+                          id="phoneNo"
                           required
-                          className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
+                          className="peer outline-none border border-gray-200 focus:border-blue-500  lg:w-80 w-full h-12 px-3 pt-1 bg-gray-50"
                         />
                         <label
-                          for="number"
-                          className=" absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4 peer-focus:-translate-x-4  peer-focus:scale-75 "
+                          for="phoneNo"
+                          className={` absolute duration-300 transform text-gray-500 text-xs scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4 peer-focus:-translate-x-4  peer-focus:scale-75 ${
+                            shippingInfo.phoneNo
+                              ? "-translate-y-4 lg:-translate-x-0 -translate-x-3 md:-left-4 left-0  absolute scale-75 "
+                              : ""
+                          }`}
                         >
-                          10-digits mobile number
+                          10-digits mobile Number
                         </label>
                       </div>
                       <div className="relative">
@@ -207,11 +215,15 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           onChange={handleChange}
                           value={shippingInfo.pincode}
                           required
-                          className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
+                          className="peer outline-none border border-gray-200 focus:border-blue-500 lg:w-80 w-full h-12 px-3 pt-1 bg-gray-50"
                         />
                         <label
                           for="pincode"
-                          className="  absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75"
+                          className={` absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
+                            shippingInfo.pincode
+                              ? " -translate-y-4  lg:-translate-x-0  md:-left-4 left-0  absolute scale-75 "
+                              : ""
+                          }`}
                         >
                           Pincode
                         </label>
@@ -224,17 +236,21 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           value={shippingInfo.locality}
                           id="locality"
                           required
-                          className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
+                          className="peer outline-none border border-gray-200 focus:border-blue-500 lg:w-80 w-full h-12 px-3 pt-1 bg-gray-50"
                         />
                         <label
                           for="locality"
-                          className="  absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75"
+                          className={`absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
+                            shippingInfo.locality
+                              ? " -translate-y-4 lg:-translate-x-0 -translate-x-1 md:-left-4 left-0  absolute scale-75 "
+                              : ""
+                          }`}
                         >
                           Locality
                         </label>
                       </div>
                     </div>
-                    <div className="relative pr-16 pl-4">
+                    <div className="relative lg:pr-16 pr-4 pl-4">
                       <textarea
                         type="text"
                         name=""
@@ -246,7 +262,11 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                       />
                       <label
                         for="address"
-                        className=" absolute duration-300 transform text-gray-500 text-lg scale-100 left-6 mt-3 z-10 peer-focus:left-4 peer-focus:mb-3 mb-5 peer-focus:-translate-y-4  peer-focus:scale-90"
+                        className={` absolute duration-300 transform text-gray-500 text-lg scale-100 left-6 mt-3 z-10 peer-focus:left-4 peer-focus:mb-3 mb-5 peer-focus:-translate-y-4  peer-focus:scale-90 ${
+                          shippingInfo.address
+                            ? " -translate-y-4 lg:-translate-x-0 -translate-x-1 md:-left-4 left-0  absolute scale-75 "
+                            : ""
+                        }`}
                       >
                         Address (Area and Street)
                       </label>
@@ -259,12 +279,16 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           id="city"
                           onChange={handleChange}
                           value={shippingInfo.city}
-                          className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
+                          className="peer outline-none border border-gray-200 focus:border-blue-500 lg:w-80 w-full h-12 px-3 pt-1 bg-gray-50"
                           required
                         />
                         <label
                           for="city"
-                          className=" absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75"
+                          className={`absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
+                            shippingInfo.city
+                              ? " -translate-y-4 lg:-translate-x-0 -translate-x-2 md:-left-4 left-0  absolute scale-75 "
+                              : ""
+                          }`}
                         >
                           City/District/Town
                         </label>
@@ -276,12 +300,16 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           id="state"
                           onChange={handleChange}
                           value={shippingInfo.state}
-                          className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
+                          className="peer outline-none border border-gray-200 focus:border-blue-500 lg:w-80 w-full h-12 px-3 pt-1 bg-gray-50"
                           required
                         />
                         <label
                           for="state"
-                          className=" absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 "
+                          className={` absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
+                            shippingInfo.state
+                              ? " -translate-y-4 lg:-translate-x-0 -translate-x-0 md:-left-4 left-0  absolute scale-75 "
+                              : ""
+                          }`}
                         >
                           State
                         </label>
@@ -293,11 +321,15 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           id="landmark"
                           onChange={handleChange}
                           value={shippingInfo.landMark}
-                          className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
+                          className="peer outline-none border border-gray-200 focus:border-blue-500 lg:w-80 w-full h-12 px-3 pt-1 bg-gray-50"
                         />
                         <label
                           for="landmark"
-                          className="  absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75"
+                          className={` absolute duration-300 transform text-gray-500 md:text-sm text-xs scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
+                            shippingInfo.landMark
+                              ? " -translate-y-4 left-1  absolute scale-75 "
+                              : ""
+                          }`}
                         >
                           Landmark (optional)
                         </label>
@@ -309,19 +341,23 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           id="phoneNo"
                           onChange={handleChange}
                           value={shippingInfo.phoneNo2}
-                          className="peer outline-none border border-gray-200 focus:border-blue-500  w-80 h-12 px-3 pt-1 bg-gray-50"
+                          className="peer outline-none border border-gray-200 focus:border-blue-500 lg:w-80 w-full h-12 px-3 pt-1 bg-gray-50"
                         />
                         <label
                           for="phoneNo"
-                          className="  absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75"
+                          className={` absolute duration-300 transform text-gray-500 md:text-sm text-xs scale-100 left-4 mt-3 z-30 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
+                            shippingInfo.phoneNo2
+                              ? " -translate-y-4 left-1  absolute scale-75 "
+                              : ""
+                          }`}
                         >
-                          Alternate Phone(optional)
+                          Alternate
                         </label>
                       </div>
                     </div>
                     <div className="p-4">
                       <h1 className="text-md text-gray-500">Address type</h1>
-                      <div className="flex gap-6">
+                      <div className="flex md:flex-row flex-col  gap-2 md:gap-6">
                         <label for="home">
                           <input
                             type="radio"
@@ -372,7 +408,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                   </div>
                 </div>
                 <div
-                  className={`w-full bg-white flex justify-between p-5 items-center mb-10 ${
+                  className={`w-full bg-white flex md:flex-row flex-col md:justify-between p-5 md:items-center mb-10 ${
                     showSummary ? "" : "hidden"
                   }`}
                 >
@@ -380,7 +416,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                     Order confirmation email will be sent to {user?.email}
                   </h1>
                   <button
-                    className="px-6 py-2 bg-orange-600 mr-3 text-white"
+                    className="md:px-6 px-4 py-2 bg-orange-600 mr-3 text-white"
                     onClick={orderHandle}
                   >
                     CONTINUE
@@ -429,7 +465,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                   </div>
                 </div>
               </section>
-              <section className="bg-white h-full overflow-auto lg:p-0 p-5 lg:sticky top-16 relative  lg:w-[30%] w-full">
+              <section className="bg-white h-full overflow-auto lg:p-0 p-4 lg:sticky lg:top-16 relative  lg:w-[30%] w-full">
                 <div className="border-b-2">
                   <div className="p-3 text-lg font-medium text-gray-500">
                     <h1>PRICE DETAILS</h1>
@@ -478,10 +514,17 @@ const Shipping = ({ isOpen, setIsOpen }) => {
               {/* this is place order button for the mobile screen */}
             </div>
             <div
-              className={` '' ${showConfirm ? "flex w-full top-5 justify-center items-center h-full " : "hidden"
+              className={` '' ${
+                showConfirm
+                  ? "flex w-full top-5 justify-center items-center h-full "
+                  : "hidden"
               }`}
             >
-            <iframe title="data" src="https://lottie.host/?file=7e73c3d8-3481-4a5b-997a-f87d52ff8868/uV3gqqowCA.json" className="w-96 h-96"></iframe>
+              <iframe
+                title="data"
+                src="https://lottie.host/?file=7e73c3d8-3481-4a5b-997a-f87d52ff8868/uV3gqqowCA.json"
+                className="w-96 h-96"
+              ></iframe>
             </div>
           </div>
         </div>
