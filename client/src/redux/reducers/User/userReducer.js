@@ -1,4 +1,5 @@
-import { GET_USER } from "./userType";
+import { GET_USER ,FORGOT_PASSWORD,RESET_PASSWORD} from "./userType";
+
 
 const initialState = {
     user:{},
@@ -9,7 +10,18 @@ const userReducer = (state=initialState,action)=>{
         case GET_USER:
             return{
                 ...state,
+                user:{...action.payload}
             };
+            case FORGOT_PASSWORD:
+                return{
+                    ...state,
+                 
+                };
+                case RESET_PASSWORD:
+                    return{
+                        ...state,
+                    
+                    };
             default:return{
                 ...state
             }

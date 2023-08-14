@@ -1,13 +1,13 @@
 import axios from "axios";
-import { GET_USER } from "./userType";
-import {toast} from "react-toastify"
+import { FORGOT_PASSWORD, GET_USER, RESET_PASSWORD } from "./userType";
+import { toast } from "react-toastify"
 
 
-export const getUser = ()=> async(dispatch)=>{
+export const getUser = () => async (dispatch) => {
     try {
         const User = await axios({
-            method:"GET",
-            url:`${process.env.REACT_APP_SERVER_URL}user/getUser`,
+            method: "GET",
+            url: `${process.env.REACT_APP_SERVER_URL}user/getUser`,
         });
         // console.log(User);
         localStorage.setItem('newUser', JSON.stringify(User?.data?.user));
@@ -15,7 +15,41 @@ export const getUser = ()=> async(dispatch)=>{
     } catch (error) {
         toast.error("User not Found", {
             position: toast.POSITION.TOP_RIGHT
-          })
-          return dispatch({type:"ERROR", payload:error})
+        })
+        return dispatch({ type: "ERROR", payload: error })
     }
+}
+export const forgetPassword = () => async (dispatch) => {
+    const { email } = JSON.parse(localStorage.getItem('newUser'))
+
+    try {
+        const forgot = await axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_SERVER_URL}user/forgetPassword`,
+            data: { email }
+        })
+        return dispatch({ type: FORGOT_PASSWORD, payload: forgot?.data?.message })
+    } catch (error) {
+        toast.error("User not Found", {
+            position: toast.POSITION.TOP_RIGHT
+        })
+        return dispatch({ type: "ERROR", payload: error })
+    }
+};
+export const resetPassword = (token, password) => async (dispatch) => {
+    console.log(password, token);
+    try {
+        const reset = await axios({
+            method: "PUT",
+            url: `${process.env.REACT_APP_SERVER_URL}user/resetPassword/${token}`,
+            data: { password }
+        });
+        return dispatch({ type: RESET_PASSWORD, payload: reset.data.message })
+    } catch (error) {
+        toast.error("User not Found", {
+            position: toast.POSITION.BOTTOM_CENTER
+        })
+        return dispatch({ type: "ERROR", payload: error })
+    }
+
 }

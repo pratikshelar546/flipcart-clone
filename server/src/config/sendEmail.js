@@ -25,3 +25,20 @@ const sendEmail = async (optioans) => {
     });
 };
 module.exports = sendEmail;
+const sendEmailForResetPassword = async(options)=>{
+const message = {
+  to:options.email,
+  from: process.env.SENDGRID_MAILID,
+  subject:"Reset password Link",
+  text:options.data.message
+}
+sgMail
+    .send(message)
+    .then(() => {
+      // console.log("Email Sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+module.exports= sendEmailForResetPassword;

@@ -109,7 +109,7 @@ const Lgnav = ({
                         size={"1em"}
                         className="mt-2 group-hover:rotate-180 duration-150"
                         color="white"
-                      />{" "}
+                      />
                     </p>
                   ) : (
                     <button onClick={login} className="px-7 bg-white">
@@ -132,24 +132,24 @@ const Lgnav = ({
                           </li>
                         )}
                         <li className=" hover:bg-gray-100 py-4 border-b border-gray-300">
-                          <a
+                          <Link
                             className="flex flex-row text-black   cursor-pointer"
-                            href="/"
+                            to="/Profile"
                           >
-                            {" "}
+                            
                             <CgProfile
                               size={"1.1rem"}
                               className="mx-4 mt-1"
-                            />{" "}
-                            My Profile{" "}
-                          </a>
+                            />
+                            My Profile
+                          </Link>
                         </li>
                         <li className=" hover:bg-gray-100 py-4 border-b border-gray-300">
                           <Link
                             className=" flex flex-row text-black   cursor-pointer"
                             to="/Myorders"
                           >
-                            {" "}
+                            
                             <CgShoppingCart
                               size={"1.1rem"}
                               className="mx-4 mt-1"
@@ -162,7 +162,7 @@ const Lgnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            {" "}
+                            
                             <CgHeart size={"1.1rem"} className="mx-4 mt-1" />
                             Wishlist
                           </a>
@@ -172,7 +172,7 @@ const Lgnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            {" "}
+                            
                             <CgCardHearts
                               size={"1.1rem"}
                               className="mx-4 mt-1"
@@ -185,7 +185,7 @@ const Lgnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            {" "}
+                            
                             <CgGift size={"1.1rem"} className="mx-4 mt-1" />
                             Gift cards
                           </a>
@@ -197,7 +197,7 @@ const Lgnav = ({
                               href="/"
                               onClick={LogOut}
                             >
-                              <CgLogOut className="mx-4 mt-1" size={"1.1rem"} />{" "}
+                              <CgLogOut className="mx-4 mt-1" size={"1.1rem"} />
                               LogOut
                             </a>
                           </li>
@@ -211,7 +211,7 @@ const Lgnav = ({
                 </li>
                 <li className="group relative  cursor-pointer outline-none font-normal text-lg">
                   <Link className="flex">
-                    More{" "}
+                    More
                     <MdKeyboardArrowDown
                       size={"1em"}
                       className="mt-2 group-hover:rotate-180 duration-150"
@@ -225,7 +225,7 @@ const Lgnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          {" "}
+                          
                           <MdNotifications
                             size={"1.1rem"}
                             className="mx-4 mt-1"
@@ -238,7 +238,7 @@ const Lgnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          {" "}
+                          
                           <BsFillQuestionSquareFill
                             size={"1.1rem"}
                             className="mx-4 mt-1"
@@ -251,7 +251,7 @@ const Lgnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          {" "}
+                          
                           <TfiStatsUp size={"1.1rem"} className="mx-4 mt-1" />
                           Adverties
                         </a>
@@ -261,7 +261,7 @@ const Lgnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          {" "}
+                          
                           <CgSoftwareDownload
                             size={"1.1rem"}
                             className="mx-4 mt-1"
@@ -386,19 +386,19 @@ const Mdnav = ({
                 <li className="group relative  px-5 cursor-pointer outline-none font-normal text-lg">
                   {user?.fullName ? (
                     <p className=" flex bg-blue-600 text-white">
-                      ShopKart{" "}
+                      ShopKart
                       <MdKeyboardArrowDown
                         size={"1em"}
                         className="mt-2 group-hover:rotate-180 duration-150"
                         color="white"
-                      />{" "}
+                      />
                     </p>
                   ) : (
                     <button
                       onClick={login}
                       className="pl-4 pr-2 bg-white text-blue-500 flex"
                     >
-                      Login{" "}
+                      Login
                       <MdKeyboardArrowDown
                         size={"1em"}
                         className="mt-2 group-hover:rotate-180 duration-150"
@@ -424,17 +424,17 @@ const Mdnav = ({
                           </li>
                         )}
                         <li className=" hover:bg-gray-100 py-4 border-b border-gray-300">
-                          <a
+                          <Link
                             className="flex flex-row text-black   cursor-pointer"
-                            href="/"
+                            to="/Profile"
                           >
-                            {" "}
+                            
                             <CgProfile
                               size={"1.1rem"}
                               className="mx-4 mt-1"
-                            />{" "}
-                            My Profile{" "}
-                          </a>
+                            />
+                            My Profile
+                          </Link>
                         </li>
                         <li className=" hover:bg-gray-100 py-4 border-b border-gray-300">
                           <Link
@@ -453,7 +453,7 @@ const Mdnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            {" "}
+                            
                             <CgHeart size={"1.1rem"} className="mx-4 mt-1" />
                             Wishlist
                           </a>
@@ -463,7 +463,7 @@ const Mdnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            {" "}
+                            
                             <CgCardHearts
                               size={"1.1rem"}
                               className="mx-4 mt-1"
@@ -476,7 +476,7 @@ const Mdnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            {" "}
+                            
                             <CgGift size={"1.1rem"} className="mx-4 mt-1" />
                             Gift cards
                           </a>
@@ -488,7 +488,7 @@ const Mdnav = ({
                               href="/"
                               onClick={LogOut}
                             >
-                              <CgLogOut className="mx-4 mt-1" size={"1.1rem"} />{" "}
+                              <CgLogOut className="mx-4 mt-1" size={"1.1rem"} />
                               LogOut
                             </a>
                           </li>
@@ -502,7 +502,7 @@ const Mdnav = ({
                 </li>
                 <li className="group relative  cursor-pointer outline-none font-normal text-lg">
                   <Link className="flex">
-                    More{" "}
+                    More
                     <MdKeyboardArrowDown
                       size={"1em"}
                       className="mt-2 group-hover:rotate-180 duration-150"
@@ -516,7 +516,7 @@ const Mdnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          {" "}
+                          
                           <MdNotifications
                             size={"1.1rem"}
                             className="mx-4 mt-1"
@@ -529,7 +529,7 @@ const Mdnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          {" "}
+                          
                           <BsFillQuestionSquareFill
                             size={"1.1rem"}
                             className="mx-4 mt-1"
@@ -542,7 +542,7 @@ const Mdnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          {" "}
+                          
                           <TfiStatsUp size={"1.1rem"} className="mx-4 mt-1" />
                           Adverties
                         </a>
@@ -552,7 +552,7 @@ const Mdnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          {" "}
+                          
                           <CgSoftwareDownload
                             size={"1.1rem"}
                             className="mx-4 mt-1"

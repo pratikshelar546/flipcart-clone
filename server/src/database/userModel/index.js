@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 
 const UserSchema = new mongoose.Schema(
     {
@@ -9,17 +10,20 @@ const UserSchema = new mongoose.Schema(
             requried: true
         },
         email: {
-            type: String, requried: true
+            type: String, 
+            requried: true
         },
         phoneNumber: {
             type: Number,
-            // requried:true,
+            requried:true,
 
         },
         password: {
             type: String,
             required: true,
         },
+        resetPasswordToken:String,
+        resetPasswordExipre:String
     },
     { timestamps: true }
 );
@@ -28,6 +32,15 @@ UserSchema.methods.genrateJwtToken = function () {
     return jwt.sign({ user: this._id.toString() }, "flipcart",{expiresIn:"10d"});
 }
 
+UserSchema.methods.getResetToken = function(){
+    // console.log("hitt");
+    const resetToken = crypto.randomBytes(15).toString("hex");
+    this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+    // console.log(this.resetPasswordToken);
+    this.resetPasswordExipre = Date.now() +10 *60 *1000;
+    return resetToken;
+}
+// console.log(getResetToken);
 UserSchema.statics.findByEmail = async ({ email }) => {
     const checkByEmail = await UserModel.findOne({ email });
     if (checkByEmail) {
