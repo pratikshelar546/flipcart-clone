@@ -53,3 +53,19 @@ export const resetPassword = (token, password) => async (dispatch) => {
     }
 
 }
+
+export const changePassword = (oldPassword, newPassowrd, confirmPassword, email) => async (dispatch) => {
+    try {
+        const changePass = await axios({
+            method: "PUT",
+            url: `${process.env.REACT_APP_SERVER_URL}user/chnagePassword`,
+            data: {
+                oldPassword, newPassowrd, confirmPassword, email
+            }
+        })
+        console.log(changePass?.data);
+    } catch (error) {
+        return dispatch({ type: "ERROR", payload: error })
+
+    }
+}

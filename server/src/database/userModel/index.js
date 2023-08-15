@@ -10,34 +10,34 @@ const UserSchema = new mongoose.Schema(
             requried: true
         },
         email: {
-            type: String, 
+            type: String,
             requried: true
         },
         phoneNumber: {
             type: Number,
-            requried:true,
+            requried: true,
 
         },
         password: {
             type: String,
             required: true,
         },
-        resetPasswordToken:String,
-        resetPasswordExipre:String
+        resetPasswordToken: String,
+        resetPasswordExipre: String
     },
     { timestamps: true }
 );
 
 UserSchema.methods.genrateJwtToken = function () {
-    return jwt.sign({ user: this._id.toString() }, "flipcart",{expiresIn:"10d"});
+    return jwt.sign({ user: this._id.toString() }, "flipcart", { expiresIn: "10d" });
 }
 
-UserSchema.methods.getResetToken = function(){
+UserSchema.methods.getResetToken = function () {
     // console.log("hitt");
     const resetToken = crypto.randomBytes(15).toString("hex");
     this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
     // console.log(this.resetPasswordToken);
-    this.resetPasswordExipre = Date.now() +10 *60 *1000;
+    this.resetPasswordExipre = Date.now() + 10 * 60 * 1000;
     return resetToken;
 }
 // console.log(getResetToken);
@@ -48,6 +48,12 @@ UserSchema.statics.findByEmail = async ({ email }) => {
     }
     return false;
 };
+UserSchema.methods.matchPassword = function (oldPassword,callback) {
+bcrypt.compare(oldPassword,this.password,(error, isMatch)=>{
+    if(error) callback(error);
+    callback(null, isMatch);
+})
+   }
 
 UserSchema.statics.FindByEmailAndPass = async ({ email, password }) => {
     const user = await UserModel.findOne({ email });

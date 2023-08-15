@@ -15,6 +15,7 @@ import MyAccount from './componends/MyAccount/MyAccount';
 import ProfilePage from './pages/ProfilePage';
 import ProfileInfo from './componends/Profile/ProfileInfo';
 import ResetPassword from './componends/Profile/ResetPassword';
+import ChangePassword from './componends/Profile/ChangePassword';
 
 
 
@@ -34,6 +35,8 @@ function App() {
         {/* <Route path='/Profile' element={<ProfilePage />} /> */}
         <Route path='/Profile' element={<ProfileInfo/>} />
         <Route path='/resetPassword/:token' element={<ResetPassword/>}/>
+        <Route path='/changePassword' element={<ChangePassword/>}/>
+
       </Routes>
       <ToastContainer autoClose={1500} />
     </>

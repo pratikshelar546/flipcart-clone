@@ -136,11 +136,7 @@ const Lgnav = ({
                             className="flex flex-row text-black   cursor-pointer"
                             to="/Profile"
                           >
-                            
-                            <CgProfile
-                              size={"1.1rem"}
-                              className="mx-4 mt-1"
-                            />
+                            <CgProfile size={"1.1rem"} className="mx-4 mt-1" />
                             My Profile
                           </Link>
                         </li>
@@ -149,7 +145,6 @@ const Lgnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             to="/Myorders"
                           >
-                            
                             <CgShoppingCart
                               size={"1.1rem"}
                               className="mx-4 mt-1"
@@ -162,7 +157,6 @@ const Lgnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            
                             <CgHeart size={"1.1rem"} className="mx-4 mt-1" />
                             Wishlist
                           </a>
@@ -172,7 +166,6 @@ const Lgnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            
                             <CgCardHearts
                               size={"1.1rem"}
                               className="mx-4 mt-1"
@@ -185,7 +178,6 @@ const Lgnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            
                             <CgGift size={"1.1rem"} className="mx-4 mt-1" />
                             Gift cards
                           </a>
@@ -206,9 +198,12 @@ const Lgnav = ({
                     </div>
                   </div>
                 </li>
-                <li className="cursor-pointer outline-none font-normal text-lg">
+                <Link
+                  to="/admin"
+                  className="cursor-pointer outline-none font-normal text-lg"
+                >
                   Become a seller
-                </li>
+                </Link>
                 <li className="group relative  cursor-pointer outline-none font-normal text-lg">
                   <Link className="flex">
                     More
@@ -225,7 +220,6 @@ const Lgnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          
                           <MdNotifications
                             size={"1.1rem"}
                             className="mx-4 mt-1"
@@ -238,7 +232,6 @@ const Lgnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          
                           <BsFillQuestionSquareFill
                             size={"1.1rem"}
                             className="mx-4 mt-1"
@@ -251,7 +244,6 @@ const Lgnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          
                           <TfiStatsUp size={"1.1rem"} className="mx-4 mt-1" />
                           Adverties
                         </a>
@@ -261,7 +253,6 @@ const Lgnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          
                           <CgSoftwareDownload
                             size={"1.1rem"}
                             className="mx-4 mt-1"
@@ -428,11 +419,7 @@ const Mdnav = ({
                             className="flex flex-row text-black   cursor-pointer"
                             to="/Profile"
                           >
-                            
-                            <CgProfile
-                              size={"1.1rem"}
-                              className="mx-4 mt-1"
-                            />
+                            <CgProfile size={"1.1rem"} className="mx-4 mt-1" />
                             My Profile
                           </Link>
                         </li>
@@ -453,7 +440,6 @@ const Mdnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            
                             <CgHeart size={"1.1rem"} className="mx-4 mt-1" />
                             Wishlist
                           </a>
@@ -463,7 +449,6 @@ const Mdnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            
                             <CgCardHearts
                               size={"1.1rem"}
                               className="mx-4 mt-1"
@@ -476,7 +461,6 @@ const Mdnav = ({
                             className=" flex flex-row text-black   cursor-pointer"
                             href="/"
                           >
-                            
                             <CgGift size={"1.1rem"} className="mx-4 mt-1" />
                             Gift cards
                           </a>
@@ -497,9 +481,12 @@ const Mdnav = ({
                     </div>
                   </div>
                 </li>
-                <li className="cursor-pointer outline-none font-normal text-lg">
+                <Link
+                  to="/admin"
+                  className="cursor-pointer outline-none font-normal text-lg"
+                >
                   Become a seller
-                </li>
+                </Link>
                 <li className="group relative  cursor-pointer outline-none font-normal text-lg">
                   <Link className="flex">
                     More
@@ -516,7 +503,6 @@ const Mdnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          
                           <MdNotifications
                             size={"1.1rem"}
                             className="mx-4 mt-1"
@@ -529,7 +515,6 @@ const Mdnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          
                           <BsFillQuestionSquareFill
                             size={"1.1rem"}
                             className="mx-4 mt-1"
@@ -542,7 +527,6 @@ const Mdnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          
                           <TfiStatsUp size={"1.1rem"} className="mx-4 mt-1" />
                           Adverties
                         </a>
@@ -552,7 +536,6 @@ const Mdnav = ({
                           className=" flex flex-row text-black cursor-pointer"
                           href="/"
                         >
-                          
                           <CgSoftwareDownload
                             size={"1.1rem"}
                             className="mx-4 mt-1"

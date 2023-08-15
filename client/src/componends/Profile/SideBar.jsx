@@ -41,7 +41,7 @@ const SideBar = () => {
               <div className=" w-full flex justify-between">
                 <div className="flex gap-2 text-gray-500 items-center">
                   <TfiPackage color="blue" size={"1.2rem"} />
-                  <h1>MY ORDERS</h1>
+                  <Link to="/myOrders">MY ORDERS</Link>
                 </div>
                 <IoIosArrowForward size={"1.5rem"} color="gray" />
               </div>

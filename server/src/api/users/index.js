@@ -41,7 +41,7 @@ Router.get("/getUser", passport.authenticate("jwt", { session: false }), async (
 Router.post("/forgetPassword", async (req, res) => {
   try {
     const email = req.body.email;
-  
+
     const user = await UserModel.findOne({ email });
     // console.log(user);
     if (!user) {
@@ -57,7 +57,7 @@ Router.post("/forgetPassword", async (req, res) => {
         message
       }
     })
-    return res.status(200).json({ status: "success", message:`Reset password link is share to email ${user.email}` })
+    return res.status(200).json({ status: "success", message: `Reset password link is share to email ${user.email}` })
   } catch (error) {
     return res.status(500).json({ status: "failed", message: error.message })
 
@@ -69,24 +69,54 @@ Router.put("/resetPassword/:token", async (req, res) => {
 
 
     const resetPasswordToken = crypto.createHash("sha256").update(token).digest("hex");
-    
+
     const user = await UserModel.findOne({
       resetPasswordToken,
-      resetPasswordExipre:{
-$gt:Date.now()
+      resetPasswordExipre: {
+        $gt: Date.now()
       }
     })
-   
-    if(!user){
-      return res.status(400).json({status:"failed",message:"user not found"})
+
+    if (!user) {
+      return res.status(400).json({ status: "failed", message: "user not found" })
     }
-    
+
     user.password = req.body.password;
-    user.resetPasswordExipre= undefined;
+    user.resetPasswordExipre = undefined;
     user.resetPasswordToken = undefined;
     await user.save();
 
-    return res.status(200).json({ status: "success", message:"Password updated successfully" })
+    return res.status(200).json({ status: "success", message: "Password updated successfully" })
+  } catch (error) {
+    return res.status(500).json({ status: "failed", message: error.message })
+
+  }
+})
+
+Router.put('/chnagePassword', async (req, res) => {
+  try {
+    const { oldPassword, newPassowrd, confirmPassword, email } = req.body;
+
+    const user = await UserModel.findOne({ email });
+
+    if (!user) (
+      res.status(400).json({ status: "failed", message: "user not found" })
+    )
+
+    await user.matchPassword(oldPassword, (error, isMatch) => {
+      if (error) {
+        return res.status(400).json({ status: "failed", message: "Something went wrong please refresh the page or try later" })
+      } if (isMatch) {
+        if (newPassowrd === confirmPassword) {
+          user.password = confirmPassword;
+          user.save();
+          return res.status(200).json({ status: "success", message: "Password changed successfully" })
+        } else {
+          return res.status(404).json({ status: "not matched", message: "Pelase enter the same password that  can matched" })
+        }
+      }
+    });
+
   } catch (error) {
     return res.status(500).json({ status: "failed", message: error.message })
 
