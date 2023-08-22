@@ -16,6 +16,14 @@ import ProfilePage from './pages/ProfilePage';
 import ProfileInfo from './componends/Profile/ProfileInfo';
 import ResetPassword from './componends/Profile/ResetPassword';
 import ChangePassword from './componends/Profile/ChangePassword';
+import Admin from './Admin/Admin';
+import OrderDetails from './Admin/HomePage/OrderDetails';
+import ProductDetails from './Admin/HomePage/ProductDetails';
+import AddProduct from './Admin/HomePage/AddProduct';
+import GetUsers from './Admin/HomePage/GetUsers';
+import Rivvews from './Admin/HomePage/Rivvews';
+import Profile from './Admin/HomePage/Profile';
+import OrderProductOverview from './Admin/HomePage/OrderProductOverview';
 
 
 
@@ -33,10 +41,41 @@ function App() {
         <Route path='/MyOrders/:id' element={<OrderOverview />} />
         <Route path='/My-account' element={<MyAccount />} />
         {/* <Route path='/Profile' element={<ProfilePage />} /> */}
-        <Route path='/Profile' element={<ProfileInfo/>} />
-        <Route path='/resetPassword/:token' element={<ResetPassword/>}/>
-        <Route path='/changePassword' element={<ChangePassword/>}/>
+        <Route path='/Profile' element={<ProfileInfo />} />
+        <Route path='/resetPassword/:token' element={<ResetPassword />} />
+        <Route path='/changePassword' element={<ChangePassword />} />
+        {/* <Route path='/admin' element={<Admin />} /> */}
+        <Route path='/admin/Orders' element={
+          <Admin activeTab={0}>
+            <OrderDetails />
+          </Admin>
+        } />
+         <Route path='/admin/Products' element={
+          <Admin activeTab={0}>
+            <ProductDetails />
+          </Admin>
+        } />
+         <Route path='/admin/AddProduct' element={
+          <Admin activeTab={0}>
+            <AddProduct/>
+          </Admin>
+        } />
 
+         <Route path='/admin/OrderOverview' element={
+          <Admin activeTab={0}>
+            <OrderProductOverview />
+          </Admin>
+        } />
+         <Route path='/admin/Reviews' element={
+          <Admin activeTab={0}>
+            <Rivvews />
+          </Admin>
+        } />
+         <Route path='/admin/Profile' element={
+          <Admin activeTab={0}>
+            <Profile />
+          </Admin>
+        } />
       </Routes>
       <ToastContainer autoClose={1500} />
     </>

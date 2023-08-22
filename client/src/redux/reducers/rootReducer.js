@@ -4,11 +4,13 @@ import user from "./User/userReducer"
 import product from "./Products/productReducer"
 import cart from "./cart/cartReducers"
 import Order from "./order/orderReducer"
+import AdminOrder from "./Admin/Orders/OrderReducer"
 const rootReducer = combineReducers({
     auth,
     user,
     product,
     cart,
-    Order
+    Order,
+AdminOrder
 });
 export default rootReducer

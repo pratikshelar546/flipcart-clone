@@ -11,6 +11,7 @@ import User from "./api/users";
 import Product from "./api/products"
 import Order from "./api/oder"
 import Cart from "./api/carts"
+import Admin from "./api/admin"
 import Review from "./api/review"
 import bodyParser from "body-parser";
 // import fileUpload from "express-fileupload";
@@ -41,6 +42,7 @@ flipcart.use("/product", Product);
 flipcart.use("/cart", Cart);
 flipcart.use("/review", Review);
 flipcart.use("/order", Order);
+flipcart.use("/admin",Admin);
 // cloudinary
 flipcart.use(bodyParser.json({ limit: '10mb' }));
 flipcart.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));

@@ -3,7 +3,7 @@ import { NumericFormat } from "react-number-format";
 import {Link} from "react-router-dom"
 import { BsStarFill } from "react-icons/bs";
 const ProductCard = (props) => {
-  // console.log(props);
+  console.log(props);
   // const Product = props.filter()
   // console.log(props.specification[0]);
   return (
@@ -15,12 +15,12 @@ const ProductCard = (props) => {
               <img
                 src={props.image[0]}
                 alt={props.title}
-                className="w-full h-56 object-fill"
+                className="w-full h-full object-fill"
               />
             </div>
             <div className=" w-3/4 flex lg:flex-row flex-col lg:justify-between">
               <div className="flex flex-col  ">
-                <h1>{props.title}</h1>
+                <h1>{props.title.split(" ",15).join(" ")}...</h1>
                 <div className="bg-blue-500 text-white flex flex-row w-8 ">
                   <BsStarFill color="white" className="mt" />
                   <span className="text-sm ">4.3</span>
@@ -30,8 +30,8 @@ const ProductCard = (props) => {
                     {props.Highlights.length === 0
                       ? props.specification[0].title
                       : props.Highlights.map((h1, e) => (
-                        <li key={e} className=" ">
-                          {h1}
+                        <li key={e} className=" text-sm">
+                          {h1.split(' ' ,15).join(" ")}...
                         </li>
                       ))}
                   </ul>

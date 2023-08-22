@@ -16,10 +16,12 @@ import {
   CgSoftwareDownload,
 } from "react-icons/cg";
 import Login from "../Auth/Login";
+
 import SignUp from "../Auth/SignUp";
 import { useDispatch } from "react-redux";
 import { getproductBySearch } from "../../redux/reducers/Products/productAction";
 import { GetCart } from "../../redux/reducers/cart/cartAction";
+import { RiRedPacketLine } from "react-icons/ri";
 
 const Lgnav = ({
   Login,
@@ -56,22 +58,22 @@ const Lgnav = ({
   return (
     <>
       <div className="w-full hidden justify-center sticky top-0 z-30  lg:flex">
-        <section className="w-full bg-blue-600 justify-center flex items-center">
-          <header className="text-white  py-3 flex flex-row gap-4">
-            <Link to="/" className="text-2xl ">
+        <section className="w-full bg-white justify-center flex items-center">
+          <header className="text-black   py-3 flex flex-row gap-4">
+            <Link to="/" className="text-2xl font-semibold text-blue-500 ">
               ShopKart
             </Link>
-            <div className="  flex-col  relative bg-blue-600 flex h-auto left-10">
-              <div className="bg-white flex  flex-row px-1 rounded ">
+            <div className="  flex-col  relative bg-white flex h-auto left-10">
+              <div className="bg-blue-50 flex items-center flex-row px-1 rounded ">
                 <input
                   type="text"
                   name="search"
                   id="search"
                   onChange={handlesData}
                   placeholder="Search for product, brands and more"
-                  className="w-96 outline-none  text-black px-4"
+                  className="w-96 outline-none bg-blue-50 p-2  text-black px-4"
                 />
-                <BiSearch size={"1.5rem"} color="blue" className="mt-1" />
+                <BiSearch size={"1.5rem"} color="black" className="mt-1 " />
               </div>
               <div
                 className={
@@ -101,14 +103,14 @@ const Lgnav = ({
             </div>
             <div className="ml-10">
               <ul className="flex flex-row gap-12 outline-none ">
-                <li className="group relative  text-blue-500  rounded  cursor-pointer outline-none font-normal text-lg">
+                <li className="group relative  text-black  rounded  cursor-pointer outline-none font-normal text-lg">
                   {user?.fullName ? (
-                    <p className=" flex bg-blue-600 text-white">
+                    <p className=" flex bg-white">
                       ShopKart
                       <MdKeyboardArrowDown
                         size={"1em"}
                         className="mt-2 group-hover:rotate-180 duration-150"
-                        color="white"
+                        color="black"
                       />
                     </p>
                   ) : (
@@ -198,12 +200,7 @@ const Lgnav = ({
                     </div>
                   </div>
                 </li>
-                <Link
-                  to="/admin/Orders"
-                  className="cursor-pointer outline-none font-normal text-lg"
-                >
-                  Become a seller
-                </Link>
+
                 <li className="group relative  cursor-pointer outline-none font-normal text-lg">
                   <Link className="flex">
                     More
@@ -215,6 +212,18 @@ const Lgnav = ({
                   <div className="-ml-24 group-hover:block overflow-auto z-30 drop-shadow-lg shadow-md absolute hidden h-auto left-10">
                     <div className="mb-4"></div>
                     <ul className="top-0 w-56   bg-white shadow">
+                      <li className=" hover:bg-gray-100 py-4 border-b text-sm border-gray-300">
+                        <Link
+                          className=" flex flex-row text-black cursor-pointer"
+                          to="/"
+                        >
+                          <RiRedPacketLine
+                            size={"1.1rem"}
+                            className="mx-4 mt-1"
+                          />
+                          Buy Product
+                        </Link>
+                      </li>
                       <li className=" hover:bg-gray-100 py-4 border-b text-sm border-gray-300">
                         <a
                           className=" flex flex-row text-black cursor-pointer"
@@ -481,12 +490,7 @@ const Mdnav = ({
                     </div>
                   </div>
                 </li>
-                <Link
-                  to="/admin/Orders"
-                  className="cursor-pointer outline-none font-normal text-lg"
-                >
-                  Become a seller
-                </Link>
+
                 <li className="group relative  cursor-pointer outline-none font-normal text-lg">
                   <Link className="flex">
                     More
@@ -498,6 +502,18 @@ const Mdnav = ({
                   <div className="-ml-24 group-hover:block drop-shadow-lg shadow-md absolute hidden h-auto left-10">
                     <div className="mb-4"></div>
                     <ul className="top-0 w-56 bg-white shadow">
+                      <li className=" hover:bg-gray-100 py-4 border-b text-sm border-gray-300">
+                        <Link
+                          className=" flex flex-row text-black cursor-pointer"
+                          to="/"
+                        >
+                          <RiRedPacketLine
+                            size={"1.1rem"}
+                            className="mx-4 mt-1"
+                          />
+                          Buy Product
+                        </Link>
+                      </li>
                       <li className=" hover:bg-gray-100 py-4 border-b text-sm border-gray-300">
                         <a
                           className=" flex flex-row text-black cursor-pointer"
@@ -724,7 +740,7 @@ const HomeNav = () => {
       };
     }
   }, [textSearch, dispatch]);
-  const user = JSON.parse(localStorage.getItem("newUser"));
+  const user = JSON.parse(localStorage.getItem("AdminDetail"));
   const id = user?._id;
   useEffect(() => {
     if (id) {

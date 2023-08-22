@@ -3,8 +3,8 @@ import { Transition, Dialog } from "@headlessui/react";
 import { useDispatch } from 'react-redux';
 
 import { RxCross2 } from 'react-icons/rx';
-import { signUp } from '../../redux/reducers/Auth/authAction';
-import { getUser } from '../../redux/reducers/User/userAction';
+import { adminSignup, getAdmin } from '../../redux/reducers/Admin/Auth/AuthAction';
+
 const SignUp = ({isOpen,setIsOpen}) => {
 
     const closeModal = ()=>{
@@ -17,8 +17,8 @@ const SignUp = ({isOpen,setIsOpen}) => {
     }
 const dispatch = useDispatch();
     const submit =async ()=>{
-        await dispatch(signUp(userData));
-        await dispatch(getUser());
+        await dispatch(adminSignup(userData));
+        await dispatch(getAdmin());
         closeModal();
     }
   return (
@@ -48,7 +48,7 @@ const dispatch = useDispatch();
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white h-96 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg  bg-white h-full text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
@@ -66,7 +66,7 @@ const dispatch = useDispatch();
                   <section className="mt-5 flex flex-col gap-3 w-full">
                   
 
-                    <form className="flex flex-col gap-2">
+                    <form className="flex flex-col gap-2 py-2">
                       <div className="w-full flex flex-col gap-2">
                         <label htmlFor="fullName">Full Name</label>
                         <input
@@ -87,6 +87,17 @@ const dispatch = useDispatch();
                           value={userData.email}
                           onChange={handleChange}
                           placeholder="user@email.com"
+                          className="w-full border border-gray-400 px-3 py-2 rounded-lg outline-1 outline-blue-500 focus:border-zomato-400"
+                        />
+                      </div>
+                      <div className="w-full flex flex-col gap-2">
+                        <label htmlFor="phoneNumber">Phone Number</label>
+                        <input
+                          type="number"
+                          id="phoneNumber" required
+                          value={userData.phoneNumber}
+                          onChange={handleChange}
+                          placeholder="999999999"
                           className="w-full border border-gray-400 px-3 py-2 rounded-lg outline-1 outline-blue-500 focus:border-zomato-400"
                         />
                       </div>

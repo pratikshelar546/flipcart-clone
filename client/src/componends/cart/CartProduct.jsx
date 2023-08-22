@@ -38,8 +38,8 @@ const CartProduct = ({ product }) => {
   const deleteProducts = () => {
     dispatch(deleteProduct(id, productId));
     //  console.log(data);
-    window.location.reload()
-  }
+    window.location.reload();
+  };
 
   // useEffect(()=>{
   //   if(products !== null){
@@ -123,7 +123,10 @@ const CartProduct = ({ product }) => {
             </button>
           </div>
 
-          <button onClick={deleteProducts} className=" active:text-red-700 cursor-pointer font-semibold hover:text-blue-600">
+          <button
+            onClick={deleteProducts}
+            className=" active:text-red-700 cursor-pointer font-semibold hover:text-blue-600"
+          >
             Remove
           </button>
         </div>

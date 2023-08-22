@@ -27,7 +27,7 @@ const Product = (props) => {
   );
   const [selectedBrand, setSelectedBrand] = useState("");
 
-  const [price, setPrice] = useState([0, 60000]);
+  const [price, setPrice] = useState([0, 160000]);
   const [laoding, setLoading] = useState(false);
   // console.log(laoding);
   const priceHandler = (e, newPrice) => {
@@ -51,7 +51,7 @@ const Product = (props) => {
       });
     }
   }, [category, dispatch]);
-
+  console.log(product);
   // console.log(product[0].brand.Name);
   const [filterProduct, setFilterProduct] = useState([]);
 

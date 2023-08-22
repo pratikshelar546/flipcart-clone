@@ -9,9 +9,10 @@ import HomeNav from "../NavBar/HomeNav";
 import { getProductById } from "../../redux/reducers/Products/productAction";
 import { addDetails } from "../../redux/reducers/order/orderActions";
 import { NumericFormat } from "react-number-format";
-import CartProduct from "../cart/CartProduct";
+
 import { useNavigate } from "react-router-dom";
 import { deleteCart } from "../../redux/reducers/cart/cartAction";
+import CartProduct from "../cart/CartProduct";
 
 // import nodemailer from 'nodemailer';
 const Shipping = ({ isOpen, setIsOpen }) => {

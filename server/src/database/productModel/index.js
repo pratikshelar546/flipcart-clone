@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
     {
+        admin: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "admins",
+            required: true
+        },
         title: {
             type: String,
             required: true
@@ -30,27 +35,27 @@ const productSchema = new mongoose.Schema(
         },
         specification: [
             {
-            title: {
-                type: String,
-                // required: true
-            },
-            description: {
-                type: String,
-                // required: true
+                title: {
+                    type: String,
+                    // required: true
+                },
+                description: {
+                    type: String,
+                    // required: true
+                }
             }
-        }
-    ],
-        key:{
-            type:String,
-            required:true
+        ],
+        key: {
+            type: String,
+            required: true
         },
-        Highlights:{
-                type:Array,
-                // required:true
-            },
-            service:{
-                type:Array
-            },
+        Highlights: {
+            type: Array,
+            // required:true
+        },
+        service: {
+            type: Array
+        },
         image: {
             type: Array
         },
