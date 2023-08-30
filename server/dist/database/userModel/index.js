@@ -7,6 +7,7 @@ exports.UserModel = void 0;
 var _mongoose = _interopRequireDefault(require("mongoose"));
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
+var _crypto = _interopRequireDefault(require("crypto"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const UserSchema = new _mongoose.default.Schema({
   fullName: {
@@ -18,14 +19,15 @@ const UserSchema = new _mongoose.default.Schema({
     requried: true
   },
   phoneNumber: {
-    type: Number
-    // requried:true,
+    type: Number,
+    requried: true
   },
-
   password: {
     type: String,
     required: true
-  }
+  },
+  resetPasswordToken: String,
+  resetPasswordExipre: String
 }, {
   timestamps: true
 });
@@ -36,6 +38,15 @@ UserSchema.methods.genrateJwtToken = function () {
     expiresIn: "10d"
   });
 };
+UserSchema.methods.getResetToken = function () {
+  // console.log("hitt");
+  const resetToken = _crypto.default.randomBytes(15).toString("hex");
+  this.resetPasswordToken = _crypto.default.createHash("sha256").update(resetToken).digest("hex");
+  // console.log(this.resetPasswordToken);
+  this.resetPasswordExipre = Date.now() + 10 * 60 * 1000;
+  return resetToken;
+};
+// console.log(getResetToken);
 UserSchema.statics.findByEmail = async ({
   email
 }) => {
@@ -46,6 +57,12 @@ UserSchema.statics.findByEmail = async ({
     throw new Error("User already exist...");
   }
   return false;
+};
+UserSchema.methods.matchPassword = function (oldPassword, callback) {
+  _bcryptjs.default.compare(oldPassword, this.password, (error, isMatch) => {
+    if (error) callback(error);
+    callback(null, isMatch);
+  });
 };
 UserSchema.statics.FindByEmailAndPass = async ({
   email,

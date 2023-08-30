@@ -25,7 +25,8 @@ const MyOrder = () => {
   const goBack=()=>{
     navigate(-1)
     }
-  // console.log(orderDetails?.orderItems[3].name.split(" ").slice(0,10).join(" "));
+    // console.log(product);
+  console.log(orderDetails);
   return (
     <>
       <main className="hidden tablet:block ">
@@ -127,7 +128,7 @@ const MyOrder = () => {
                           <p>{product.offerPrice}</p>
                         </div>
                         <div className="w-1/4">
-                          <p>Arriving today</p>
+                          <p>{product.orderStatus}</p>
                         </div>
                       </Link>
                     </div>
@@ -166,7 +167,7 @@ const MyOrder = () => {
           </div>
           <div className="w-full relative">
             {orderDetails &&
-              orderDetails.orderItems.map((product) => (
+              orderDetails?.orderItems?.map((product) => (
                 // console.log(product),
                 <Link to={`/Myorders/${product?.product}`}  state={{ product: product }}
                   className="w-full h-full overflow-auto flex flex-row border-b-2 border-gray-200 gap-3 p-4 bg-white"

@@ -76,26 +76,13 @@ Router.post("/addProduct", upload.fields([{
       Name: req.body.brandName,
       logo: brandlogo.secure_url
     };
-    console.log(req.body.brand);
+    console.log("");
     (async () => {
       try {
         const results = await Promise.all(uploadPromises);
         imageUrl.push(...results);
         req.body.image = imageUrl;
-        // console.log(req.body);
-        // const newProduct = await productModel.create({
-        //   title: req.body.title,
-        //   price: req.body.price,
-        //   isOffer: req.body.isOffer,
-        //   offerPrice: req.body.offerPrice,
-        //   description: req.body.description,
-        //   category: req.body.category,
-        //   quantity: req.body.quantity,
-        //   image: imageUrl,
-        //   key:req.body.key,
-        //   Highlights:req.body.Highlights,
-        //   specification:req.body.specification
-        // });
+        console.log("");
         const newProduct = await _productModel.productModel.create(req.body);
         return res.status(201).json({
           status: "product added",
@@ -103,7 +90,10 @@ Router.post("/addProduct", upload.fields([{
         });
         // Handle the newProduct as needed
       } catch (error) {
-        console.log(error);
+        return res.status(500).json({
+          status: "Failed",
+          error: error.message
+        });
       }
     })();
   } catch (error) {
@@ -114,6 +104,104 @@ Router.post("/addProduct", upload.fields([{
   }
 });
 
+// update product
+Router.put("/updateProduct/:id", upload.fields([{
+  name: "image",
+  maxCount: 10
+}, {
+  name: "logo",
+  maxCount: 2
+}]), async (req, res, next) => {
+  try {
+    const {
+      id
+    } = req.params;
+
+    // const product = await productModel.findOne({_id:id});
+    // if(!product){
+    //   return res.json(404).json({status:"Product Not found"});
+    // }
+    const imageUrl = [];
+    const uploadPromises = [];
+    //  console.log(req.files.image);
+    for (var i = 0; i < req.files.image?.length; i++) {
+      const filePath = req.files.image[i].path;
+      const uploadPromise = new Promise((resolve, reject) => {
+        _cloudinary.v2.uploader.upload(filePath, {
+          folder: 'products'
+        }, (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result.secure_url);
+          }
+        });
+      });
+      uploadPromises.push(uploadPromise);
+    }
+    let specs = [];
+    req.body.specification.forEach(s => {
+      specs.push(s);
+    });
+    req.body.specification = specs;
+    const filepath = req.files.logo[0].path;
+    // console.log(filepath);
+    const brandlogo = await _cloudinary.v2.uploader.upload(filepath, {
+      folder: "brands"
+    });
+    // console.log(req.body.brandName);
+
+    req.body.brand = {
+      Name: req.body.brandName,
+      logo: brandlogo.secure_url
+    }(async () => {
+      try {
+        const results = await Promise.all(uploadPromises);
+        imageUrl.push(...results);
+        req.body.image = imageUrl;
+        const updatedProduct = await _productModel.productModel.findOneAndUpdate({
+          _id: id
+        }, req.body, {
+          new: true
+        });
+        return res.status(201).json({
+          status: "product updated",
+          updatedProduct
+        });
+        // Handle the newProduct as needed
+      } catch (error) {
+        return res.status(500).json({
+          status: "Failed",
+          error: error.message
+        });
+      }
+    })();
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      status: "failed"
+    });
+  }
+});
+Router.delete("/deleteProduct/:id", async (req, res) => {
+  try {
+    const {
+      id
+    } = req.params;
+    await _productModel.productModel.findOneAndRemove({
+      _id: id
+    });
+    return res.status(200).json({
+      status: "success",
+      message: "product deleted successfully"
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "falied",
+      error: error.message
+    });
+  }
+});
 // get all products
 
 Router.get("/getProduct", async (req, res) => {
@@ -130,7 +218,24 @@ Router.get("/getProduct", async (req, res) => {
     });
   }
 });
-
+Router.get("/getProdductByAdmin/:id", async (req, res) => {
+  try {
+    const {
+      id
+    } = req.params;
+    const products = await _productModel.productModel.find({
+      admin: id
+    });
+    return res.status(200).json({
+      products
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "Failed",
+      error: error.message
+    });
+  }
+});
 // get product by category
 Router.get("/getProduct/:category", async (req, res) => {
   try {

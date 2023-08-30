@@ -6,7 +6,8 @@ export const addDetails =
   ( shippingInfo, orderItems, paymentInfo,totalCartPrice,totalOfferPrice,user) =>
     async (dispatch) => {
       try {
-        
+        console.log("okay am from add deatils");
+        console.log(shippingInfo,orderItems);
         // const userId = user?._id;
         // console.log(user);
         // console.log(shippingInfo, orderItems, paymentInfo,totalCartPrice,totalOfferPrice,user);

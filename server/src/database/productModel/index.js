@@ -35,14 +35,8 @@ const productSchema = new mongoose.Schema(
         },
         specification: [
             {
-                title: {
-                    type: String,
-                    // required: true
-                },
-                description: {
-                    type: String,
-                    // required: true
-                }
+                title: String,
+                description: String,
             }
         ],
         key: {
@@ -65,9 +59,17 @@ const productSchema = new mongoose.Schema(
                 required: true
             },
             logo: {
-                type: String
+                public_id: {
+                    type: String,
+                    required: true,
+                },
+                url: {
+                    type: String,
+                    required: true,
+                }
             }
         },
+
         reviews: [
             {
                 user: {

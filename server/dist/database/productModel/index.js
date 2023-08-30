@@ -7,6 +7,11 @@ exports.productModel = void 0;
 var _mongoose = _interopRequireDefault(require("mongoose"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const productSchema = new _mongoose.default.Schema({
+  admin: {
+    type: _mongoose.default.Schema.Types.ObjectId,
+    ref: "admins",
+    required: true
+  },
   title: {
     type: String,
     required: true

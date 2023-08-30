@@ -14,6 +14,7 @@ Router.post(
             const { shippingInfo, orderItems, paymentInfo, totalCartPrice, orderStatus, user } = req.body;
             // console.log("data revived",shippingInfo);
             // console.log(shippingInfo.phoneNo);
+            // console.log("am from add order", shippingInfo, orderItems);
             const paidAt = Date.now();
             // console.log(user);
             let order = await orderModel.findOne({ "user._id": user._id });
@@ -29,15 +30,12 @@ Router.post(
                     paidAt,
                 });
 
+            } else {
+                for (const items of orderItems) {
+                    order.orderItems.push(items);
+                }
+                await order.save();
             }
-
-            for (const items of orderItems) {
-
-                order.orderItems.push(items);
-            }
-
-            await order.save();
-
             await sendEmail({
                 email: user.email,
                 templateId: 'd-935fb403c94b4457bc97e360e598b769',
@@ -50,6 +48,7 @@ Router.post(
                     oId: order._id
                 },
             });
+            // console.log("logging new orders", order);
             res.status(200).json({ status: "Success", details: order });
         } catch (error) {
             res.status(500).json({ status: "failed", message: error.message });
@@ -68,6 +67,7 @@ Router.get('/getOrderDetails/:id', async (req, res) => {
             return res.status(404).json({ status: "failed", message: "please order product first" })
         }
         return res.status(200).json({ status: "success", orderDetails })
+        // console.log(orderDetails);
     } catch (error) {
         return res.status(500).json({ status: "failed", error: error.message })
     }
@@ -78,30 +78,45 @@ Router.get('/getOrderDetails/:id', async (req, res) => {
 Router.get("/getOrderdProduct/:id", async (req, res) => {
     try {
         const { id } = req.params;
+        // console.log("am from getorder", id);
+        // console.log(id);
         const products = await productModel.find({ admin: id });
+        // console.log(products[0]._id);
+        if (products.length === 0) {
+            // console.log("No products found for this admin.");
+            return res.status(404).json({ message: "no product found for this admin" })
+        } else {
 
-        const orders = await orderModel
-            .find({ 'orderItems.product': { $in: products.map(product => product._id) } })
-            .populate({
-                path: 'orderItems.product', // Specify the correct path
-            });
-        // console.log(orders[0].shippingInfo);
-        let productFound = [];
-        const orderdProductDetails = orders.map(order => ({
-            orderItems: order.orderItems,
-            shippingInfo: order.shippingInfo,
-        }));
+            const orders = await orderModel
+                .find({ 'orderItems.product': { $in: products.map(product => product._id) } }).populate({
+                    path: 'orderItems.product', // Specify the correct path
+                });
+            // console.log("from orser", orders[0]);
 
-        for (const item of orderdProductDetails) {
+            // console.log(orders[0]);
+            let productFound = [];
+            const orderdProductDetails = orders.map(order => ({
 
-            if (item?.orderItems[0].product.admin && item?.orderItems[0].product.admin.toString() === id) {
-
-                productFound.push(item)
+                orderItems: order.orderItems,
+                shippingInfo: order.shippingInfo,
+            }));
+            // console.log("pfrom", orderdProductDetails);
+            for (const item of orderdProductDetails) {
+                for (let i = 0; i < item.orderItems.length; i++) {
+                    const productAdminId = item?.orderItems[i].product.admin;
+                    if (productAdminId && productAdminId.toString() === id) {
+                        // console.log(item?.orderItems[i]);
+                        // console.log("item found", item);
+                        productFound.push({ shippingInfo: item.shippingInfo, orderItems: item.orderItems[i] });
+                        // break; // Exit the loop once an item is found
+                    }
+                }
             }
+            // console.log(productFound);
+            // console.log("done");
+            return res.json(productFound)
+
         }
-
-        return res.json(productFound)
-
         //   return res.status(201).json({ products })
     } catch (error) {
         return res.status(500).json({ status: "Failed", error: error.message });
@@ -130,13 +145,13 @@ Router.put('/updateStatus/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const orderStatus = req.body.orderStatus;
-        
+
         const updatedOrder = await orderModel.findOneAndUpdate({ 'orderItems._id': id }, { $set: { 'orderItems.$.orderStatus': orderStatus } }, { new: true })
         // console.log(updatedOrder);
-        if(!updatedOrder){
-            return res.json(404).json({message:"something went wrong"})
+        if (!updatedOrder) {
+            return res.json(404).json({ message: "something went wrong" })
         }
-        return res.status(200).json({ message:"updated successfully" })
+        return res.status(200).json({ message: "updated successfully" })
     } catch (error) {
         return res.status(500).json({ status: "Failed", error: error.message })
 

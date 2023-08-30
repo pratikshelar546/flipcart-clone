@@ -72,7 +72,7 @@ const ProductOverview = () => {
                     {productData.image.map((images, i) => (
                       <img
                         key={i}
-                        src={images}
+                        src={images.url}
                         alt={productData.title}
                         className=" border-y-2 "
                       />
@@ -80,7 +80,7 @@ const ProductOverview = () => {
                   </div>
                   <div className=" border-2 w-full ">
                     <img
-                      src={productData.image[0]}
+                      src={productData.image[0].url}
                       alt={productData.title}
                       className="w-full bg-blend-lighten"
                     />
@@ -182,9 +182,9 @@ const ProductOverview = () => {
                   {/* services */}
                   <div className="flex mt-5 items-center gap-5 ">
                     <img
-                      src={productData.brand.logo}
+                      src={productData.brand.logo.url}
                       alt={productData.brand.Name}
-                      className="w-24 h-11 p-2 border object-cover"
+                      className="w-24 h-11 p-2 border object-contan"
                     />
                     <div>
                       {productData &&

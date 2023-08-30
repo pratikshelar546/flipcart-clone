@@ -24,6 +24,7 @@ import GetUsers from './Admin/HomePage/GetUsers';
 import Rivvews from './Admin/HomePage/Rivvews';
 import Profile from './Admin/HomePage/Profile';
 import OrderProductOverview from './Admin/HomePage/OrderProductOverview';
+import EditProduct from './Admin/HomePage/EditProduct';
 
 
 
@@ -51,28 +52,33 @@ function App() {
           </Admin>
         } />
          <Route path='/admin/Products' element={
-          <Admin activeTab={0}>
+          <Admin activeTab={1}>
             <ProductDetails />
           </Admin>
         } />
+          <Route path='/admin/:id/edit' element={
+          <Admin activeTab={1}>
+            <EditProduct />
+          </Admin>
+        } />
          <Route path='/admin/AddProduct' element={
-          <Admin activeTab={0}>
+          <Admin activeTab={2}>
             <AddProduct/>
           </Admin>
         } />
 
          <Route path='/admin/OrderOverview' element={
-          <Admin activeTab={0}>
+          <Admin activeTab={3}>
             <OrderProductOverview />
           </Admin>
         } />
          <Route path='/admin/Reviews' element={
-          <Admin activeTab={0}>
+          <Admin activeTab={4}>
             <Rivvews />
           </Admin>
         } />
          <Route path='/admin/Profile' element={
-          <Admin activeTab={0}>
+          <Admin activeTab={5}>
             <Profile />
           </Admin>
         } />

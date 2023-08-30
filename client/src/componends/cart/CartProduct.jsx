@@ -34,6 +34,7 @@ const CartProduct = ({ product }) => {
   useEffect(() => {
     dispatch(addCart(details, quantity));
   }, [details, dispatch, quantity]);
+  // console.log(details);
   // const user =JSON.parse(localStorage.getItem('newUser'));
   const deleteProducts = () => {
     dispatch(deleteProduct(id, productId));
@@ -54,7 +55,7 @@ const CartProduct = ({ product }) => {
         <div className="flex flex-row gap-2">
           <section className="flex w-28 h-28">
             <img
-              src={products?.image[0]}
+              src={products?.image[0].url}
               alt={products?.title}
               className="w-full h-full"
             />

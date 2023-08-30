@@ -1,26 +1,31 @@
 import React from "react";
 import { NumericFormat } from "react-number-format";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 import { BsStarFill } from "react-icons/bs";
 const ProductCard = (props) => {
-  console.log(props);
+  const { refData,path } = props;
+ 
+  // console.log({...props});
   // const Product = props.filter()
   // console.log(props.specification[0]);
   return (
     <>
       {props.category === "electronics" ? (
-        <Link className="w-full h-64 max-w-5xl  border-b cursor-pointer" to={`/product/${props._id}/overview`}>
+        <Link
+          className="w-full h-64 max-w-5xl  border-b cursor-pointer"
+          to={`/${path}/${props._id}/${refData}`}
+        >
           <div className="flex w-full flex-row mb-4 h-full">
             <div className="md:w-1/4 w-56 h-full p-3">
               <img
-                src={props.image[0]}
+                src={props.image[0].url || props.image[0]}
                 alt={props.title}
-                className="w-full h-full object-fill"
+                className="w-full h-full object-contain"
               />
             </div>
             <div className=" w-3/4 flex lg:flex-row flex-col lg:justify-between">
               <div className="flex flex-col  ">
-                <h1>{props.title.split(" ",15).join(" ")}...</h1>
+                <h1>{props.title.split(" ", 15).join(" ")}...</h1>
                 <div className="bg-blue-500 text-white flex flex-row w-8 ">
                   <BsStarFill color="white" className="mt" />
                   <span className="text-sm ">4.3</span>
@@ -30,10 +35,10 @@ const ProductCard = (props) => {
                     {props.Highlights.length === 0
                       ? props.specification[0].title
                       : props.Highlights.map((h1, e) => (
-                        <li key={e} className=" text-sm">
-                          {h1.split(' ' ,15).join(" ")}...
-                        </li>
-                      ))}
+                          <li key={e} className=" text-sm">
+                            {h1.split(" ", 15).join(" ")}...
+                          </li>
+                        ))}
                   </ul>
                 </div>
               </div>
@@ -54,7 +59,14 @@ const ProductCard = (props) => {
                       thousandSeparator={true}
                       prefix={"₹"}
                     />
-                    <h1 className="text-sm "> {(((props.price - props.offerPrice) * 100) / props.offerPrice).toFixed(2)}% off</h1>
+                    <h1 className="text-sm ">
+                      {" "}
+                      {(
+                        ((props.price - props.offerPrice) * 100) /
+                        props.offerPrice
+                      ).toFixed(2)}
+                      % off
+                    </h1>
                   </>
                 ) : (
                   <NumericFormat
@@ -67,12 +79,13 @@ const ProductCard = (props) => {
                 )}
               </div>
             </div>
-
-
           </div>
         </Link>
       ) : (
-        <Link className="h-96 max-w-5xl cursor-pointer mb-3 hover:scale-105 duration-100"  to={`/product/${props._id}/overview`}>
+        <Link
+          className="h-96 max-w-5xl cursor-pointer mb-3 hover:scale-105 duration-100"
+          to={`/product/${props._id}/${refData}`}
+        >
           <div className="flex  flex-col ">
             <div className="lg:h-60 md:h-52 h-48">
               <img
@@ -89,7 +102,6 @@ const ProductCard = (props) => {
               </div>
               {props.offerPrice ? (
                 <>
-
                   <NumericFormat
                     className="text-xl font-semibold"
                     value={props.offerPrice}
@@ -105,7 +117,15 @@ const ProductCard = (props) => {
                       thousandSeparator={true}
                       prefix={"₹"}
                     />
-                    <h1 className="text-sm "> {(((props.price - props.offerPrice) * 100) / props.offerPrice).toFixed(2)}% off</h1></div>
+                    <h1 className="text-sm ">
+                      {" "}
+                      {(
+                        ((props.price - props.offerPrice) * 100) /
+                        props.offerPrice
+                      ).toFixed(2)}
+                      % off
+                    </h1>
+                  </div>
                 </>
               ) : (
                 <NumericFormat

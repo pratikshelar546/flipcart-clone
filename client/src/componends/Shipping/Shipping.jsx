@@ -16,6 +16,7 @@ import CartProduct from "../cart/CartProduct";
 
 // import nodemailer from 'nodemailer';
 const Shipping = ({ isOpen, setIsOpen }) => {
+  // console.log("hello");
   const Navigate = useNavigate();
   const [newCart, setNewCart] = useState([]);
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
             prices: data.price,
             offerPrices: data.offerPrice,
             title: data.title,
-            image: data.image,
+            image: data.image[0].url,
           };
         })
       );
@@ -76,7 +77,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
     setShowSummary(false);
     setShowPayment(true);
     const extractData = newCart?.map((newProduct) => {
-      console.log(newProduct.details);
+      // console.log(newProduct.details);
       // console.log(newProduct._id);
 
       return {
@@ -85,9 +86,10 @@ const Shipping = ({ isOpen, setIsOpen }) => {
         price: newProduct.prices,
         offerPrice: newProduct.offerPrices,
         quantity: newProduct.quantity,
-        image: newProduct.image[0],
+        image: newProduct.image,
       };
     });
+    // console.log(extractData);
     setOrderItems(extractData);
     // console.log(extractData);
   };
@@ -118,6 +120,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
   const cartId = priceWalaCart._id;
   const confirmOrder = () => {
     // console.log({ shippingInfo, orderItems, paymentInfo });
+    console.log("clicked");
     dispatch(
       addDetails({
         shippingInfo,

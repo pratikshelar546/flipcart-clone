@@ -8,6 +8,10 @@ var _mongoose = _interopRequireDefault(require("mongoose"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const orderSchema = new _mongoose.default.Schema({
   shippingInfo: {
+    name: {
+      type: String,
+      required: true
+    },
     address: {
       type: String,
       required: true
@@ -24,12 +28,8 @@ const orderSchema = new _mongoose.default.Schema({
       type: String,
       required: true
     },
-    country: {
-      type: String,
-      required: true
-    },
     phoneNo: {
-      type: String,
+      type: Number,
       required: true
     }
   },
@@ -46,6 +46,10 @@ const orderSchema = new _mongoose.default.Schema({
       type: Number,
       required: true
     },
+    offerPrice: {
+      type: Number,
+      required: true
+    },
     quantity: {
       type: Number,
       required: true
@@ -56,21 +60,39 @@ const orderSchema = new _mongoose.default.Schema({
     },
 
     product: {
-      type: _mongoose.default.Schema.ObjectId,
+      type: _mongoose.default.Schema.Types.ObjectId,
       ref: "Product",
       required: true
+    },
+    orderdAt: {
+      type: Date,
+      default: Date.now
+    },
+    orderStatus: {
+      type: String,
+      default: "Processing"
     }
   }],
   user: {
-    type: _mongoose.default.Schema.ObjectId,
-    ref: "User",
-    required: true
-  },
-  paymentInfo: {
-    id: {
+    _id: {
       type: String,
       required: true
     },
+    fullName: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true
+    }
+  },
+  paymentInfo: {
+    id: {
+      type: String
+      // required: true
+    },
+
     status: {
       type: String,
       required: true
@@ -80,17 +102,11 @@ const orderSchema = new _mongoose.default.Schema({
     type: Date,
     required: true
   },
-  totalPrice: {
+  totalCartPrice: {
     type: Number,
     required: true,
     default: 0
   },
-  orderStatus: {
-    type: String,
-    default: "Processing"
-  },
-  deliveredAt: Date,
-  shippedAt: Date,
   createdAt: {
     type: Date,
     default: Date.now

@@ -146,5 +146,33 @@ Router.delete("/delete/:id", async (req, res) => {
     });
   }
 });
+Router.delete("/deleteCart/:id", async (req, res) => {
+  try {
+    const {
+      id
+    } = req.params;
+
+    // console.log( "product "+productId);
+    const cart = await _cartModel.CartModel.findByIdAndDelete(id);
+    // console.log(cart);
+    if (!cart) {
+      return res.status(404).json({
+        status: "Not found",
+        error: error.message
+      });
+    }
+    res.status(200).json({
+      status: "success",
+      cart
+    });
+    // await cart.findOne()
+    // await CartModel.findOneAndDelete({})
+  } catch (error) {
+    return res.status(500).json({
+      status: "Failed",
+      error: error.message
+    });
+  }
+});
 var _default = Router;
 exports.default = _default;

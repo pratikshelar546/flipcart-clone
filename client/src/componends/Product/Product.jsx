@@ -249,14 +249,14 @@ const Product = (props) => {
                   <NotFound title={"This category not found"} />
                 ) : (
                   filterByPrice?.map((product) => (
-                    <ProductCard {...product} key={product._id} />
+                    <ProductCard {...product} key={product._id} refData={'overview'} path={'product'} />
                   ))
                 )
               ) : filterProduct?.length === 0 ? (
                 <NotFound title={"No result found"} />
               ) : (
                 filterProduct?.map((product) => (
-                  <ProductCard {...product} key={product._id} />
+                  <ProductCard {...product} key={product._id} refData={'overview'} path={'product'} />
                 ))
               )}
             </div>
