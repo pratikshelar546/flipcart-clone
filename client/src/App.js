@@ -25,6 +25,7 @@ import Rivvews from './Admin/HomePage/Rivvews';
 import Profile from './Admin/HomePage/Profile';
 import OrderProductOverview from './Admin/HomePage/OrderProductOverview';
 import EditProduct from './Admin/HomePage/EditProduct';
+import ReviewProduct from './Admin/HomePage/ReviewProduct';
 
 
 
@@ -51,33 +52,37 @@ function App() {
             <OrderDetails />
           </Admin>
         } />
-         <Route path='/admin/Products' element={
+        <Route path='/admin/Products' element={
           <Admin activeTab={1}>
             <ProductDetails />
           </Admin>
         } />
-          <Route path='/admin/:id/edit' element={
+        <Route path='/admin/:id/edit' element={
           <Admin activeTab={1}>
             <EditProduct />
           </Admin>
         } />
-         <Route path='/admin/AddProduct' element={
+        <Route path='/admin/AddProduct' element={
           <Admin activeTab={2}>
-            <AddProduct/>
+            <AddProduct />
           </Admin>
         } />
-
-         <Route path='/admin/OrderOverview' element={
+        <Route path='/admin/OrderOverview' element={
           <Admin activeTab={3}>
             <OrderProductOverview />
           </Admin>
         } />
-         <Route path='/admin/Reviews' element={
+        <Route path='/admin/Reviews' element={
           <Admin activeTab={4}>
             <Rivvews />
           </Admin>
         } />
-         <Route path='/admin/Profile' element={
+        <Route path='/admin/Review/:id' element={
+          <Admin activeTab={4}>
+            <ReviewProduct />
+          </Admin>
+        } />
+        <Route path='/admin/Profile' element={
           <Admin activeTab={5}>
             <Profile />
           </Admin>

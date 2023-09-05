@@ -24,7 +24,7 @@ Router.post("/Login", async (req, res) => {
 });
 Router.get("/getAdmin", passport.authenticate("jwt", { session: false }), async (req, res) => {
     try {
-    //   console.log(req.adminProduct);
+    //   console.log(req);
         const { fullName, email, _id, phoneNumber } = req.user;
       
         return res.status(200).json({ admin: { fullName, email, _id, phoneNumber } })

@@ -51,7 +51,7 @@ const Product = (props) => {
       });
     }
   }, [category, dispatch]);
-  console.log(product);
+  // console.log(product);
   // console.log(product[0].brand.Name);
   const [filterProduct, setFilterProduct] = useState([]);
 

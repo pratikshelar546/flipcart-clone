@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DataGrid } from "@mui/x-data-grid";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { DataGrid } from "@mui/x-data-grid";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import {
   getOrderDetails,
@@ -99,7 +99,7 @@ const OrderDetails = () => {
   ];
 
   const rows = [];
-  console.log(newDetails);
+  // console.log(newDetails);
   // console.log("from each",OrderDetails);
   newDetails &&
     newDetails.forEach((OrderDetails) => {

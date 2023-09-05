@@ -1,4 +1,4 @@
-import { GET_PRODUCT_BYID, GET_PRODUCT_BY_CATEGORY, GET_PRODUCT_SEARCH, GET_PRODUCT_BYADMIN } from "./productType";
+import { GET_PRODUCT_BYID, GET_PRODUCT_BY_CATEGORY, GET_PRODUCT_SEARCH, GET_PRODUCT_BYADMIN,ADD_PRODUCT } from "./productType";
 import axios from "axios";
 import { toast } from "react-toastify"
 
@@ -83,6 +83,27 @@ export const getProductByAdmin = (id) => async (dispatch) => {
         });
         // console.log(...products.data.products);
         return dispatch({ type: GET_PRODUCT_BYADMIN, payload: products.data.products })
+    } catch (error) {
+        console.log(error);
+        toast.error("Error occurs", {
+            position: toast.POSITION.TOP_RIGHT
+        });
+        return dispatch({ type: "ERROR", payload: error })
+    }
+}
+export const addProduct = (data)=> async(dispatch)=>{
+    console.log(data);
+    try {
+       const product = await axios({
+        method:"POST",
+        url: `${process.env.REACT_APP_SERVER_URL}product/addProduct`,
+        data:data
+       }) ;
+    //    console.log(product.data);
+    toast.success("Product added successfully",{
+        position:toast.POSITION.TOP_RIGHT
+    })
+    return dispatch({type:ADD_PRODUCT,message:"PRoduct added"})
     } catch (error) {
         console.log(error);
         toast.error("Error occurs", {

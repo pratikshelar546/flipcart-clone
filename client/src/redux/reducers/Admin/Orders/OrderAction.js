@@ -11,7 +11,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
             method: "GET",
             url: `${process.env.REACT_APP_SERVER_URL}order/getOrderdProduct/${id}`,
         });
-        console.log(order.data);
+        // console.log(order.data);
         return dispatch({ type: ORDERS, payload: order.data })
     } catch (error) {
         toast.error(error, {

@@ -22,7 +22,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("newUser"));
   const priceWalaCart = useSelector((state) => state.cart?.newCart?.data?.cart);
-
+// console.log(priceWalaCart);
   useEffect(() => {
     // Fetch the product details for each item in the cart
     const fetchProductDetails = async () => {
@@ -48,6 +48,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
 
     fetchProductDetails();
   }, [priceWalaCart?.productDetails, dispatch]);
+  
   const [totalCartPrice, setTotalCartPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [totalOfferPrice, setTotalOfferPrice] = useState(0);
@@ -77,14 +78,14 @@ const Shipping = ({ isOpen, setIsOpen }) => {
     setShowSummary(false);
     setShowPayment(true);
     const extractData = newCart?.map((newProduct) => {
-      // console.log(newProduct.details);
+      console.log(newProduct);
       // console.log(newProduct._id);
 
       return {
         product: newProduct.details,
         name: newProduct.title,
-        price: newProduct.prices,
-        offerPrice: newProduct.offerPrices,
+        price: totalCartPrice,
+        offerPrice: totalOfferPrice,
         quantity: newProduct.quantity,
         image: newProduct.image,
       };

@@ -2,14 +2,15 @@ import {
   GET_PRODUCT_BYID,
   GET_PRODUCT_BY_CATEGORY,
   GET_PRODUCT_SEARCH,
-  GET_PRODUCT_BYADMIN
+  GET_PRODUCT_BYADMIN, ADD_PRODUCT
 } from "./productType";
 
 const initialState = {
   products: [],
   categoryProduct: [],
   searchProduct: [],
-  adminProduct: []
+  adminProduct: [],
+  newProduct: {}
 };
 // console.log(initialState.products);
 const productReducer = (state = initialState, action) => {
@@ -35,6 +36,11 @@ const productReducer = (state = initialState, action) => {
       return {
         ...state,
         adminProduct: [...action.payload]
+      };
+    case ADD_PRODUCT:
+      return {
+        ...state,
+        newProduct: { ...action.payload }
       }
     default:
       return {

@@ -26,7 +26,7 @@ const MyOrder = () => {
     navigate(-1)
     }
     // console.log(product);
-  console.log(orderDetails);
+  // console.log(orderDetails);
   return (
     <>
       <main className="hidden tablet:block ">

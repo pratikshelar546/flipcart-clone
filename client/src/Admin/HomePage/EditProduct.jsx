@@ -7,7 +7,7 @@ import {
 } from "../../redux/reducers/Products/productAction";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import { AiFillDelete, AiOutlineDelete } from "react-icons/ai";
+import {  AiOutlineDelete } from "react-icons/ai";
 import { toast } from "react-toastify";
 const EditProduct = () => {
   // console.log(props);
@@ -46,7 +46,7 @@ const EditProduct = () => {
     title: "",
     description: "",
   });
-  console.log();
+  // console.log();
   useEffect(() => {
     if (product) {
       setTitle(product.title);

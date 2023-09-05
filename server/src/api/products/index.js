@@ -30,15 +30,16 @@ const upload = multer({
   },
 
 });
-Router.post("/addProduct", upload.fields([{ name: "image", maxCount: 10 }, { name: "logo", maxCount: 2 }]), async (req, res, next) => {
+Router.post("/addProduct",upload.fields([{ name: "image", maxCount: 10 }, { name: "logo", maxCount: 2 }]), async (req, res, next) => {
   try {
 
     const imageUrl = [];
 
     const uploadPromises = [];
+
     //  console.log(req.files.image);
-    for (var i = 0; i < req.files.image?.length; i++) {
-      const filePath = req.files.image[i].path;
+    for (var i = 0; i < req.body.image?.length; i++) {
+      const filePath = req.body.image[i];
       const uploadPromise = new Promise((resolve, reject) => {
         cloudinary.uploader.upload(filePath, { folder: 'products' }, (err, result) => {
           if (err) {
@@ -56,27 +57,29 @@ Router.post("/addProduct", upload.fields([{ name: "image", maxCount: 10 }, { nam
     }
     let specs = [];
     req.body.specification.forEach((s) => {
+      // console.log(s),
       specs.push(s)
     });
     req.body.specification = specs;
     // console.log(req.files.logo.path)
-    const filepath = req.files.logo[0].path;
+    const filepath = req.body.brand.logo;
 
     // console.log(filepath);
-    const brandlogo = await cloudinary.uploader.upload(filepath, {
+    const result = await cloudinary.uploader.upload(filepath, {
       folder: "brands"
     });
-    // console.log(req.body.brandName);
-
-    req.body.brand = {
-      Name: req.body.brandName,
-      logo: {
-        public_id: brandlogo.public_id,
-        url: brandlogo.secure_url
-      }
+    // console.log(result);
+    const brandLogo = {
+      public_id: result.public_id,
+      url: result.secure_url
     }
+    req.body.brand = {
+      Name: req.body.brand.Name,
+      logo: brandLogo
+    }
+    // console.log(req.body.brand);
 
-      // console.log("");
+      console.log("photo");
 
       (async () => {
         try {
@@ -84,7 +87,7 @@ Router.post("/addProduct", upload.fields([{ name: "image", maxCount: 10 }, { nam
           imageUrl.push(...results);
           req.body.image = imageUrl;
 
-          // console.log("");
+          // console.log(req.body);
 
           const newProduct = await productModel.create(req.body)
 

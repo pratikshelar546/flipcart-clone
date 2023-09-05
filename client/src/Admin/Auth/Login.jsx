@@ -1,34 +1,54 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 
 import "react-toastify/dist/ReactToastify.css";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { logIn } from "../../redux/reducers/Auth/authAction";
-import { getUser } from "../../redux/reducers/User/userAction";
-import { adminLogin, getAdmin } from "../../redux/reducers/Admin/Auth/AuthAction";
+
+import {
+  adminLogin,
+  getAdmin,
+} from "../../redux/reducers/Admin/Auth/AuthAction";
 
 const Login = ({ isOpen, setIsOpen }) => {
-  // const openModal = ()=>{
-  //     setIsOpen(true);
-  // }
   const [userData, setUserData] = useState({});
+  const [newId, setNewId] = useState();
   const closeModal = () => {
-    setIsOpen(false);
+    if (newId === undefined) {
+      console.log("notFound");
+      setIsOpen(true);
+    } else {
+      console.log("Found");
+      setIsOpen(false);
+    }
   };
+  console.log(isOpen);
   const dispatch = useDispatch();
   const submit = async () => {
     await dispatch(adminLogin(userData));
     await dispatch(getAdmin()).then((data) => console.log(data?.payload));
-
+    const user = JSON.parse(localStorage.getItem("AdminDetail"));
+    const id = user?._id;
+    setNewId(id);
+    // setIsOpen(false);
     closeModal();
+    window.location.reload();
   };
 
   const handleChange = (e) => {
     setUserData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     // console.log(userData);
   };
+    useEffect(()=>{
+      const user = JSON.parse(localStorage.getItem("AdminDetail"));
+      const id = user?._id;
+  setNewId(id);
+    },[setNewId])
+  console.log(newId);
+  // if(!id){
+  //   isOpen(true)
+  // }
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>

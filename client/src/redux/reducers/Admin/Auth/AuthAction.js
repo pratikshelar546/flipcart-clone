@@ -10,7 +10,7 @@ export const adminSignup = (data) => async (dispatch) => {
             url: `${process.env.REACT_APP_SERVER_URL}admin/signup`,
             data: { data }
         });
-        
+
         localStorage.setItem("admin", JSON.stringify({ token: admin.data }));
         axios.defaults.headers.common[
             "Authorization"
@@ -26,38 +26,38 @@ export const adminSignup = (data) => async (dispatch) => {
         return dispatch({ type: "ERROR", payload: error })
     }
 }
-export const adminLogin =(data)=> async(dispatch)=>{
-try {
-    const admin = await axios({
-        method:"POST",
-        url: `${process.env.REACT_APP_SERVER_URL}admin/login`,
-        data:{data}
+export const adminLogin = (data) => async (dispatch) => {
+    try {
+        const admin = await axios({
+            method: "POST",
+            url: `${process.env.REACT_APP_SERVER_URL}admin/login`,
+            data: { data }
 
-    })
-    localStorage.setItem("admin", JSON.stringify({ token: admin.data }));
-    axios.defaults.headers.common[
-        "Authorization"
-    ] = `Bearer ${admin.data.token}`;
-    toast.success("Signup successfully", {
-        position: toast.POSITION.TOP_RIGHT
-    })
-    return dispatch({ type: ADMIN_LOGIN, payload: admin.data });
-} catch (error) {
-    toast.error("Login Failed", {
-        position: toast.POSITION.TOP_RIGHT
-    })
-    return dispatch({ type: "ERROR", payload: error })
-}
+        })
+        localStorage.setItem("admin", JSON.stringify({ token: admin.data }));
+        axios.defaults.headers.common[
+            "Authorization"
+        ] = `Bearer ${admin.data.token}`;
+        toast.success("Signup successfully", {
+            position: toast.POSITION.TOP_RIGHT
+        })
+        return dispatch({ type: ADMIN_LOGIN, payload: admin.data });
+    } catch (error) {
+        toast.error("Login Failed", {
+            position: toast.POSITION.TOP_RIGHT
+        })
+        return dispatch({ type: "ERROR", payload: error })
+    }
 }
 export const getAdmin = () => async (dispatch) => {
     try {
-        const admin = await axios({method:"GET",
-        url: `${process.env.REACT_APP_SERVER_URL}admin/getAdmin`,
-
-})
-console.log(admin);
- localStorage.setItem("AdminDetail", JSON.stringify(admin?.data?.admin))
-return dispatch({type:GET_ADMIN,payload:{...admin?.data?.admin}})
+        const admin = await axios({
+            method: "GET",
+            url: `${process.env.REACT_APP_SERVER_URL}admin/getAdmin`,
+        })
+        
+        localStorage.setItem("AdminDetail", JSON.stringify(admin?.data?.admin))
+        return dispatch({ type: GET_ADMIN, payload: { ...admin?.data?.admin } })
     } catch (error) {
         toast.error(error, {
             position: toast.POSITION.TOP_RIGHT
