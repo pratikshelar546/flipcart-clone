@@ -115,6 +115,18 @@ const ProductOverview = () => {
                     </span>
                   </div>
                   {/* price */}
+                  <div>
+                    {productData.quantity <= 6 ? (
+                      <>
+                        <h1 className=" text-red-500 text-base">
+                          Only {productData.quantity} left! Hurry up
+                        </h1>
+                        <spam></spam>
+                      </>
+                    ) : (
+                      <h1> Qauntity: {productData.quantity}</h1>
+                    )}
+                  </div>
                   <div className="flex flex-row gap-3  align-bottom">
                     {productData?.offerPrice ? (
                       <>

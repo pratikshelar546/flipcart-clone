@@ -4,13 +4,14 @@ import { getProductById } from "../../redux/reducers/Products/productAction";
 import { NumericFormat } from "react-number-format";
 import { addCart, deleteProduct } from "../../redux/reducers/cart/cartAction";
 import { useParams } from "react-router";
+import { toast } from "react-toastify";
 const CartProduct = ({ product }) => {
   const [products, setProducts] = useState();
   // console.log(product);
   const dispatch = useDispatch();
   const params = useParams();
   const { id } = params;
-  //    console.log(product.details);
+    //  console.log(products);
   const productId = product.details;
 
   useEffect(() => {
@@ -23,7 +24,16 @@ const CartProduct = ({ product }) => {
   let [quantity, setQuantity] = useState(product.quantity);
   const details = productId;
   const increment = () => {
-    setQuantity(Number(quantity) + 1);
+    console.log(products.quantity);
+    if(products.quantity <=quantity){
+      // console.log(quantity);
+      toast.error("insuffecinat Quantity" , {
+        position:"bottom-center"
+      })
+      setQuantity(Number(quantity))
+    }else{
+      setQuantity(Number(quantity) + 1);
+    }
   };
 
   const decrement = () => {

@@ -4,7 +4,7 @@ import { Transition, Dialog } from "@headlessui/react";
 import "react-toastify/dist/ReactToastify.css";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   adminLogin,
@@ -14,16 +14,15 @@ import {
 const Login = ({ isOpen, setIsOpen }) => {
   const [userData, setUserData] = useState({});
   const [newId, setNewId] = useState();
+  const navigate = useNavigate();
   const closeModal = () => {
     if (newId === undefined) {
-      console.log("notFound");
       setIsOpen(true);
     } else {
-      console.log("Found");
       setIsOpen(false);
     }
   };
-  console.log(isOpen);
+  // console.log(isOpen);
   const dispatch = useDispatch();
   const submit = async () => {
     await dispatch(adminLogin(userData));
@@ -34,18 +33,19 @@ const Login = ({ isOpen, setIsOpen }) => {
     // setIsOpen(false);
     closeModal();
     window.location.reload();
+    // navigate("/admin/Orders");
   };
 
   const handleChange = (e) => {
     setUserData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     // console.log(userData);
   };
-    useEffect(()=>{
-      const user = JSON.parse(localStorage.getItem("AdminDetail"));
-      const id = user?._id;
-  setNewId(id);
-    },[setNewId])
-  console.log(newId);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("AdminDetail"));
+    const id = user?._id;
+    setNewId(id);
+  }, [setNewId]);
+  // console.log(newId);
   // if(!id){
   //   isOpen(true)
   // }

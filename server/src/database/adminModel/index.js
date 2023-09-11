@@ -20,6 +20,9 @@ const adminSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        address:{
+            type:String
+        },
     }, { timestamps: true }
 )
 adminSchema.methods.genrateJwtToken = function () {

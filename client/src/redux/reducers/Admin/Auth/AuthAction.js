@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { ADMIN_LOGIN, ADMIN_SIGNUP, GET_ADMIN } from "./AuthType";
+import { ADMIN_LOGIN, ADMIN_SIGNUP, GET_ADMIN, UPDATE_ADMIN } from "./AuthType";
 import axios from "axios";
 
 export const adminSignup = (data) => async (dispatch) => {
@@ -55,13 +55,31 @@ export const getAdmin = () => async (dispatch) => {
             method: "GET",
             url: `${process.env.REACT_APP_SERVER_URL}admin/getAdmin`,
         })
-        
-        localStorage.setItem("AdminDetail", JSON.stringify(admin?.data?.admin))
-        return dispatch({ type: GET_ADMIN, payload: { ...admin?.data?.admin } })
+        console.log(admin?.data?.admin);
+        localStorage.setItem("AdminDetail", JSON.stringify(admin?.data?.admin));
+        return dispatch({ type: GET_ADMIN, payload: admin?.data?.admin })
+
     } catch (error) {
         toast.error(error, {
             position: toast.POSITION.TOP_RIGHT
         })
         return dispatch({ type: "ERROR", payload: error })
     }
+}
+
+export const updateAdmin = (id,address) => async (dispatch) => {
+try {
+    console.log(address);
+    const admin = await axios({
+        method:"PUT",
+        url: `${process.env.REACT_APP_SERVER_URL}admin/updateAdmin/${id}`,
+        data:{address}
+    })
+    return dispatch({type:UPDATE_ADMIN, payload:{...admin.data}})
+} catch (error) {
+    toast.error(error, {
+        position: toast.POSITION.TOP_RIGHT
+    })
+    return dispatch({ type: "ERROR", payload: error })    
+}
 }

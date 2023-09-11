@@ -12,11 +12,10 @@ Router.post(
     "/orderDetails", async (req, res) => {
         try {
             const { shippingInfo, orderItems, paymentInfo, totalCartPrice, orderStatus, user } = req.body;
-            // console.log("data revived",shippingInfo);
+            // console.log("data revived",orderItems[0].product);
             // console.log(shippingInfo.phoneNo);
             // console.log("am from add order", shippingInfo, orderItems);
             const paidAt = Date.now();
-            // console.log(user);
             let order = await orderModel.findOne({ "user._id": user._id });
             // console.log(order);
             if (!order) {
@@ -29,12 +28,24 @@ Router.post(
                     user,
                     paidAt,
                 });
-
             } else {
                 for (const items of orderItems) {
                     order.orderItems.push(items);
                 }
                 await order.save();
+            }
+            for (const item of orderItems) {
+              
+                const product = await productModel.findById(item.product);
+                // console.log(product);
+                if (!product) {
+                    return res.status(404).json({ status: "failed", message: "product not found" })
+                }
+                if(product.quantity < item.quantity){
+                    return res.status(400).json({ status: "failed", message: "Insufficient quantity" });
+                }
+                product.quantity -= item.quantity;
+                await product.save();
             }
             await sendEmail({
                 email: user.email,

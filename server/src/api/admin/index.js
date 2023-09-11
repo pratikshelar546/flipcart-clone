@@ -24,13 +24,29 @@ Router.post("/Login", async (req, res) => {
 });
 Router.get("/getAdmin", passport.authenticate("jwt", { session: false }), async (req, res) => {
     try {
-    //   console.log(req);
-        const { fullName, email, _id, phoneNumber } = req.user;
-      
-        return res.status(200).json({ admin: { fullName, email, _id, phoneNumber } })
+        //   console.log(req);
+        const { fullName, email, _id, phoneNumber,address } = req.user;
+
+        return res.status(200).json({ admin: { fullName, email, _id, phoneNumber,address } })
     } catch (error) {
         return res.status(500).json({ error: error.message })
     }
 });
+Router.put("/updateAdmin/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        // const {admin} = req.body;
+
+        console.log(req.body);
+        const existingAdmin = await AdminModel.findById(id);
+        if (req.body.address) {
+            existingAdmin.address = req.body.address;
+        }
+        const updated = await existingAdmin.save();
+        return res.status(200).json({ existingAdmin })
+    } catch (error) {
+        return res.status(500).json({ error: error.message })
+    }
+})
 
 export default Router
