@@ -25,9 +25,19 @@ const Product = (props) => {
   const [category, setCategory] = useState(
     location.state.categorys ? location.state.categorys : ""
   );
+  // console.log(category);
   const [selectedBrand, setSelectedBrand] = useState("");
 
-  const [price, setPrice] = useState([0, 160000]);
+  const [price, setPrice] = useState([0,150000]);
+  useEffect(() => {
+  
+    if (category === "electronics") {
+      setPrice([0, 160000]);
+    } else {
+      setPrice([0, 20000]);
+    }
+  }, [category]);
+
   const [laoding, setLoading] = useState(false);
   // console.log(laoding);
   const priceHandler = (e, newPrice) => {
@@ -81,7 +91,7 @@ const Product = (props) => {
         const productPrice = productss.offerPrice || productss.price;
         return productPrice >= price[0] && productPrice <= price[1];
       });
-      // console.log();
+      
       setFilterByPrice(FilterPrice);
     } else {
       // console.log("not found");
@@ -144,25 +154,37 @@ const Product = (props) => {
             <div className="p-1 border-b">
               <div className="flex flex-col gap-2  px-1">
                 <span className="font-medium text-sm">PRICE</span>
-                <div className="px-3">
-                  <Slider
-                    value={price}
-                    onChange={priceHandler}
-                    valueLabelDisplay="auto"
-                    getAriaLabel={() => "Price range slider"}
-                    min={0}
-                    max={60000}
-                  />
-
-                  <div className="flex gap-3 items-center justify-between mb-2 min-w-full">
-                    <span className="flex-1 border px-4 py-1 rounded-sm text-gray-800 bg-gray-50">
-                      ₹{price[0].toLocaleString()}
-                    </span>
-                    <span className="font-medium text-gray-400">to</span>
-                    <span className="flex-1 border px-4 py-1 rounded-sm text-gray-800 bg-gray-50">
-                      ₹{price[1].toLocaleString()}
-                    </span>
-                  </div>
+                <div className="px-3 w-full">
+                  {category === "electronics" ? (
+                    <Slider
+                      value={price}
+                      onChange={priceHandler}
+                      valueLabelDisplay="auto"
+                      getAriaLabel={() => "Price range slider"}
+                      min={0}
+                      max={160000}
+                    />
+                  ) : (
+                    <Slider
+                      value={price}
+                      onChange={priceHandler}
+                      valueLabelDisplay="auto"
+                      getAriaLabel={() => "Price range slider"}
+                      min={0}
+                      max={20000}
+                    />
+                  )}
+                  {price ? (
+                    <div className="flex gap-3 items-center justify-between mb-2 w-full m">
+                      <span className="flex-1 border px-4 py-1 rounded-sm text-gray-800 bg-gray-50">
+                        ₹{price[0].toLocaleString()}
+                      </span>
+                      <span className="font-medium text-gray-400">to</span>
+                      <span className="flex-1 border px-4 py-1 rounded-sm text-gray-800 bg-gray-50">
+                        ₹{price[1].toLocaleString()}
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -249,14 +271,24 @@ const Product = (props) => {
                   <NotFound title={"This category not found"} />
                 ) : (
                   filterByPrice?.map((product) => (
-                    <ProductCard {...product} key={product._id} refData={'overview'} path={'product'} />
+                    <ProductCard
+                      {...product}
+                      key={product._id}
+                      refData={"overview"}
+                      path={"product"}
+                    />
                   ))
                 )
               ) : filterProduct?.length === 0 ? (
                 <NotFound title={"No result found"} />
               ) : (
                 filterProduct?.map((product) => (
-                  <ProductCard {...product} key={product._id} refData={'overview'} path={'product'} />
+                  <ProductCard
+                    {...product}
+                    key={product._id}
+                    refData={"overview"}
+                    path={"product"}
+                  />
                 ))
               )}
             </div>

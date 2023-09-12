@@ -22,7 +22,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("newUser"));
   const priceWalaCart = useSelector((state) => state.cart?.newCart?.data?.cart);
-// console.log(priceWalaCart);
+  // console.log(priceWalaCart);
   useEffect(() => {
     // Fetch the product details for each item in the cart
     const fetchProductDetails = async () => {
@@ -48,7 +48,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
 
     fetchProductDetails();
   }, [priceWalaCart?.productDetails, dispatch]);
-  
+
   const [totalCartPrice, setTotalCartPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [totalOfferPrice, setTotalOfferPrice] = useState(0);
@@ -106,8 +106,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
   // console.log(shippingInfo?.mobileNo);
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(shippingInfo);
-    localStorage.setItem("addressDetails", JSON.stringify(shippingInfo));
+
     setShowForm(false);
     setShowSummary(true);
   };
@@ -121,7 +120,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
   const cartId = priceWalaCart._id;
   const confirmOrder = () => {
     // console.log({ shippingInfo, orderItems, paymentInfo });
-    console.log("clicked");
+
     dispatch(
       addDetails({
         shippingInfo,

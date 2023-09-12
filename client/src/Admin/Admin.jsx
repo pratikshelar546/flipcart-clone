@@ -11,19 +11,20 @@ const Admin = ({ activeTab, children }) => {
       setOnMobile(true);
     }
   }, []);
+  // console.log(toggleSidebar);
   return (
     <>
       <HomeNav />
       <main className="flex min-h-screen sm:min-w-full">
         {!onMobile && <SideBar activeTab={activeTab} />}
         {toggleSidebar && (
-          <SideBar activeTab={activeTab} setToggleSidebar={setToggleSidebar} />
+          <SideBar activeTab={activeTab} toggleSidebar={toggleSidebar} />
         )}
 
         <div className="w-full sm:w-4/5 min-h-screen">
           <div className="flex flex-col gap-6 p-5 pb-6 overflow-hidden">
             <button
-              onClick={() => setToggleSidebar(true)}
+              onClick={() => setToggleSidebar(!toggleSidebar)}
               className=" sm:hidden bg w-10 h-10 rounded-full tex flex items-center justify-center"
             >
               <AiOutlineMenu />

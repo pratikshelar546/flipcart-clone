@@ -5,7 +5,7 @@ import { BsStarFill } from "react-icons/bs";
 const ProductCard = (props) => {
   const { refData,path } = props;
  
-  // console.log({...props});
+  // console.log(refData);
   // const Product = props.filter()
   // console.log(props.specification[0]);
   return (
