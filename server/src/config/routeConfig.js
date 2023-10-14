@@ -17,7 +17,7 @@ export default (passport) => {
       try {
         const doesUserExist = await UserModel.findById(jwt__payload.user) || await AdminModel.findById(jwt__payload.admin);
         // const doesUserExist =  await AdminModel.findById(jwt__payload.admin);
-        
+
         if (!doesUserExist) return done(null, false);
 
         return done(null, doesUserExist);

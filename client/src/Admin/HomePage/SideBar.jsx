@@ -7,10 +7,10 @@ import {
   BiUserCircle,
 } from "react-icons/bi";
 import { VscPreview } from "react-icons/vsc";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const SideBar = ({ activeTab, toggleSidebar }) => {
-  console.log(toggleSidebar);
+  // console.log(toggleSidebar);
   const admin = JSON.parse(localStorage.getItem("AdminDetail"));
   const sideLables = [
     {
@@ -49,13 +49,14 @@ const SideBar = ({ activeTab, toggleSidebar }) => {
       icon: <BiLogOut />,
     },
   ];
+  const navigate = useNavigate();
   const logOut = () => {
     localStorage.removeItem("AdminDetail");
     localStorage.removeItem("admin");
     toast.success("Logout successfully", {
       position: toast.POSITION.TOP_RIGHT,
     });
-    window.location.reload()
+  navigate("/")
   };
   return (
     <>

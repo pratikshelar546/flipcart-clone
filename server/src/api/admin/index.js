@@ -32,6 +32,14 @@ Router.get("/getAdmin", passport.authenticate("jwt", { session: false }), async 
         return res.status(500).json({ error: error.message })
     }
 });
+Router.get("/getAllAdmin" ,async(Req,res)=>{
+    try {
+        const admins = await AdminModel.find().select('-password');
+        return res.status(200).json({status:"success", admins})
+    } catch (error) {
+        return res.status(500).json({ error: error.message })
+    }
+})
 Router.put("/updateAdmin/:id", async (req, res) => {
     try {
         const { id } = req.params;

@@ -1,7 +1,7 @@
 import { UserModel } from "../../database/userModel";
 import express from "express";
 import passport from "passport";
-import sendEmailForResetPassword from "../../config/sendEmail";
+import sendEmail from "../../config/sendEmail";
 import crypto from "crypto"
 const Router = express.Router();
 
@@ -43,18 +43,19 @@ Router.post("/forgetPassword", async (req, res) => {
     const email = req.body.email;
 
     const user = await UserModel.findOne({ email });
-    // console.log(user);
+    console.log(user);
     if (!user) {
       return res.status(400).json({ status: "failed", message: "user not found" });
     }
     const resetToken = await user.getResetToken();
     await user.save();
     const url = `${process.env.FRONTEND_URL}/resetPassword/${resetToken}`;
-    const message = `Click on the link to reset your password ${url}. If you have not requent the please igonre`
-    await sendEmailForResetPassword({
+    // const message = `Click on the link to reset your password ${url}. If you have not requent the please igonre`
+    await sendEmail({
       email: user.email,
+      templateId:'d-85b2aa07f906461993b8ca588c80bce1',
       data: {
-        message
+        url
       }
     })
     return res.status(200).json({ status: "success", message: `Reset password link is share to email ${user.email}` })

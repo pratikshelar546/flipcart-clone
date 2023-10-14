@@ -12,7 +12,7 @@ import MyOrder from './componends/orders/MyOrder';
 import OrderOverview from './componends/orders/OrderOverview';
 import MyAccount from './componends/MyAccount/MyAccount';
 // import MyProfile from './componends/Profile/SideBar';
-import ProfilePage from './pages/ProfilePage';
+
 import ProfileInfo from './componends/Profile/ProfileInfo';
 import ResetPassword from './componends/Profile/ResetPassword';
 import ChangePassword from './componends/Profile/ChangePassword';
@@ -20,16 +20,25 @@ import Admin from './Admin/Admin';
 import OrderDetails from './Admin/HomePage/OrderDetails';
 import ProductDetails from './Admin/HomePage/ProductDetails';
 import AddProduct from './Admin/HomePage/AddProduct';
-import GetUsers from './Admin/HomePage/GetUsers';
+
 import Rivvews from './Admin/HomePage/Rivvews';
 import Profile from './Admin/HomePage/Profile';
 import OrderProductOverview from './Admin/HomePage/OrderProductOverview';
 import EditProduct from './Admin/HomePage/EditProduct';
 import ReviewProduct from './Admin/HomePage/ReviewProduct';
+import ProtectedRoute from './Routes/ProtectedRoute';
+
+import Owner from "./Owner/Owner"
+import Login from './Admin/Auth/Login';
+import { useState } from 'react';
+import SignUp from './Admin/Auth/SignUp';
+import AddAdmins from './Owner/AddAdmins';
 
 
 
 function App() {
+  const [openLogin, setOpenLogin] = useState(true);
+  const [openSignup, setOpenSignup] = useState(true);
 
   return (
     <>
@@ -46,46 +55,67 @@ function App() {
         <Route path='/Profile' element={<ProfileInfo />} />
         <Route path='/resetPassword/:token' element={<ResetPassword />} />
         <Route path='/changePassword' element={<ChangePassword />} />
-        {/* <Route path='/admin' element={<Admin />} /> */}
+        <Route path='/admin/login' element={<Login isOpen={openLogin} setIsOpen={setOpenLogin} />} />
+        <Route path='/admin/Signup' element={<SignUp isOpen={openSignup} setIsOpen={setOpenSignup} />} />
+
+        <Route path='/Owner' element={<Owner />} />
+        <Route path='/Owner/Addamdin' element={<AddAdmins />} />
         <Route path='/admin/Orders' element={
-          <Admin activeTab={0}>
-            <OrderDetails />
-          </Admin>
+          <ProtectedRoute isAdmin={true}>
+            <Admin activeTab={0}>
+              <OrderDetails />
+            </Admin>
+          </ProtectedRoute>
         } />
         <Route path='/admin/Products' element={
-          <Admin activeTab={1}>
-            <ProductDetails />
-          </Admin>
+          <ProtectedRoute isAdmin={true}>
+            <Admin activeTab={1}>
+              <ProductDetails />
+            </Admin>
+          </ProtectedRoute>
         } />
         <Route path='/admin/:id/edit' element={
-          <Admin activeTab={1}>
-            <EditProduct />
-          </Admin>
+          <ProtectedRoute isAdmin={true}>
+            <Admin activeTab={1}>
+              <EditProduct />
+            </Admin>
+          </ProtectedRoute>
         } />
         <Route path='/admin/AddProduct' element={
-          <Admin activeTab={2}>
-            <AddProduct />
-          </Admin>
+          <ProtectedRoute isAdmin={true}>
+            <Admin activeTab={2}>
+              <AddProduct />
+            </Admin>
+          </ProtectedRoute>
         } />
         <Route path='/admin/OrderOverview' element={
-          <Admin activeTab={3}>
-            <OrderProductOverview />
-          </Admin>
+          <ProtectedRoute isAdmin={true}>
+            <Admin activeTab={3}>
+              <OrderProductOverview />
+            </Admin>
+          </ProtectedRoute>
         } />
         <Route path='/admin/Reviews' element={
-          <Admin activeTab={4}>
-            <Rivvews />
-          </Admin>
+          <ProtectedRoute isAdmin={true}>
+            <Admin activeTab={4}>
+              <Rivvews />
+            </Admin>
+          </ProtectedRoute>
         } />
         <Route path='/admin/Review/:id' element={
-          <Admin activeTab={4}>
-            <ReviewProduct />
-          </Admin>
+          <ProtectedRoute isAdmin={true}>
+            <Admin activeTab={4}>
+              <ReviewProduct />
+            </Admin>
+          </ProtectedRoute>
         } />
         <Route path='/admin/Profile' element={
-          <Admin activeTab={5}>
-            <Profile />
-          </Admin>
+          <ProtectedRoute isAdmin={true}>
+            <Admin activeTab={5}>
+              <Profile />
+            </Admin>
+          </ProtectedRoute>
+
         } />
       </Routes>
       <ToastContainer autoClose={1500} />

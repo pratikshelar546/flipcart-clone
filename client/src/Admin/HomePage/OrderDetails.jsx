@@ -11,6 +11,7 @@ import {
 import NotFound from "../../componends/NotFound";
 
 const OrderDetails = () => {
+  console.log("here");
   const dispatch = useDispatch();
   const [OrderDetails, setOrderDetails] = useState([]);
   const admin = JSON.parse(localStorage.getItem("AdminDetail"));

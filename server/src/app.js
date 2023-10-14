@@ -12,6 +12,7 @@ import Product from "./api/products"
 import Order from "./api/oder"
 import Cart from "./api/carts"
 import Admin from "./api/admin"
+import Owner from "./api/owner"
 import Review from "./api/review"
 import bodyParser from "body-parser";
 // import fileUpload from "express-fileupload";
@@ -39,6 +40,7 @@ flipcart.use(bodyParser.json());
 flipcart.use("/upload", express.static("upload"));
 flipcart.use("/user", User);
 flipcart.use("/product", Product);
+flipcart.use("/owner", Owner)
 flipcart.use("/cart", Cart);
 flipcart.use("/review", Review);
 flipcart.use("/order", Order);

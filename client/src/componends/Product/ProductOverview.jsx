@@ -3,7 +3,7 @@ import { AiTwotoneThunderbolt, AiTwotoneStar } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { FaShoppingCart } from "react-icons/fa";
 import { MdLocalOffer } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { NumericFormat } from "react-number-format";
 import { getProductById } from "../../redux/reducers/Products/productAction";
@@ -13,9 +13,11 @@ import { addCart } from "../../redux/reducers/cart/cartAction";
 import { toast } from "react-toastify";
 import AddReview from "./AddReview";
 import { getReviews } from "../../redux/reducers/Admin/Review/ReviewAction";
+import Login from "../Auth/Login";
 const ProductOverview = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const navigate = useNavigate();
   // console.log(id);
 
   const [loading, setLoading] = useState(true);
@@ -30,18 +32,34 @@ const ProductOverview = () => {
     dispatch(getReviews(id)).then((data) => setAllReview(data?.payload));
   }, [dispatch, id]);
   // console.log(allReview);
+const user = JSON.parse(localStorage.getItem('newUser'))
+const [openLogin, setOpenLogin] = useState(false);
 
-  const AddToCart = () => {
-    const details = id;
-    const quantity = Number(1);
-    try {
-      dispatch(addCart(details, quantity)).then((data) =>
-        toast.success("Product added succesfully", {
+const AddToCart = () => {
+    if(user){
+      const details = id;
+      const quantity = Number(1);
+      console.log("Added")
+      try {
+        dispatch(addCart(details, quantity)).then(() =>
+          toast.success("Product added succesfully", {
+            position: toast.POSITION.BOTTOM_CENTER,
+          })
+        );
+      } catch (error) {
+        toast.error("Something went wrong", {
           position: toast.POSITION.BOTTOM_CENTER,
         })
-      );
-    } catch (error) {}
+      }
+    }else{
+      setOpenLogin(true);  
+      toast.error("Login first", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      })
+    }
+    
   };
+   
   const [openReview, setOpenReview] = useState(false);
   const openModel = () => {
     setOpenReview(true);
@@ -52,16 +70,20 @@ const ProductOverview = () => {
     100
   ).toFixed(0);
   const newPercentage = Math.min(percentage, 100);
-
-  // const [isReadMore, setIsReadMore] = useState(true);
-  // const readMore = () => {
-  //     setIsReadMore(!isReadMore)
-  // }
+const [empty,setEmpty] = useState(false);
+useEffect(()=>{
+  if(productData?.quantity ===0){
+    setEmpty(true)  
+  }
+},[productData?.quantity])
+console.log(empty);
   return (
     <>
       <HomeNav />
       <MiniProductList />
       <AddReview isOpen={openReview} setIsOpen={setOpenReview} />
+      
+      {openLogin && <Login isOpen={openLogin} setIsOpen={setOpenLogin} /> }
       {loading ? (
         <h1>loading</h1>
       ) : (
@@ -89,16 +111,19 @@ const ProductOverview = () => {
                   </div>
                 </div>
                 <div className="hidden lg:flex  flex-row  w-full mt-3 ml-16 gap-3 text-white ">
-                  <button
-                    className=" w-2/5 py-3 bg-orange-400 flex items-center justify-center gap-2"
+                 {empty?<h1 className="text-black text-2xl font-medium pl-3">Product not availbale</h1>:<> <button
+                    className=' w-2/5 py-3 bg-orange-400 flex items-center justify-center gap-2' disabled={empty}
                     onClick={AddToCart}
                   >
                     <FaShoppingCart size={"1em"} /> ADD TO CART
                   </button>
-                  <button className=" w-2/5 py-3 bg-orange-600 flex items-center justify-center gap-2">
+                  
+                <Link className=" w-2/5 py-3 bg-orange-600 flex items-center justify-center gap-2" to="/shipping" onClick={AddToCart}>
                     <AiTwotoneThunderbolt size={"1em"} />
                     BUY NOW
-                  </button>
+                  </Link>
+                  </>
+                  }
                 </div>
               </section>
               <section className="lg:w-3/5 w-full p-2 ml-4">
@@ -118,10 +143,12 @@ const ProductOverview = () => {
                   <div>
                     {productData.quantity <= 6 ? (
                       <>
-                        <h1 className=" text-red-500 text-base">
+                       {productData.quantity ===0?  <h1 className=" text-red-500 text-base">
+                          Not availbale
+                        </h1>: <h1 className=" text-red-500 text-base">
                           Only {productData.quantity} left! Hurry up
-                        </h1>
-                        <spam></spam>
+                        </h1>}
+                      
                       </>
                     ) : (
                       <h1> Qauntity: {productData.quantity}</h1>
@@ -288,7 +315,7 @@ const ProductOverview = () => {
               </section>
               <div className="flex flex-row overflow-auto lg:hidden sticky bottom-2 w-full mt-3 bg-white justify-center gap-3 text-white ">
                 <button
-                  className=" w-1/2 py-3 bg-orange-400 flex items-center justify-center gap-2"
+                  className=" w-1/2 py-3 bg-orange-400 flex items-center justify-center gap-2" 
                   onClick={AddToCart}
                 >
                   <FaShoppingCart size={"1em"} /> ADD TO CART

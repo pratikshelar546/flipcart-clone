@@ -5,8 +5,12 @@ import { useDispatch } from 'react-redux';
 import { RxCross2 } from 'react-icons/rx';
 import { signUp } from '../../redux/reducers/Auth/authAction';
 import { getUser } from '../../redux/reducers/User/userAction';
+import { FiEye } from 'react-icons/fi';
 const SignUp = ({isOpen,setIsOpen}) => {
-
+  const [text, setText] = useState("password");
+  const toggelInput =()=>{
+    setText((prev)=>prev === 'password'? 'text':'password')
+  }
     const closeModal = ()=>{
         setIsOpen(false);
     }
@@ -92,14 +96,18 @@ const dispatch = useDispatch();
                       </div>
                       <div className="w-full flex flex-col gap-2">
                         <label htmlFor="password">Password</label>
-                        <input
-                          type="password"
-                          id="password" required
-                          value={userData.password}
-                          onChange={handleChange}
-                          placeholder="*********"
-                          className="w-full border border-gray-400 px-3 outline-1 outline-blue-500 py-2 rounded-lg focus:border-zomato-400"
-                        />
+                        <div className="flex items-center w-full border border-gray-400 outline-1 outline-blue-500 px-3 py-2 rounded-lg focus:border-zomato-400">
+                            <input
+                              type={text}
+                              id="password"
+                              required
+                              value={userData.password}
+                              onChange={handleChange}
+                              placeholder="*********"
+                              className=" outline-none"
+                            />
+                            <FiEye size={"1rem"} className=" cursor-pointer" onClick={toggelInput}/>
+                          </div>
                       </div>
                       <div
                         className="w-full text-center bg-zomato-400 mt-2 text-white bg-blue-600 px-2 rounded-lg py-2 cursor-pointer"

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -10,41 +10,33 @@ import {
   adminLogin,
   getAdmin,
 } from "../../redux/reducers/Admin/Auth/AuthAction";
+import { FiEye } from "react-icons/fi";
 
 const Login = ({ isOpen, setIsOpen }) => {
   const [userData, setUserData] = useState({});
-  const [newId, setNewId] = useState();
+
   const navigate = useNavigate();
+  const [text, setText] = useState("password");
+  const toggelInput = () => {
+    setText((prev) => (prev === "password" ? "text" : "password"));
+  };
   const closeModal = () => {
-    if (newId === undefined) {
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
-    }
+    setIsOpen(false);
+    navigate("/");
   };
   // console.log(isOpen);
   const dispatch = useDispatch();
   const submit = async () => {
     await dispatch(adminLogin(userData));
-    await dispatch(getAdmin()).then((data) => console.log(data?.payload));
-    const user = JSON.parse(localStorage.getItem("AdminDetail"));
-    const id = user?._id;
-    setNewId(id);
-    // setIsOpen(false);
-    closeModal();
-    window.location.reload();
-    // navigate("/admin/Orders");
+    await dispatch(getAdmin());
+    navigate("/admin/Orders");
   };
 
   const handleChange = (e) => {
     setUserData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     // console.log(userData);
   };
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("AdminDetail"));
-    const id = user?._id;
-    setNewId(id);
-  }, [setNewId]);
+
   // console.log(newId);
   // if(!id){
   //   isOpen(true)
@@ -94,10 +86,7 @@ const Login = ({ isOpen, setIsOpen }) => {
                   <main className="relative flex h-full flex-row">
                     <section className="relative bg-blue-500 text-white p-5 w-2/3 ">
                       <h1>Login</h1>
-                      <h1>
-                        Get access to your Orders, Wishlist and Recommendations
-                        account{" "}
-                      </h1>
+                      <h1>To get access to your products and orders.</h1>
 
                       <img
                         src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/login_img_c4a81e.png"
@@ -122,15 +111,22 @@ const Login = ({ isOpen, setIsOpen }) => {
                         </div>
                         <div className="w-full flex flex-col gap-2">
                           <label htmlFor="password">Password</label>
-                          <input
-                            type="password"
-                            id="password"
-                            required
-                            value={userData.password}
-                            onChange={handleChange}
-                            placeholder="*********"
-                            className="w-full border border-gray-400 outline-1 outline-blue-500 px-3 py-2 rounded-lg focus:border-zomato-400"
-                          />
+                          <div className="flex items-center w-full border border-gray-400 outline-1 outline-blue-500 px-3 py-2 rounded-lg focus:border-zomato-400">
+                            <input
+                              type={text}
+                              id="password"
+                              required
+                              value={userData.password}
+                              onChange={handleChange}
+                              placeholder="*********"
+                              className=" outline-none"
+                            />
+                            <FiEye
+                              size={"1rem"}
+                              className=" cursor-pointer"
+                              onClick={toggelInput}
+                            />
+                          </div>
                         </div>
                         <div
                           className="w-full text-center bg-blue-500 text-white px-2 rounded-lg py-2 cursor-pointer"
@@ -141,7 +137,7 @@ const Login = ({ isOpen, setIsOpen }) => {
                       </form>
                       <Link
                         className="relative text-blue-700 text-xs font-normal -bottom-16 align-bottom text-center"
-                        to="/"
+                        to="/admin/Signup"
                       >
                         New to ShopKart? Create an account
                       </Link>
