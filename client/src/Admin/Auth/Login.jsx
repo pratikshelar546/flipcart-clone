@@ -20,6 +20,7 @@ const Login = ({ isOpen, setIsOpen }) => {
   const toggelInput = () => {
     setText((prev) => (prev === "password" ? "text" : "password"));
   };
+  console.log("login")
   const closeModal = () => {
     setIsOpen(false);
     navigate("/");

@@ -34,6 +34,10 @@ export const adminLogin = (data) => async (dispatch) => {
             data: { data }
 
         })
+        localStorage.setItem("admin", JSON.stringify({ token: admin.data }));
+        axios.defaults.headers.common[
+            "Authorization"
+        ] = `Bearer ${admin.data.token}`;
         toast.success("Signup successfully", {
             position: toast.POSITION.TOP_RIGHT
         })
@@ -45,13 +49,14 @@ export const adminLogin = (data) => async (dispatch) => {
         return dispatch({ type: "ERROR", payload: error })
     }
 }
-export const getAdmin = () => async (dispatch) => {
+export const getAdmin = () => async (dispatch) => {    
     try {
         const admin = await axios({
             method: "GET",
             url: `${process.env.REACT_APP_SERVER_URL}admin/getAdmin`,
         })
-        console.log(admin?.data?.admin);
+        console.log("Called");
+        console.log(admin);
         localStorage.setItem("AdminDetail", JSON.stringify(admin?.data?.admin));
         return dispatch({ type: GET_ADMIN, payload: admin?.data?.admin })
 

@@ -1,7 +1,7 @@
 import { ADMIN_LOGIN, ADMIN_SIGNUP, GET_ADMIN, UPDATE_ADMIN, GET_ALL_ADMIN } from "./AuthType";
 const initialState = {
     admin: {},
-    getAdmin: { loading: true },
+    getAdmin: {  },
     updatedAdmin: {},
     allAdmins: []
 };
@@ -17,7 +17,6 @@ const AuthReducer = (state = initialState, action) => {
         };
         case GET_ADMIN:
             return {
-                loading: false,
                 ...state,
                 getAdmin: { ...action.payload }
 

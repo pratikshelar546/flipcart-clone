@@ -17,14 +17,15 @@ Router.post("/Login", async (req, res) => {
     try {
         const admin = await AdminModel.FindByEmailAndPass(req.body.data);
         const token = await admin.genrateJwtToken();
+        
         return res.status(200).json({ status: "success", token })
     } catch (error) {
         return res.status(500).json({ status: "failed", error: error.message })
     }
 });
-Router.get("/getAdmin", passport.authenticate("jwt", { session: false }), async (req, res) => {
+Router.get("/getAdmin",passport.authenticate("jwt", { session: false }), async (req, res) => {
+    console.log("called");
     try {
-        //   console.log(req);
         const { fullName, email, _id, phoneNumber,address } = req.user;
 
         return res.status(200).json({ admin: { fullName, email, _id, phoneNumber,address } })
