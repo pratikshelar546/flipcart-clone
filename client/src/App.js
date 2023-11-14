@@ -3,7 +3,7 @@ import './App.css';
 import ProductPage from './pages/ProductPage';
 import HomePage from './pages/homePage';
 import { ToastContainer } from "react-toastify"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
 import ProductOverview from './componends/Product/ProductOverview';
 import CartOverview from './componends/cart/CartOverview';
 
@@ -30,7 +30,7 @@ import ProtectedRoute from './Routes/ProtectedRoute';
 
 import Owner from "./Owner/Owner"
 import Login from './Admin/Auth/Login';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SignUp from './Admin/Auth/SignUp';
 import AddAdmins from './Owner/AddAdmins';
 
@@ -39,7 +39,14 @@ import AddAdmins from './Owner/AddAdmins';
 function App() {
   const [openLogin, setOpenLogin] = useState(true);
   const [openSignup, setOpenSignup] = useState(true);
-
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    });
+  }, [pathname])
   return (
     <>
       <Routes scrollRestoration="auto" >

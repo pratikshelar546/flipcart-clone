@@ -181,9 +181,9 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                         />
                         <label
                           for="Name"
-                          className={`absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
+                          className={`absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-4 peer-focus:-translate-y-4  peer-focus:scale-75 ${
                             shippingInfo.name
-                              ? " -translate-y-4 left-1  absolute scale-75 "
+                              ? " -translate-y-4 left-3  absolute scale-75 "
                               : ""
                           }`}
                         >
@@ -202,9 +202,9 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                         />
                         <label
                           for="phoneNo"
-                          className={` absolute duration-300 transform text-gray-500 text-xs scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4 peer-focus:-translate-x-4  peer-focus:scale-75 ${
+                          className={` absolute duration-300 transform text-gray-500 text-xs scale-100 left-4 mt-3 z-10 peer-focus:left-4 peer-focus:-translate-y-3 peer-focus:-translate-x-4  peer-focus:scale-75 ${
                             shippingInfo.phoneNo
-                              ? "-translate-y-4 lg:-translate-x-0 -translate-x-3 md:-left-4 left-0  absolute scale-75 "
+                              ? "-translate-y-3 lg:-translate-x-0 -translate-x-3 md:-left-4 left-2 mt-1  absolute scale-75 "
                               : ""
                           }`}
                         >
@@ -223,9 +223,9 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                         />
                         <label
                           for="pincode"
-                          className={` absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
+                          className={` absolute duration-300 transform text-gray-500 text-sm scale-100 left-2 mt-3 z-10  peer-focus:-translate-y-4  peer-focus:scale-75 ${
                             shippingInfo.pincode
-                              ? " -translate-y-4  lg:-translate-x-0  md:-left-4 left-0  absolute scale-75 "
+                              ? " -translate-y-4  lg:translate-x-4 !peer-focus:left-1 peer-focus:-translate-y-4  md:-left-4 left-2  absolute scale-75 "
                               : ""
                           }`}
                         >
@@ -266,9 +266,9 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                       />
                       <label
                         for="address"
-                        className={` absolute duration-300 transform text-gray-500 text-lg scale-100 left-6 mt-3 z-10 peer-focus:left-4 peer-focus:mb-3 mb-5 peer-focus:-translate-y-4  peer-focus:scale-90 ${
+                        className={` absolute duration-300 transform text-gray-500 text-lg scale-75 left-7 mt-4 z-10  peer-focus:mb-3 mb-5 peer-focus:-translate-y-4   ${
                           shippingInfo.address
-                            ? " -translate-y-4 lg:-translate-x-0 -translate-x-1 md:-left-4 left-0  absolute scale-75 "
+                            ? " -translate-y-4 lg:translate-x-4  mb-3 !peer-focus:left-1 peer-focus:-translate-y-4  md:-left-4 left-2  absolute scale-75 "
                             : ""
                         }`}
                       >
@@ -290,7 +290,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           for="city"
                           className={`absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
                             shippingInfo.city
-                              ? " -translate-y-4 lg:-translate-x-0 -translate-x-2 md:-left-4 left-0  absolute scale-75 "
+                              ? " -translate-y-4  lg:translate-x-4 !peer-focus:left-0 peer-focus:-translate-y-4  md:-left-4 left-2  absolute scale-75 "
                               : ""
                           }`}
                         >
@@ -311,7 +311,7 @@ const Shipping = ({ isOpen, setIsOpen }) => {
                           for="state"
                           className={` absolute duration-300 transform text-gray-500 text-sm scale-100 left-4 mt-3 z-10 peer-focus:left-0 peer-focus:-translate-y-4  peer-focus:scale-75 ${
                             shippingInfo.state
-                              ? " -translate-y-4 lg:-translate-x-0 -translate-x-0 md:-left-4 left-0  absolute scale-75 "
+                              ? "-translate-y-4  lg:translate-x-4 !peer-focus:left- peer-focus:-translate-y-4  md:-left-4 left-2  absolute scale-75 "
                               : ""
                           }`}
                         >
