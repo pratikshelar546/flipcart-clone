@@ -24,7 +24,7 @@ const ResetPassword = () => {
   return (
     <>
       <div className="w-full text-white p-5 text-2xl bg-blue-500">
-        <h1>Flipkart </h1>
+        <h1>ShopKArt </h1>
       </div>
       <div className="flex items-center justify-center ">
         <div className="w-full max-w-2xl top-36 relative rounded-md  border border-gray-300 shadow bg-white">

@@ -9,6 +9,8 @@ var _path = _interopRequireDefault(require("path"));
 var _express = _interopRequireDefault(require("express"));
 var _cloudinary = require("cloudinary");
 var _async_hooks = require("async_hooks");
+var _console = require("console");
+var _http = require("http");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const multer = require("multer");
 const Router = _express.default.Router();
@@ -43,9 +45,10 @@ Router.post("/addProduct", upload.fields([{
   try {
     const imageUrl = [];
     const uploadPromises = [];
+
     //  console.log(req.files.image);
-    for (var i = 0; i < req.files.image?.length; i++) {
-      const filePath = req.files.image[i].path;
+    for (var i = 0; i < req.body.image?.length; i++) {
+      const filePath = req.body.image[i];
       const uploadPromise = new Promise((resolve, reject) => {
         _cloudinary.v2.uploader.upload(filePath, {
           folder: 'products'
@@ -53,7 +56,10 @@ Router.post("/addProduct", upload.fields([{
           if (err) {
             reject(err);
           } else {
-            resolve(result.secure_url);
+            resolve({
+              public_id: result.public_id,
+              url: result.secure_url
+            });
           }
         });
       });
@@ -61,28 +67,37 @@ Router.post("/addProduct", upload.fields([{
     }
     let specs = [];
     req.body.specification.forEach(s => {
+      // console.log(s),
       specs.push(s);
     });
     req.body.specification = specs;
     // console.log(req.files.logo.path)
-    const filepath = req.files.logo[0].path;
+    const filepath = req.body.brand.logo;
+
     // console.log(filepath);
-    const brandlogo = await _cloudinary.v2.uploader.upload(filepath, {
+    const result = await _cloudinary.v2.uploader.upload(filepath, {
       folder: "brands"
     });
-    // console.log(req.body.brandName);
-
-    req.body.brand = {
-      Name: req.body.brandName,
-      logo: brandlogo.secure_url
+    // console.log(result);
+    const brandLogo = {
+      public_id: result.public_id,
+      url: result.secure_url
     };
-    console.log("");
+    req.body.brand = {
+      Name: req.body.brand.Name,
+      logo: brandLogo
+    };
+    // console.log(req.body.brand);
+
+    console.log("photo");
     (async () => {
       try {
         const results = await Promise.all(uploadPromises);
         imageUrl.push(...results);
         req.body.image = imageUrl;
-        console.log("");
+
+        // console.log(req.body);
+
         const newProduct = await _productModel.productModel.create(req.body);
         return res.status(201).json({
           status: "product added",
@@ -116,66 +131,119 @@ Router.put("/updateProduct/:id", upload.fields([{
     const {
       id
     } = req.params;
+    // console.log("find");
+    // console.log(req.body.highlights);
 
-    // const product = await productModel.findOne({_id:id});
-    // if(!product){
-    //   return res.json(404).json({status:"Product Not found"});
-    // }
-    const imageUrl = [];
-    const uploadPromises = [];
-    //  console.log(req.files.image);
-    for (var i = 0; i < req.files.image?.length; i++) {
-      const filePath = req.files.image[i].path;
-      const uploadPromise = new Promise((resolve, reject) => {
-        _cloudinary.v2.uploader.upload(filePath, {
-          folder: 'products'
-        }, (err, result) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result.secure_url);
-          }
-        });
+    const product = await _productModel.productModel.findOne({
+      _id: id
+    });
+    if (!product) {
+      return res.json(404).json({
+        status: "Product Not found"
       });
-      uploadPromises.push(uploadPromise);
     }
-    let specs = [];
-    req.body.specification.forEach(s => {
-      specs.push(s);
-    });
-    req.body.specification = specs;
-    const filepath = req.files.logo[0].path;
-    // console.log(filepath);
-    const brandlogo = await _cloudinary.v2.uploader.upload(filepath, {
-      folder: "brands"
-    });
-    // console.log(req.body.brandName);
-
-    req.body.brand = {
-      Name: req.body.brandName,
-      logo: brandlogo.secure_url
-    }(async () => {
-      try {
-        const results = await Promise.all(uploadPromises);
-        imageUrl.push(...results);
-        req.body.image = imageUrl;
-        const updatedProduct = await _productModel.productModel.findOneAndUpdate({
-          _id: id
-        }, req.body, {
-          new: true
-        });
-        return res.status(201).json({
-          status: "product updated",
-          updatedProduct
-        });
-        // Handle the newProduct as needed
-      } catch (error) {
-        return res.status(500).json({
-          status: "Failed",
-          error: error.message
-        });
+    // console.log(product);
+    if (req.body.image !== undefined) {
+      let imageUrl = [];
+      if (typeof req.body.image === "string") {
+        // console.log("am");
+        imageUrl.push(req.body.image);
+      } else {
+        // console.log("you");
+        imageUrl = req.body.image;
       }
-    })();
+      const uploadPromises = [];
+      for (let i = 0; i < imageUrl.length; i++) {
+        // console.log("url",product.image[i].url);
+        try {
+          if (imageUrl[i] === product.image[i]?.url) {
+            // console.log("same");
+            uploadPromises.push(product.image[i]);
+          } else {
+            // console.log(imageUrl[i]);
+            const result = await _cloudinary.v2.uploader.upload(imageUrl[i], {
+              folder: "products"
+            });
+            // console.log(result);
+            // console.log("Image uploaded successfully ", i + 1);
+            // console.log(uploadPromises);
+            uploadPromises.push({
+              public_id: result.public_id,
+              url: result.secure_url
+            });
+          }
+        } catch (error) {
+          // Handle the error for this specific image upload
+          console.error(`Error uploading image ${i + 1}:`, error.message);
+        }
+      }
+      // console.log(uploadPromises);
+      req.body.image = uploadPromises;
+      let specs = [];
+      req.body.specification.forEach(s => {
+        specs.push(s);
+      });
+      req.body.specification = specs;
+      if (req.body.brand.logo.length > 0) {
+        // await cloudinary.uploader.destroy(product.brand.logo.public_id);
+        // console.log(req.body.brand);
+        if (product.brand.logo.url === req.body.brand.logo) {
+          // console.log("same logo");
+          const brandLogo = {
+            public_id: product.brand.logo.public_id,
+            url: product.brand.logo.url
+          };
+          req.body.brand = {
+            Name: product.brand.Name,
+            logo: brandLogo
+          };
+          // console.log("stored");
+        } else {
+          // console.log("newLogo");
+          await _cloudinary.v2.uploader.destroy(product.brand.logo.public_id);
+          const result = await _cloudinary.v2.uploader.upload(req.body.brand.logo, {
+            folder: "brands"
+          });
+          const brandLogo = {
+            public_id: result.public_id,
+            url: result.secure_url
+          };
+          req.body.brand = {
+            Name: req.body.brand.Name,
+            logo: brandLogo
+          };
+        }
+      }
+      const updateProduct = await _productModel.productModel.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+      });
+      return res.status(200).json({
+        message: "successfully update",
+        updateProduct
+      });
+
+      // (async () => {
+      //   try {
+
+      //     const results = await Promise.all(uploadPromises);
+      //     imageUrl.push(...results);
+      //     req.body.image = imageUrl;
+
+      //     const updatedProduct = await productModel.findOneAndUpdate(
+      //       { _id: id },
+      //       req.body,
+      //       { new: true })
+      //     return res.status(201).json({ status: "product updated", updatedProduct });
+      //     // Handle the newProduct as needed
+
+      //   } catch (error) {
+      //     return res.status(500).json({ status: "Failed", error: error.message });
+
+      //   }
+      // })();
+    }
   } catch (error) {
     return res.status(500).json({
       message: error.message,

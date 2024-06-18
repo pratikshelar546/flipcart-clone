@@ -27,10 +27,10 @@ Router.post("/orderDetails", async (req, res) => {
       orderStatus,
       user
     } = req.body;
-    // console.log("data revived",shippingInfo);
+    // console.log("data revived",orderItems[0].product);
     // console.log(shippingInfo.phoneNo);
+    // console.log("am from add order", shippingInfo, orderItems);
     const paidAt = Date.now();
-    // console.log(user);
     let order = await _orderModel.orderModel.findOne({
       "user._id": user._id
     });
@@ -45,11 +45,30 @@ Router.post("/orderDetails", async (req, res) => {
         user,
         paidAt
       });
+    } else {
+      for (const items of orderItems) {
+        order.orderItems.push(items);
+      }
+      await order.save();
     }
-    for (const items of orderItems) {
-      order.orderItems.push(items);
+    for (const item of orderItems) {
+      const product = await _productModel.productModel.findById(item.product);
+      // console.log(product);
+      if (!product) {
+        return res.status(404).json({
+          status: "failed",
+          message: "product not found"
+        });
+      }
+      if (product.quantity < item.quantity) {
+        return res.status(400).json({
+          status: "failed",
+          message: "Insufficient quantity"
+        });
+      }
+      product.quantity -= item.quantity;
+      await product.save();
     }
-    await order.save();
     await (0, _sendEmail.default)({
       email: user.email,
       templateId: 'd-935fb403c94b4457bc97e360e598b769',
@@ -62,6 +81,7 @@ Router.post("/orderDetails", async (req, res) => {
         oId: order._id
       }
     });
+    // console.log("logging new orders", order);
     res.status(200).json({
       status: "Success",
       details: order
@@ -93,6 +113,7 @@ Router.get('/getOrderDetails/:id', async (req, res) => {
       status: "success",
       orderDetails
     });
+    // console.log(orderDetails);
   } catch (error) {
     return res.status(500).json({
       status: "failed",
@@ -108,29 +129,52 @@ Router.get("/getOrderdProduct/:id", async (req, res) => {
     const {
       id
     } = req.params;
+    // console.log("am from getorder", id);
+    // console.log(id);
     const products = await _productModel.productModel.find({
       admin: id
     });
-    const orders = await _orderModel.orderModel.find({
-      'orderItems.product': {
-        $in: products.map(product => product._id)
-      }
-    }).populate({
-      path: 'orderItems.product' // Specify the correct path
-    });
-    // console.log(orders[0].shippingInfo);
-    let productFound = [];
-    const orderdProductDetails = orders.map(order => ({
-      orderItems: order.orderItems,
-      shippingInfo: order.shippingInfo
-    }));
-    for (const item of orderdProductDetails) {
-      if (item?.orderItems[0].product.admin && item?.orderItems[0].product.admin.toString() === id) {
-        productFound.push(item);
-      }
-    }
-    return res.json(productFound);
+    // console.log(products[0]._id);
+    if (products.length === 0) {
+      // console.log("No products found for this admin.");
+      return res.status(404).json({
+        message: "no product found for this admin"
+      });
+    } else {
+      const orders = await _orderModel.orderModel.find({
+        'orderItems.product': {
+          $in: products.map(product => product._id)
+        }
+      }).populate({
+        path: 'orderItems.product' // Specify the correct path
+      });
+      // console.log("from orser", orders[0]);
 
+      // console.log(orders[0]);
+      let productFound = [];
+      const orderdProductDetails = orders.map(order => ({
+        orderItems: order.orderItems,
+        shippingInfo: order.shippingInfo
+      }));
+      // console.log("pfrom", orderdProductDetails);
+      for (const item of orderdProductDetails) {
+        for (let i = 0; i < item.orderItems.length; i++) {
+          const productAdminId = item?.orderItems[i].product.admin;
+          if (productAdminId && productAdminId.toString() === id) {
+            // console.log(item?.orderItems[i]);
+            // console.log("item found", item);
+            productFound.push({
+              shippingInfo: item.shippingInfo,
+              orderItems: item.orderItems[i]
+            });
+            // break; // Exit the loop once an item is found
+          }
+        }
+      }
+      // console.log(productFound);
+      // console.log("done");
+      return res.json(productFound);
+    }
     //   return res.status(201).json({ products })
   } catch (error) {
     return res.status(500).json({

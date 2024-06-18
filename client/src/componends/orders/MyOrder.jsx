@@ -6,7 +6,7 @@ import { getDetailsByUserId } from "../../redux/reducers/order/orderActions";
 import { Link, useNavigate } from "react-router-dom";
 import ReactStars from "react-stars";
 import { FaUserCheck } from "react-icons/fa";
-import {IoIosArrowForward} from "react-icons/io"
+import { IoIosArrowForward } from "react-icons/io";
 import { IoArrowBack, IoSearchOutline, IoFilter } from "react-icons/io5";
 const MyOrder = () => {
   const navigate = useNavigate();
@@ -18,15 +18,12 @@ const MyOrder = () => {
   useEffect(() => {
     dispatch(getDetailsByUserId(id)).then((data) => {
       setOrderDetails(data?.payload);
-      // console.log(data);
     });
   }, [dispatch, id]);
-  // console.log(orderDetails);
-  const goBack=()=>{
-    navigate(-1)
-    }
-    // console.log(product);
-  // console.log(orderDetails);
+  const goBack = () => {
+    navigate(-1);
+  };
+  console.log(orderDetails);
   return (
     <>
       <main className="hidden tablet:block ">
@@ -103,10 +100,10 @@ const MyOrder = () => {
                 </button>
               </div>
 
-              {orderDetails &&
-                orderDetails?.orderItems?.map((product) => (
+              {orderDetails?.orderItems?.length > 0 &&
+                orderDetails?.orderItems?.map((product, index) => (
                   <>
-                    <div key={product._id}>
+                    <div key={index}>
                       <Link
                         to={`/Myorders/${product.product}`}
                         className="p-3 bg-white flex shadow flex-row items-center gap-6 w-full h-32"
@@ -116,7 +113,7 @@ const MyOrder = () => {
                           <img
                             src={product.image}
                             className="w-20 h-20"
-                            alt="perfume"
+                            alt={product.name.split(" ").slice(0, 1).join(" ")}
                           />
                         </div>
                         <div className="w-2/4">
@@ -169,7 +166,9 @@ const MyOrder = () => {
             {orderDetails &&
               orderDetails?.orderItems?.map((product) => (
                 // console.log(product),
-                <Link to={`/Myorders/${product?.product}`}  state={{ product: product }}
+                <Link
+                  to={`/Myorders/${product?.product}`}
+                  state={{ product: product }}
                   className="w-full h-full overflow-auto flex flex-row border-b-2 border-gray-200 gap-3 p-4 bg-white"
                   key={product._id}
                 >
@@ -195,7 +194,7 @@ const MyOrder = () => {
                       Rate this product now
                     </h1>
                   </div>
-                  <IoIosArrowForward size={"1.5rem"} color="gray"  />
+                  <IoIosArrowForward size={"1.5rem"} color="gray" />
                 </Link>
               ))}
           </div>

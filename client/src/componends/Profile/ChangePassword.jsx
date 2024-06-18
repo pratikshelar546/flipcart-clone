@@ -25,7 +25,7 @@ const ChangePassword = () => {
       <main>
         <section>
           <div className="bg-blue-500 text-lg font-medium text-white p-5">
-            <h1>FlipKart</h1>
+            <h1>ShopKArt</h1>
           </div>
           <div className="flex justify-center pt-10 items-center">
             <div className="w-full max-w-3xl h-full bg-white">

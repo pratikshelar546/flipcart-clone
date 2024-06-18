@@ -12,7 +12,7 @@ import {
 } from "../../redux/reducers/Admin/Auth/AuthAction";
 import { FiEye } from "react-icons/fi";
 
-const Login = ({ isOpen, setIsOpen }) => {
+const AdminLogin = ({ isOpen, setIsOpen }) => {
   const [userData, setUserData] = useState({});
 
   const navigate = useNavigate();
@@ -20,7 +20,6 @@ const Login = ({ isOpen, setIsOpen }) => {
   const toggelInput = () => {
     setText((prev) => (prev === "password" ? "text" : "password"));
   };
-  console.log("login")
   const closeModal = () => {
     setIsOpen(false);
     navigate("/");
@@ -154,4 +153,4 @@ const Login = ({ isOpen, setIsOpen }) => {
   );
 };
 
-export default Login;
+export default AdminLogin;

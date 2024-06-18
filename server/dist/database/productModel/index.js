@@ -40,17 +40,9 @@ const productSchema = new _mongoose.default.Schema({
     required: true
   },
   specification: [{
-    title: {
-      type: String
-      // required: true
-    },
-
-    description: {
-      type: String
-      // required: true
-    }
+    title: String,
+    description: String
   }],
-
   key: {
     type: String,
     required: true
@@ -72,7 +64,14 @@ const productSchema = new _mongoose.default.Schema({
       required: true
     },
     logo: {
-      type: String
+      public_id: {
+        type: String,
+        required: true
+      },
+      url: {
+        type: String,
+        required: true
+      }
     }
   },
   reviews: [{
@@ -94,6 +93,8 @@ const productSchema = new _mongoose.default.Schema({
       required: true
     }
   }]
+}, {
+  timestamps: true
 });
 const productModel = _mongoose.default.model("Product", productSchema);
 exports.productModel = productModel;

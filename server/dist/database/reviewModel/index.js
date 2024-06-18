@@ -9,20 +9,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const reviewSchema = new _mongoose.default.Schema({
   user: {
     type: _mongoose.default.Schema.Types.ObjectId,
-    ref: "Users"
+    ref: "users"
   },
   product: {
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Products"
   },
   review: {
-    reviews: {
-      type: String
-    },
-    rating: {
-      type: Number,
-      default: 1
-    }
+    type: String
+  },
+  rating: {
+    type: Number,
+    default: 1
   }
 }, {
   timestamps: true

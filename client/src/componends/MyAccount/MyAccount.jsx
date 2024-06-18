@@ -38,7 +38,7 @@ const MyAccount = () => {
               <IoArrowBack size={"1.5em"} onClick={goBack} />
               <div className="">
                 <h1 className=" text-xl font-semibold">
-                  Hey! FlipKart customer
+                  Hey! ShopKArt customer
                 </h1>
                 <p className="text-gray-500">Explore plus</p>
               </div>
@@ -78,7 +78,7 @@ const MyAccount = () => {
               <TbCalendarQuestion size={"1.3em"} color="blue" />
               <div>
                 <h1 className=" text-gray-800 font-normal text-base">
-                  FlipKart Pay Later
+                  ShopKArt Pay Later
                 </h1>
                 <h1 className="text-gray-500 text-xs">
                   Get ₹10,000 worth Times Prime benefits
@@ -94,7 +94,7 @@ const MyAccount = () => {
               <div className="flex justify-between gap-2">
                 <h1 className="flex gap-2">
                   <CiMinimize2 size={"1.5em"} color="blue" />
-                  FlipKart Plus
+                  ShopKArt Plus
                 </h1>
                 <IoIosArrowForward className="text-gray-400" />
               </div>

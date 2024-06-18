@@ -15,7 +15,7 @@ import {
   CgShoppingCart,
   CgSoftwareDownload,
 } from "react-icons/cg";
-import Login from "../Auth/Login";
+import Login from "../Auth/AdminLogin";
 
 import SignUp from "../Auth/SignUp";
 import { useDispatch } from "react-redux";
@@ -742,8 +742,8 @@ const HomeNav = () => {
   }, [textSearch, dispatch]);
   const user = JSON.parse(localStorage.getItem("AdminDetail"));
   const id = user?._id;
-  useEffect(()=>{
-    if(id){
+  useEffect(() => {
+    if (id) {
       console.log("yess");
       setOpenLogin(false);
       try {
@@ -753,14 +753,13 @@ const HomeNav = () => {
       } catch (error) {
         console.log(error);
       }
-    }else{
+    } else {
       setOpenLogin(true);
     }
-  
-  },[dispatch,id])
+  }, [dispatch, id]);
   // console.log(id);
   // useEffect(() => {
-   
+
   // }, [dispatch, id]);
 
   // console.log(carts?.productDetails?.length);

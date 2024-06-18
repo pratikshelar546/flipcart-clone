@@ -73,7 +73,7 @@ Router.post("/forgetPassword", async (req, res) => {
     const user = await _userModel.UserModel.findOne({
       email
     });
-    // console.log(user);
+    console.log(user);
     if (!user) {
       return res.status(400).json({
         status: "failed",
@@ -83,11 +83,12 @@ Router.post("/forgetPassword", async (req, res) => {
     const resetToken = await user.getResetToken();
     await user.save();
     const url = `${process.env.FRONTEND_URL}/resetPassword/${resetToken}`;
-    const message = `Click on the link to reset your password ${url}. If you have not requent the please igonre`;
+    // const message = `Click on the link to reset your password ${url}. If you have not requent the please igonre`
     await (0, _sendEmail.default)({
       email: user.email,
+      templateId: 'd-85b2aa07f906461993b8ca588c80bce1',
       data: {
-        message
+        url
       }
     });
     return res.status(200).json({

@@ -29,10 +29,11 @@ import ReviewProduct from './Admin/HomePage/ReviewProduct';
 import ProtectedRoute from './Routes/ProtectedRoute';
 
 import Owner from "./Owner/Owner"
-import Login from './Admin/Auth/Login';
+import AdminLogin from './Admin/Auth/AdminLogin';
 import { useEffect, useState } from 'react';
 import SignUp from './Admin/Auth/SignUp';
 import AddAdmins from './Owner/AddAdmins';
+import Login from './componends/Auth/Login';
 
 
 
@@ -47,6 +48,8 @@ function App() {
       behavior: "smooth"
     });
   }, [pathname])
+  const user = JSON.parse(localStorage.getItem("newUser"));
+
   return (
     <>
       <Routes scrollRestoration="auto" >
@@ -55,14 +58,15 @@ function App() {
         <Route path='/product/:id/overview' element={<ProductOverview />} />
         <Route path='/Cart/:id' element={<CartOverview />} />
         <Route path='/shipping' element={<Shipping />} />
-        <Route path='/Myorders' element={<MyOrder />} />
+        <Route path='/Myorders' element={user ? <MyOrder /> : <Login isOpen={openLogin} setIsOpen={setOpenLogin} />} />
         <Route path='/MyOrders/:id' element={<OrderOverview />} />
         <Route path='/My-account' element={<MyAccount />} />
         {/* <Route path='/Profile' element={<ProfilePage />} /> */}
-        <Route path='/Profile' element={<ProfileInfo />} />
+        <Route path='/Profile' element={user ? <ProfileInfo /> : <Login isOpen={openLogin} setIsOpen={setOpenLogin} />} />
+
         <Route path='/resetPassword/:token' element={<ResetPassword />} />
         <Route path='/changePassword' element={<ChangePassword />} />
-        <Route path='/admin/login' element={<Login isOpen={openLogin} setIsOpen={setOpenLogin} />} />
+        <Route path='/admin/login' element={<AdminLogin isOpen={openLogin} setIsOpen={setOpenLogin} />} />
         <Route path='/admin/Signup' element={<SignUp isOpen={openSignup} setIsOpen={setOpenSignup} />} />
 
         <Route path='/Owner' element={<Owner />} />

@@ -13,6 +13,7 @@ var _products = _interopRequireDefault(require("./api/products"));
 var _oder = _interopRequireDefault(require("./api/oder"));
 var _carts = _interopRequireDefault(require("./api/carts"));
 var _admin = _interopRequireDefault(require("./api/admin"));
+var _owner = _interopRequireDefault(require("./api/owner"));
 var _review = _interopRequireDefault(require("./api/review"));
 var _bodyParser = _interopRequireDefault(require("body-parser"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -43,6 +44,7 @@ flipcart.use(_bodyParser.default.json());
 flipcart.use("/upload", _express.default.static("upload"));
 flipcart.use("/user", _users.default);
 flipcart.use("/product", _products.default);
+flipcart.use("/owner", _owner.default);
 flipcart.use("/cart", _carts.default);
 flipcart.use("/review", _review.default);
 flipcart.use("/order", _oder.default);

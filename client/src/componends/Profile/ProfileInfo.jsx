@@ -9,10 +9,13 @@ const ProfileInfo = () => {
   const user = JSON.parse(localStorage.getItem("newUser"));
   // const states = useSelector((state)=>(console.log(state)))
   const getLastName = () => {
-    const newArr = user.fullName.split(" ");
-
-    return newArr[newArr.length - 1];
+    if (user?.fullName) {
+      const newArr = user.fullName.split(" ");
+      return newArr[newArr.length - 1];
+    }
+    return undefined;
   };
+  
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -40,24 +43,26 @@ const ProfileInfo = () => {
                         Edit
                       </p>
                     </div>
-                    <div className="flex py-3 text-gray-500 gap-3">
-                      <input
-                        type="text"
-                        name="FirstName"
-                        id=""
-                        disabled
-                        value={user.fullName.split(" ", 1)}
-                        className="border-2 border-gray-100 rounded p-2"
-                      />
-                      <input
-                        type="text"
-                        name="FirstName"
-                        id=""
-                        disabled
-                        value={getLastName()}
-                        className="border-2 border-gray-100 rounded p-2"
-                      />
-                    </div>
+                    {user && (
+                       <div className="flex py-3 text-gray-500 gap-3">
+                        <input
+                          type="text"
+                          name="FirstName"
+                          id=""
+                          disabled
+                          value={user?.fullName.split(" ", 1)}
+                          className="border-2 border-gray-100 rounded p-2"
+                        />
+                        <input
+                          type="text"
+                          name="FirstName"
+                          id=""
+                          disabled
+                          value={getLastName()}
+                          className="border-2 border-gray-100 rounded p-2"
+                        />
+                      </div>
+                    )}
                     <div className="flex flex-col py-8 gap-3">
                       <h1 className="text-sm font-medium">Your Gender</h1>
 
@@ -104,7 +109,7 @@ const ProfileInfo = () => {
                           name="FirstName"
                           id=""
                           disabled
-                          value={user.email}
+                          value={user?.email}
                           className="border-2 border-gray-100 rounded p-2 w-64 text-gray-500"
                         />
                       </div>
@@ -126,9 +131,9 @@ const ProfileInfo = () => {
                           </p>
                           <h4
                             className="text-md font-semibold"
-                            id="when-will-my-flipkart-account-be-updated-with-the-new-email-address-or-mobile-number-"
+                            id="when-will-my-ShopKArt-account-be-updated-with-the-new-email-address-or-mobile-number-"
                           >
-                            When will my Flipkart account be updated with the
+                            When will my ShopKArt account be updated with the
                             new email address (or mobile number)?
                           </h4>
                           <p className="text-sm font-medium py-3 text-gray-500">
@@ -138,9 +143,9 @@ const ProfileInfo = () => {
                           </p>
                           <h4
                             className="text-md font-semibold"
-                            id="what-happens-to-my-existing-flipkart-account-when-i-update-my-email-address-or-mobile-number-"
+                            id="what-happens-to-my-existing-ShopKArt-account-when-i-update-my-email-address-or-mobile-number-"
                           >
-                            What happens to my existing Flipkart account when I
+                            What happens to my existing ShopKArt account when I
                             update my email address (or mobile number)?
                           </h4>
                           <p className="text-sm font-medium py-3 text-gray-500">
@@ -158,7 +163,7 @@ const ProfileInfo = () => {
                             email address?
                           </h4>
                           <p className="text-sm font-medium py-3 text-gray-500">
-                            Flipkart has a 'single sign-on' policy. Any changes
+                            ShopKArt has a 'single sign-on' policy. Any changes
                             will reflect in your Seller account also.
                           </p>
                         </div>
@@ -188,7 +193,7 @@ const ProfileInfo = () => {
               size={"1.3rem"}
               onClick={goBack}
             />
-            <h1>FlipKart</h1>
+            <h1>ShopKArt</h1>
           </div>
           <div className="w-full h-full p-8 bg-blue-500 flex items-center justify-center">
             <img
@@ -202,7 +207,7 @@ const ProfileInfo = () => {
               <input
                 type="text"
                 name=""
-                value={user.fullName.split(" ", 1)}
+                value={user?.fullName.split(" ", 1)}
                 id="name"
                 disabled
                 className="peer outline-none border border-gray-200 focus:border-blue-500   w-full h-12 px-3 pt-1 bg-gray-50"
@@ -212,7 +217,7 @@ const ProfileInfo = () => {
                 className={` absolute duration-300 transform px-3 text-gray-500 text-md scale-100 left-0 mt-3 z-10 
                           peer-focus:left-0 peer-focus:-translate-y-9  peer-focus:scale-90
                            ${
-                             user.fullName
+                             user?.fullName
                                ? "-translate-y-9 lg:-translate-x-0 text-md font-medium md:-left-0 left-0  absolute scale-100 "
                                : ""
                            }
@@ -235,7 +240,7 @@ const ProfileInfo = () => {
                 className={` absolute duration-300 transform px-3 text-gray-500 text-md scale-100 left-0 mt-3 z-10 
                           peer-focus:left-0 peer-focus:-translate-y-9  peer-focus:scale-90
                            ${
-                             user.fullName
+                             user?.fullName
                                ? "-translate-y-9 lg:-translate-x-0 text-md font-medium md:-left-0 left-0  absolute scale-100 "
                                : ""
                            }
@@ -251,7 +256,7 @@ const ProfileInfo = () => {
               <input
                 type="text"
                 name=""
-                value={user.email}
+                value={user?.email}
                 id="email"
                 disabled
                 className="peer outline-none border border-gray-200 focus:border-blue-500   w-full h-12 px-3 pt-1 bg-gray-50"
@@ -261,7 +266,7 @@ const ProfileInfo = () => {
                 className={` absolute duration-300 transform px-3 text-gray-500 text-md scale-100 left-0 mt-3 z-10 
                           peer-focus:left-0 peer-focus:-translate-y-9  peer-focus:scale-90
                            ${
-                             user.email
+                             user?.email
                                ? "-translate-y-9 lg:-translate-x-0 text-md font-medium md:-left-0 left-0  absolute scale-100 "
                                : ""
                            }

@@ -43,21 +43,58 @@ Router.post("/Login", async (req, res) => {
 Router.get("/getAdmin", _passport.default.authenticate("jwt", {
   session: false
 }), async (req, res) => {
+  console.log("called");
   try {
-    //   console.log(req.adminProduct);
     const {
       fullName,
       email,
       _id,
-      phoneNumber
+      phoneNumber,
+      address
     } = req.user;
     return res.status(200).json({
       admin: {
         fullName,
         email,
         _id,
-        phoneNumber
+        phoneNumber,
+        address
       }
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message
+    });
+  }
+});
+Router.get("/getAllAdmin", async (Req, res) => {
+  try {
+    const admins = await _adminModel.AdminModel.find().select('-password');
+    return res.status(200).json({
+      status: "success",
+      admins
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message
+    });
+  }
+});
+Router.put("/updateAdmin/:id", async (req, res) => {
+  try {
+    const {
+      id
+    } = req.params;
+    // const {admin} = req.body;
+
+    console.log(req.body);
+    const existingAdmin = await _adminModel.AdminModel.findById(id);
+    if (req.body.address) {
+      existingAdmin.address = req.body.address;
+    }
+    const updated = await existingAdmin.save();
+    return res.status(200).json({
+      existingAdmin
     });
   } catch (error) {
     return res.status(500).json({
